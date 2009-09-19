@@ -58,23 +58,55 @@ public class WebServices {
 		}
 	}
 	
-	public void Register(String name, String username, String email, String password)
+	//Method registers the account
+	public Object Register(String name, String username, String email, String password)
 	{
+		//Creates an md5 hash of the password and transforms it into 
+		//a string
 		md.update(password.getBytes());
 		String md5password = md.digest().toString();
 		md.reset();
+		
+		//Add the params
 		Vector<String> params = new Vector<String>();
 		params.add(name); 
 		params.add(email);
 		params.add(username);
 		params.add(md5password);
+		
+		//Finally run the register method
 		try
 		{
-			client.execute("Register", params);
+			Object result = client.execute("Register", params);
+			return result;
 		}
 		catch(XmlRpcException e)
 		{
-			System.out.println("Caught XMLRPCException: " + e);
+			System.out.println("Caught XMLRPCException in Register: " + e);
+			return null;
+		}
+	}
+	
+	//Same as above, slightly simpler
+	public Object Login(String username, String password)
+	{
+		md.update(password.getBytes());
+		String md5password = md.digest().toString();
+		md.reset();
+		
+		Vector<String> params = new Vector<String>();
+		params.add(username);
+		params.add(md5password);
+		
+		try
+		{
+			Object result = client.execute("Login", params);
+			return result;
+		}
+		catch(XmlRpcException e)
+		{
+			System.out.println("Caught XMLRPCException in Login: " + e);
+			return null;
 		}
 	}
 
