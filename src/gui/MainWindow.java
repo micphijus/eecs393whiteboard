@@ -3,6 +3,7 @@ package gui;
 
 import java.awt.Dimension;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -23,6 +24,8 @@ public class MainWindow {
 	
 	public MainWindow(){
 		panel = new JPanel();
+		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
+		panel.setLayout(bl);
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		window = new JFrame();
@@ -49,7 +52,8 @@ public class MainWindow {
 //TODO: remove this method once testing is done!
 	public static void main(String[] args){
 		MainWindow mw = new MainWindow();
-		
+		//can grab each component by name...
+		System.out.println(mw.menu.getMenu(0).getMenuComponent(0).getName());
 	}
 	
 	private JMenuBar setupMenu(){
@@ -59,6 +63,7 @@ public class MainWindow {
 		JMenu prefMenu = addMenu("Preferences", this.prefsMenu);
 		JMenu helpMenu = addMenu("Help", this.helpMenu);
 
+		
 		theMenu.add(fileMenu);
 		theMenu.add(friendMenu);
 		theMenu.add(prefMenu);
@@ -71,6 +76,7 @@ public class MainWindow {
 		JMenu menu = new JMenu(name);
 		for(int i = 0; i < items.length; i++){
 			JMenuItem theItem = new JMenuItem(items[i]);
+			theItem.setName(items[i]);
 			menu.add(theItem);
 		}
 		return menu;
