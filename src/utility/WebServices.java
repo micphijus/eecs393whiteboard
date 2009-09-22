@@ -10,6 +10,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Vector;
 
+//Set up logging
+import java.util.logging.*;
+
 //This class is actually several utility methods associated with XMLRPC
 //Will allow login and other method access via 
 //xmlrpc webservice
@@ -21,6 +24,8 @@ public class WebServices {
 	MessageDigest md;
 	
 	String url;
+	boolean initialized = false;
+	Logger logger;
 	
 	//initialize the webservice stuff
 	
@@ -28,7 +33,7 @@ public class WebServices {
 	{
 		client = new XmlRpcClient();
 		config = new XmlRpcClientConfigImpl();
-		
+		logger = Logger.getLogger("WebServices");
 	}
 	
 	//overloaded constructor
@@ -47,67 +52,85 @@ public class WebServices {
 			config.setServerURL(new URL(url));
 			client.setConfig(config);
 			md = MessageDigest.getInstance("MD5");
+			initialized = true;
+			logger.info("Initialized");
 		}
 		catch(MalformedURLException e)
 		{
-			System.out.println("Bad URL: " + e);
+			logger.severe("bad url: " + e);
 		}
 		catch(NoSuchAlgorithmException e)
 		{
-			System.out.println("No such algorithm: " + e);
+			logger.severe("No such algorithm: " + e);
 		}
 	}
 	
 	//Method registers the account
 	public Object Register(String name, String username, String email, String password)
 	{
-		//Creates an md5 hash of the password and transforms it into 
-		//a string
-		md.update(password.getBytes());
-		String md5password = md.digest().toString();
-		md.reset();
-		
-		//Add the params
-		Vector<String> params = new Vector<String>();
-		params.add(name); 
-		params.add(email);
-		params.add(username);
-		params.add(md5password);
-		
-		//Finally run the register method
-		try
+		//First check if the program is initialized
+		if(initialized)
 		{
-			Object result = client.execute("Register", params);
-			return result;
+			//Creates an md5 hash of the password and transforms it into 
+			//a string
+			md.update(password.getBytes());
+			String md5password = md.digest().toString();
+			md.reset();
+			
+			//Add the params
+			Vector<String> params = new Vector<String>();
+			params.add(name); 
+			params.add(email);
+			params.add(username);
+			params.add(md5password);
+			
+			//Finally run the register method
+			try
+			{
+				Object result = client.execute("Register", params);
+				logger.info("Result returned from Register function");
+				return result;
+			}
+			catch(XmlRpcException e)
+			{
+				logger.severe("Caught XMLRPCException in Register: " + e);
+				return null;
+			}
 		}
-		catch(XmlRpcException e)
-		{
-			System.out.println("Caught XMLRPCException in Register: " + e);
-			return null;
-		}
+		else
+			logger.warning("Uninitialized.  Cannot run register");
+		
+		return null;
 	}
 	
 	//Same as above, slightly simpler
 	public Object Login(String username, String password)
 	{
-		md.update(password.getBytes());
-		String md5password = md.digest().toString();
-		md.reset();
-		
-		Vector<String> params = new Vector<String>();
-		params.add(username);
-		params.add(md5password);
-		
-		try
+		if(initialized)
 		{
-			Object result = client.execute("Login", params);
-			return result;
+			md.update(password.getBytes());
+			String md5password = md.digest().toString();
+			md.reset();
+			
+			Vector<String> params = new Vector<String>();
+			params.add(username);
+			params.add(md5password);
+			
+			try
+			{
+				Object result = client.execute("Login", params);
+				return result;
+			}
+			catch(XmlRpcException e)
+			{
+				logger.severe("Caught XMLRPCException in Login: " + e);
+				return null;
+			}
 		}
-		catch(XmlRpcException e)
-		{
-			System.out.println("Caught XMLRPCException in Login: " + e);
-			return null;
-		}
+		else
+			logger.warning("Uninitialized.  Cannot run register");
+		
+		return null;
 	}
 
 }
