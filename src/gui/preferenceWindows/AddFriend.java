@@ -26,6 +26,8 @@ public class AddFriend extends AbstractWindow {
 		window.setPreferredSize(new Dimension(300, 200));
 		window.pack();
 		window.setVisible(true);
+
+		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	@Override
@@ -49,7 +51,6 @@ public class AddFriend extends AbstractWindow {
 	//TODO: Remove
 	public static void main(String[] args){
 		AddFriend test = new AddFriend("Add Friend", null);
-		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 
