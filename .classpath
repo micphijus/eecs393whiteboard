@@ -7,5 +7,9 @@
 	<classpathentry kind="lib" path="lib/xmlrpc-client-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-common-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlrpc-server-3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/smack.jar"/>
+	<classpathentry kind="lib" path="lib/smackx-debug.jar"/>
+	<classpathentry kind="lib" path="lib/smackx-jingle.jar"/>
+	<classpathentry kind="lib" path="lib/smackx.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

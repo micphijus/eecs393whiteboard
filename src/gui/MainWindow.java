@@ -2,6 +2,8 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -10,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import gui.preferenceWindows.*;
 
 public class MainWindow {
 
@@ -54,6 +57,8 @@ public class MainWindow {
 		MainWindow mw = new MainWindow();
 		//can grab each component by name...
 		System.out.println(mw.menu.getMenu(0).getMenuComponent(0).getName());
+
+		
 	}
 	
 	private JMenuBar setupMenu(){
@@ -73,10 +78,20 @@ public class MainWindow {
 	}
 	
 	private JMenu addMenu(String name, String[] items){
+		ActionListener dlg = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddFriend test = new AddFriend("Add Friend", getInstance());				
+		
+			}
+		};
+		
 		JMenu menu = new JMenu(name);
 		for(int i = 0; i < items.length; i++){
 			JMenuItem theItem = new JMenuItem(items[i]);
 			theItem.setName(items[i]);
+			theItem.addActionListener(dlg);
 			menu.add(theItem);
 		}
 		return menu;
