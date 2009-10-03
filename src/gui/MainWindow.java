@@ -17,10 +17,10 @@ public class MainWindow {
 	static JPanel panel;
 	static JMenuBar menu;
 	
-	String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
-	String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
-	String[] prefsMenu = {"Edit Preferences" };
-	String[] helpMenu = {"Help", "About"};
+	final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
+	final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
+	final static String[] prefsMenu = {"Edit Preferences" };
+	final static String[] helpMenu = {"Help", "About"};
 	
 	public MainWindow(){
 		panel = new JPanel();
