@@ -12,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import gui.WindowFactory.WindowType;
 import gui.preferenceWindows.*;
 
 public class MainWindow {
@@ -20,10 +21,11 @@ public class MainWindow {
 	static JPanel panel;
 	static JMenuBar menu;
 	
-	final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
-	final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
-	final static String[] prefsMenu = {"Edit Preferences" };
-	final static String[] helpMenu = {"Help", "About"};
+	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
+	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
+	//final static String[] prefsMenu = {"Edit Preferences" };
+	//final static String[] helpMenu = {"Help", "About"};
+	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
 	
 	public MainWindow(){
 		panel = new JPanel();
@@ -63,37 +65,58 @@ public class MainWindow {
 	
 	private JMenuBar setupMenu(){
 		JMenuBar theMenu = new JMenuBar();
-		JMenu fileMenu = addMenu("File", this.fileMenu);
+		/*JMenu fileMenu = addMenu("File", this.fileMenu);
 		JMenu friendMenu = addMenu("Friends", this.friendsMenu);
 		JMenu prefMenu = addMenu("Preferences", this.prefsMenu);
-		JMenu helpMenu = addMenu("Help", this.helpMenu);
+		JMenu helpMenu = addMenu("Help", this.helpMenu);*/
+		
+		JMenu file = addMenu(fileMenu);
+		JMenu friends = addMenu(friendsMenu);
+		JMenu pref = addMenu(prefsMenu);
+		JMenu help = addMenu(helpMenu);
 
 		
-		theMenu.add(fileMenu);
-		theMenu.add(friendMenu);
-		theMenu.add(prefMenu);
-		theMenu.add(helpMenu);
+		theMenu.add(file);
+		theMenu.add(friends);
+		theMenu.add(pref);
+		theMenu.add(help);
 		
 		return theMenu;
 	}
 	
-	private JMenu addMenu(String name, String[] items){
-		ActionListener dlg = new ActionListener() {
+	private JMenu addMenu(String name){
+		/*ActionListener dlg = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				AddFriend test = new AddFriend("Add Friend", getInstance());				
 		
 			}
-		};
+		};*/
 		
 		JMenu menu = new JMenu(name);
-		for(int i = 0; i < items.length; i++){
+	/*	for(int i = 0; i < items.length; i++){
 			JMenuItem theItem = new JMenuItem(items[i]);
 			theItem.setName(items[i]);
 			theItem.addActionListener(dlg);
 			menu.add(theItem);
+		}*/
+		for(final WindowType window : WindowType.values()){
+			if(window.getParentMenu().equals(name)){
+				JMenuItem theItem = new JMenuItem(window.getPrintString());
+				theItem.setName(window.getPrintString());
+				theItem.addActionListener(new ActionListener(){
+	
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						AbstractWindow test = WindowFactory.createWindow(window);
+					}
+					
+				});
+				menu.add(theItem);
+			}
 		}
+		
 		return menu;
 		
 	}

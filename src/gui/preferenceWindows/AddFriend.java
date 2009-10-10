@@ -11,10 +11,12 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import gui.AbstractWindow;
+import gui.MainWindow;
 
 public class AddFriend extends AbstractWindow {
 
@@ -28,6 +30,12 @@ public class AddFriend extends AbstractWindow {
 		window.setVisible(true);
 
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	//TODO: Remove the no-args constructor
+	public AddFriend(){
+		JOptionPane.showMessageDialog(MainWindow.getInstance(), "A second test message!", "Add Friend", JOptionPane.INFORMATION_MESSAGE);
+
 	}
 	
 	@Override
