@@ -109,14 +109,25 @@ public class MainWindow {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						AbstractWindow test = WindowFactory.createWindow(window);
+						WindowFactory.createWindow(window);
 					}
 					
 				});
 				menu.add(theItem);
 			}
 		}
-		
+		if(name.equals(MainWindow.fileMenu)){
+			JMenuItem exit = new JMenuItem("Exit");
+			exit.setName("Exit");
+			exit.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MainWindow.getInstance().dispose();
+					System.exit(0);
+				}
+			});
+			menu.add(exit);
+		}
 		return menu;
 		
 	}
