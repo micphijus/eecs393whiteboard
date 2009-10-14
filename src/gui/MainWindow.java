@@ -4,23 +4,35 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.XMPPConnection;
+
 import gui.WindowFactory.WindowType;
 import gui.preferenceWindows.*;
+
+import core.network.*;
+import core.im.*;
 
 public class MainWindow {
 
 	private static JFrame window;
 	private static JPanel panel;
 	static JMenuBar menu;
+	static JList friendList;
+	static ChatboardConnection conn;
+	static ChatboardRoster roster;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
@@ -29,6 +41,19 @@ public class MainWindow {
 	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
 	
 	public MainWindow(){
+		conn = new ChatboardConnection("chatboard09@gmail.com", "fishonfire");
+		XMPPConnection connection = conn.createConnection("talk.google.com", 5222, "gmail.com");
+		roster = new ChatboardRoster(connection);
+		roster.pullRoster();
+		
+		Vector<RosterEntry> online = roster.getOnline();
+		Iterator<RosterEntry> iter = online.iterator();
+		Vector<String> onlineFriends = new Vector<String>();
+		while(iter.hasNext())
+			onlineFriends.add(iter.next().getUser());
+		
+		
+		friendList = new JList(onlineFriends);
 		panel = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
 		panel.setLayout(bl);
@@ -42,6 +67,8 @@ public class MainWindow {
 		window.add(panel);
 		window.setJMenuBar(menu);
 		window.setVisible(true);
+		
+		panel.add(friendList);
 		window.pack();
 	}
 	

@@ -26,6 +26,7 @@ public class testMessage {
 			conn.connect();
 			md.update(password.getBytes());
 			//password = md.digest().toString();
+			//SASLAuthentication.supportSASLMechanism("PLAIN", 0);
 			conn.login(username, password);
 			Roster roster = conn.getRoster();
 			Collection<RosterEntry> entries = roster.getEntries();
