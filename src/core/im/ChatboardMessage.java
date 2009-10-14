@@ -1,5 +1,8 @@
 package core.im;
 
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
@@ -10,14 +13,17 @@ import org.jivesoftware.smack.packet.Message;
 public class ChatboardMessage implements MessageListener{
 	
 	XMPPConnection conn;
+	Queue<String> queue;
 	
 	public ChatboardMessage()
 	{
 		conn = null;
+		queue = null;
 	}
 	public ChatboardMessage(XMPPConnection conn)
 	{
 		this.conn = conn;
+		queue = new ArrayBlockingQueue<String>(10);
 	}
 	
 	public Chat createChat(String userID)
@@ -26,11 +32,13 @@ public class ChatboardMessage implements MessageListener{
 		Chat chat = manager.createChat(userID, this);
 		return chat;
 	}
-	public void sendMessage(Chat chat, Message message)
+	public void sendMessage(Chat chat, String message)
 	{
+		//Put message on message queue
 		try
 		{
 			chat.sendMessage(message);
+			queue.add(message);
 		}
 		catch(XMPPException e)
 		{
@@ -43,8 +51,7 @@ public class ChatboardMessage implements MessageListener{
 	}
 	@Override
 	public void processMessage(Chat arg0, Message arg1) {
-		// TODO Auto-generated method stub
-		
+		queue.add(arg1.getBody());
 	}
 	
 

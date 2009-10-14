@@ -28,7 +28,9 @@ public class ChatboardRoster implements RosterListener{
 	
 	public ChatboardRoster(XMPPConnection conn)
 	{
-		super();
+		roster = null;
+		online = new Vector<RosterEntry>();
+		offline = new Vector<RosterEntry>();
 		this.conn = conn;
 	}
 	
@@ -36,8 +38,8 @@ public class ChatboardRoster implements RosterListener{
 	public void pullRoster()
 	{
 		roster = conn.getRoster();
-		roster.addRosterListener(this);
 		updateOnline();
+		roster.addRosterListener(this);	
 	}
 	
 	public boolean updateRoster(String username, String alias, String group)
@@ -81,10 +83,13 @@ public class ChatboardRoster implements RosterListener{
 	{
 		Collection<RosterEntry> rosterList = roster.getEntries();
 		Iterator<RosterEntry> iter = rosterList.iterator();
+		try { Thread.sleep(1000); } catch (InterruptedException e) { }
 		while(iter.hasNext())
 		{
 			RosterEntry entry = iter.next();
-			if(roster.getPresence(entry.getName()).getType() == Type.available)
+			System.out.println(entry.getUser() + ": " + roster.getPresence(entry.getUser()).getType());
+			
+			if(roster.getPresence(entry.getUser()).getType() == Type.available)
 				online.add(entry);
 			else
 				offline.add(entry);
@@ -130,6 +135,14 @@ public class ChatboardRoster implements RosterListener{
 			offline.add(entry);
 		}
 		
+	}
+
+	public Vector<RosterEntry> getOnline() {
+		return online;
+	}
+
+	public void setOnline(Vector<RosterEntry> online) {
+		this.online = online;
 	}
 
 
