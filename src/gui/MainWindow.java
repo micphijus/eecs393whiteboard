@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -17,8 +18,8 @@ import gui.preferenceWindows.*;
 
 public class MainWindow {
 
-	static JFrame window;
-	static JPanel panel;
+	private static JFrame window;
+	private static JPanel panel;
 	static JMenuBar menu;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
@@ -34,6 +35,8 @@ public class MainWindow {
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		window = new JFrame();
+		ImageIcon chatboardImg = new ImageIcon("Images/chatboard-quick.png");
+		window.setIconImage(chatboardImg.getImage());
 		window.setTitle("EECS393 Whiteboard Client SUPER EARLY BETA");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.add(panel);
