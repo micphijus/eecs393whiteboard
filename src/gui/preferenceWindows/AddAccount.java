@@ -49,8 +49,8 @@ public class AddAccount extends AbstractWindow {
 		
 		JTextField screenNameIn = new JTextField();
 
-		//TODO make this static strings or an enum or something
-		JComboBox chooseAccount = new JComboBox(new String[] {"AIM", "MSN", "Yahoo", "GChat"});
+		//TODO make this static strings or an enum or something 
+		JComboBox chooseAccount = new JComboBox(new String[] {"AIM", "MSN", "Yahoo","Gchat", "Jabber"});
 		
 		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
