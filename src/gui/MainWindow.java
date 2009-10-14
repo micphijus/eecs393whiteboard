@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -27,8 +26,8 @@ import core.im.*;
 
 public class MainWindow {
 
-	private static JFrame window;
-	private static JPanel panel;
+	static JFrame window;
+	static JPanel panel;
 	static JMenuBar menu;
 	static JList friendList;
 	static ChatboardConnection conn;
@@ -60,9 +59,7 @@ public class MainWindow {
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		window = new JFrame();
-		ImageIcon chatboardImg = new ImageIcon("Images/chatboard-quick.png");
-		window.setIconImage(chatboardImg.getImage());
-		window.setTitle("EECS393 Whiteboard Client SUPER EARLY BETA");
+		window.setTitle("EECS393 Whiteboard Client SUPER EARLY ALPHA");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.add(panel);
 		window.setJMenuBar(menu);
@@ -139,25 +136,14 @@ public class MainWindow {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						WindowFactory.createWindow(window);
+						AbstractWindow test = WindowFactory.createWindow(window);
 					}
 					
 				});
 				menu.add(theItem);
 			}
 		}
-		if(name.equals(MainWindow.fileMenu)){
-			JMenuItem exit = new JMenuItem("Exit");
-			exit.setName("Exit");
-			exit.addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MainWindow.getInstance().dispose();
-					System.exit(0);
-				}
-			});
-			menu.add(exit);
-		}
+		
 		return menu;
 		
 	}
