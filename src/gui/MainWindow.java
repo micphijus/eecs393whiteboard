@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -65,6 +66,8 @@ public class MainWindow {
 		window.setJMenuBar(menu);
 		window.setVisible(true);
 		
+		ImageIcon fishOnFire = new ImageIcon("Docs/chatboard-quick.png");
+		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();
 	}
