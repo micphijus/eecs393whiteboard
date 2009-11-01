@@ -14,23 +14,21 @@ import org.jivesoftware.smack.packet.Presence.Type;
 
 public class ChatboardRoster implements RosterListener{
 	XMPPConnection conn;
-	Vector<RosterEntry>online;
-	Vector<RosterEntry>offline;
+	Vector<Buddy>online;
+	Vector<Buddy>offline;
 	Roster roster;
 	
 	public ChatboardRoster()
 	{
 		conn = null;
 		roster = null;
-		online = new Vector<RosterEntry>();
-		offline = new Vector<RosterEntry>();
+		online = new Vector<Buddy>();
+		offline = new Vector<Buddy>();
 	}
 	
 	public ChatboardRoster(XMPPConnection conn)
 	{
-		roster = null;
-		online = new Vector<RosterEntry>();
-		offline = new Vector<RosterEntry>();
+		super();
 		this.conn = conn;
 	}
 	
@@ -89,10 +87,19 @@ public class ChatboardRoster implements RosterListener{
 			RosterEntry entry = iter.next();
 			System.out.println(entry.getUser() + ": " + roster.getPresence(entry.getUser()).getType());
 			
-			if(roster.getPresence(entry.getUser()).getType() == Type.available)
-				online.add(entry);
+			Buddy b = new Buddy();
+			b.alias = entry.getName();
+			b.groupName = entry.getGroups().iterator().next().getName(); //get first one
+			b.userID = entry.getUser();
+			b.setPresence(roster.getPresence(entry.getUser()));
+			
+			if(!b.getOffline())
+			{
+				b.setStatusMessage(roster.getPresence(entry.getUser()).getStatus());
+				online.add(b);
+			}
 			else
-				offline.add(entry);
+				offline.add(b);
 		}
 	}
 
@@ -120,33 +127,60 @@ public class ChatboardRoster implements RosterListener{
 		//First get the user
 		//then get the entry
 		//Finally remove the entry from one list, and add to the other
-		String user = arg0.getFrom();
-		RosterEntry entry = roster.getEntry(user);
-		if(arg0.getType() == Type.available)
+		//create a new bean to handle it
+		
+		Buddy b = new Buddy();
+		//Get the participant from the presence
+		//Need to parse out some stuff
+		String participant = arg0.getFrom();
+		participant = participant.substring(0, participant.indexOf("/"));
+		b.userID = participant;
+		
+		//Set alias if we can find one
+		b.alias = roster.getEntry(participant).getName();
+		b.setPresence(arg0);
+		b.setStatusMessage(arg0.getStatus());
+		
+		if(!b.getOffline())
 		{
-			if(offline.contains(entry))
-				offline.remove(entry);
-			online.add(entry);
+			for(int i = 0; i< offline.size(); i++)
+			{
+				if(offline.get(i).userID.equals(b.userID))
+				{
+					offline.remove(i);
+					break;
+				}
+			}
+			online.add(b);
 		}
 		else
 		{
-			if(online.contains(entry))
-				online.remove(entry);
-			offline.add(entry);
+			for(int i = 0; i < online.size(); i++)
+			{
+				if(online.get(i).userID.equals(b.userID))
+				{
+					online.remove(i);
+					break;
+				}
+			}
+			offline.add(b);
 		}
 		
 	}
 
-	public Vector<RosterEntry> getOnline() {
+	public Vector<Buddy> getOnline() {
 		return online;
 	}
 
-	public void setOnline(Vector<RosterEntry> online) {
+	public void setOnline(Vector<Buddy> online) {
 		this.online = online;
 	}
 
+	public Vector<Buddy> getOffline() {
+		return offline;
+	}
 
-	
-	
-
+	public void setOffline(Vector<Buddy> offline) {
+		this.offline = offline;
+	}
 }
