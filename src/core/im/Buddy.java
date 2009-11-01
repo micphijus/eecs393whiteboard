@@ -3,13 +3,13 @@ package core.im;
 import org.jivesoftware.smack.packet.Presence;
 
 public class Buddy {
-	String alias;
-	String groupName;
-	String mergeID;
-	String userID;
-	String screenname;
-	String status;
-	String message;
+	public String alias;
+	public String groupName;
+	public String mergeID;
+	public String userID;
+	public String screenname;
+	public String status;
+	public String message;
 	
 	boolean isOffline;
 	
