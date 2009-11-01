@@ -29,8 +29,8 @@ public class MainWindow {
 
 	static JFrame window;
 	static JPanel panel;
-	static JMenuBar menu;
 	static JList friendList;
+	static JMenuBar menu;
 	static ChatboardConnection conn;
 	static ChatboardRoster roster;
 	
