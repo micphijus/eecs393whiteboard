@@ -8,28 +8,29 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
-import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 
 import gui.WindowFactory.WindowType;
-import gui.preferenceWindows.*;
 
 import core.network.*;
 import core.im.*;
 
-public class MainWindow {
+public class MainWindow implements ListDataListener {
 
 	static JFrame window;
 	static JPanel panel;
-	static JMenuBar menu;
 	static JList friendList;
+	static JMenuBar menu;
 	static ChatboardConnection conn;
 	static ChatboardRoster roster;
 	
@@ -43,16 +44,10 @@ public class MainWindow {
 		conn = new ChatboardConnection("chatboard09@gmail.com", "fishonfire");
 		XMPPConnection connection = conn.createConnection("talk.google.com", 5222, "gmail.com");
 		roster = new ChatboardRoster(connection);
+		roster.addListener(this);
 		roster.pullRoster();
 		
-		Vector<RosterEntry> online = roster.getOnline();
-		Iterator<RosterEntry> iter = online.iterator();
-		Vector<String> onlineFriends = new Vector<String>();
-		while(iter.hasNext())
-			onlineFriends.add(iter.next().getUser());
-		
-		
-		friendList = new JList(onlineFriends);
+		friendList = new JList(getRoster(roster));
 		panel = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
 		panel.setLayout(bl);
@@ -65,6 +60,8 @@ public class MainWindow {
 		window.setJMenuBar(menu);
 		window.setVisible(true);
 		
+		ImageIcon fishOnFire = new ImageIcon("Docs/chatboard-quick.png");
+		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();
 	}
@@ -145,6 +142,38 @@ public class MainWindow {
 		}
 		
 		return menu;
+		
+	}
+	
+	public Vector<String> getRoster(ChatboardRoster r)
+	{
+		
+		Vector<Buddy> online = r.getOnline();
+		Iterator<Buddy> iter = online.iterator();
+		Vector<String> onlineFriends = new Vector<String>();
+		while(iter.hasNext())
+			onlineFriends.add(iter.next().userID);
+		return onlineFriends;
+	}
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		Vector <String> updatedRoster = getRoster(roster);
+		for(int i = 0; i < updatedRoster.size(); i++)
+			System.out.println(updatedRoster.get(i));
+		friendList.setListData(updatedRoster);
+		window.repaint();
+	}
+
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
