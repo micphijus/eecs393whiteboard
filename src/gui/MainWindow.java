@@ -75,7 +75,6 @@ public class MainWindow implements ListDataListener {
 		window.setJMenuBar(menu);
 		window.setVisible(true);
 		
-		ImageIcon fishOnFire = new ImageIcon("Docs/chatboard-quick.png");
 		ImageIcon fishOnFire = new ImageIcon("Images/chatboard-quick.png");
 		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
