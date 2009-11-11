@@ -56,7 +56,9 @@ public class MainWindow implements ListDataListener {
 			public void mouseReleased(MouseEvent e){
 				if(e.getClickCount() == 2){
 					//TODO: fix this temp call
-					MessageDialog test = new MessageDialog();
+					String sn = friendList.getSelectedValue().toString();
+					MessageDialog test = new MessageDialog(sn);
+					
 				}
 			}
 		});
