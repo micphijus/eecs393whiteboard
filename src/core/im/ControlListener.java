@@ -3,6 +3,7 @@ package core.im;
 import gui.MessageDialog;
 
 import java.util.HashMap;
+import java.util.Queue;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -12,7 +13,9 @@ import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 
-public class ControlListener implements ChatManagerListener, ListDataListener {
+import core.abstraction.Controller;
+
+public class ControlListener implements ChatManagerListener, ListDataListener, Controller {
 
 	public XMPPConnection conn;
 	public HashMap<String, MessageDialog> messages;
@@ -36,7 +39,6 @@ public class ControlListener implements ChatManagerListener, ListDataListener {
 		msg = new ChatboardMessage(c, from);
 		userID = from;
 		chats = new HashMap<String, Chat>();
-		addDataListener();
 	}
 	
 	public void createChatboardMessage(String from)
@@ -64,7 +66,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener {
 		{
 			Chat chat = chats.get(from);
 			if(chat == null)
-				createChat(from);
+				chat = createChat(from);
 			msg.sendMessage(chat, message);
 		}
 		catch(Exception e)
@@ -93,7 +95,13 @@ public class ControlListener implements ChatManagerListener, ListDataListener {
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		// TODO Auto-generated method stub
+		//Contents have been changed.
+		Queue<IM>q = msg.queue;
+		while(!q.isEmpty())
+		{
+			IM im = q.remove();
+			System.out.println(im.message);
+		}
 		
 	}
 

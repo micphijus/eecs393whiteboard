@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 import org.jivesoftware.smack.Chat;
@@ -32,6 +33,7 @@ public class ChatboardMessage implements MessageListener{
 		this.conn = conn;
 		queue = new ArrayBlockingQueue<IM>(10);
 		this.theUser = from;
+		listeners = new Vector<ListDataListener>();
 	}
 	
 	
@@ -58,6 +60,7 @@ public class ChatboardMessage implements MessageListener{
 		catch(Exception e)
 		{
 			System.out.println("Caught Exception: " + e);
+			e.printStackTrace();
 		}
 	}
 	@Override
@@ -76,6 +79,10 @@ public class ChatboardMessage implements MessageListener{
 		im.message = arg1.getBody();
 		
 		queue.add(im);
+		for(int i = 0; i < listeners.size(); i++)
+		{
+			listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+		}
 	}
 	
 	public boolean isConnected()

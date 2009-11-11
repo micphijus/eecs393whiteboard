@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,10 +30,15 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+
+import core.abstraction.Controller;
+
 public class MessageDialog implements ListDataListener{
 
 
+	String userName;
 	JDialog conversation;
+	Vector<Controller>listeners;
 	
 	
 	public MessageDialog(){
@@ -41,14 +47,23 @@ public class MessageDialog implements ListDataListener{
 		conversation.pack();
 		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
+		listeners = new Vector<Controller>();
+		userName = "";
 	}
 	
 	public MessageDialog(String dialogName){
+		userName = dialogName;
 		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
 		setupGUI();
 		conversation.pack();
 		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
+		listeners = new Vector<Controller>();
+	}
+	
+	public void addController(Controller controller)
+	{
+		listeners.add(controller);
 	}
 	
 	public static void main(String[] args) {
@@ -152,6 +167,11 @@ public class MessageDialog implements ListDataListener{
 	//TODO: currently just clears the box... eventually make it do other stuff
 	private void sendMessage(JTextField text){
 		String message = text.getText();
+		for(int i = 0; i < listeners.size(); i++)
+		{
+			listeners.get(i).sendMessage(userName, message);
+		}
+		
 		text.setText("");
 	}
 	

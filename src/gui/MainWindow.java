@@ -35,6 +35,7 @@ public class MainWindow implements ListDataListener {
 	static JMenuBar menu;
 	static ChatboardConnection conn;
 	static ChatboardRoster roster;
+	static ControlListener theController;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
@@ -50,6 +51,8 @@ public class MainWindow implements ListDataListener {
 		roster.pullRoster();
 		
 		friendList = new JList(getRoster(roster));
+		theController = new ControlListener(connection, conn.getUserName());
+		theController.addDataListener();
 		
 		friendList.addMouseListener(new MouseAdapter(){
 		
@@ -58,10 +61,13 @@ public class MainWindow implements ListDataListener {
 					//TODO: fix this temp call
 					String sn = friendList.getSelectedValue().toString();
 					MessageDialog test = new MessageDialog(sn);
-					
+					test.addController(theController);
 				}
 			}
 		});
+		
+		//add the controller
+		
 	
 		panel = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
