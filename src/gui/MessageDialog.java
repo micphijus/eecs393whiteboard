@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -31,6 +32,7 @@ public class MessageDialog {
 		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
 		setupGUI();
 		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
 	}
 	
@@ -38,6 +40,7 @@ public class MessageDialog {
 		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
 		setupGUI();
 		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
 	}
 	
