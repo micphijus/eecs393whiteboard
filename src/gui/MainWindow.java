@@ -4,6 +4,8 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -48,6 +50,17 @@ public class MainWindow implements ListDataListener {
 		roster.pullRoster();
 		
 		friendList = new JList(getRoster(roster));
+		
+		friendList.addMouseListener(new MouseAdapter(){
+		
+			public void mouseReleased(MouseEvent e){
+				if(e.getClickCount() == 2){
+					//TODO: fix this temp call
+					MessageDialog test = new MessageDialog();
+				}
+			}
+		});
+	
 		panel = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
 		panel.setLayout(bl);
@@ -60,7 +73,7 @@ public class MainWindow implements ListDataListener {
 		window.setJMenuBar(menu);
 		window.setVisible(true);
 		
-		ImageIcon fishOnFire = new ImageIcon("Docs/chatboard-quick.png");
+		ImageIcon fishOnFire = new ImageIcon("Images/chatboard-quick.png");
 		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();
