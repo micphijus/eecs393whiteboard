@@ -15,6 +15,7 @@ import javax.swing.*;
 
 public class WhiteboardWindow {
 	JDialog whiteboard;
+	Display display;
 
 	class Display extends JPanel implements MouseListener, MouseMotionListener  {
 
@@ -25,7 +26,7 @@ public class WhiteboardWindow {
 			// This constructor simply sets the background color
 			// of the panel to be black and sets the panel to
 			// listen for mouse events on itself.
-			setBackground(Color.black);
+			setBackground(Color.white);
 			addMouseListener(this);
 			addMouseMotionListener(this);
 		}
@@ -36,10 +37,7 @@ public class WhiteboardWindow {
 			prevX = evt.getX();  // Remember starting position.
 			prevY = evt.getY();
 
-			Graphics g = getGraphics();
-			g.setColor(Color.white);
-			g.fillOval( prevX-5, prevY-5, 10, 10 );
-			g.dispose();
+			drawCircle(Color.black, prevX, prevY, 5);
 		}
 
 		public void mouseDragged(MouseEvent evt) {
@@ -48,35 +46,53 @@ public class WhiteboardWindow {
 			prevX = evt.getX(); // Current mouse position
 			prevY = evt.getY();
 			
-			Graphics g = getGraphics();
-			g.setColor(Color.white);
-			g.fillOval( prevX-5, prevY-5, 10, 10 );
-			g.dispose();
+			drawCircle(Color.black, prevX, prevY, 5);
+			
 		}
 
 		public void mouseMoved(MouseEvent evt) {}	//	Mouse moved when not clicked
 
-		public void mouseReleased(MouseEvent evt) {
+		public void mouseReleased(MouseEvent evt) { 
+			
 			if ( dragging == false )  
 				return;               
 			dragging = false;
-			Graphics g = getGraphics();
-			g.setColor(Color.white);
-			g.fillOval( prevX-5, prevY-5, 10, 10 );
-			g.dispose();
+			
+			drawCircle(Color.black, prevX, prevY, 5);
 		}
 
 		public void mouseEntered(MouseEvent evt) { }
 		public void mouseExited(MouseEvent evt) { }
 		public void mouseClicked(MouseEvent evt) { }
+		
+		public int drawCircle(Color color, int x, int y, int radius ) 
+		{
+			if (x < 1 || y < 1)
+				return 1;
+			if (radius < 0 || radius > 50)
+				return 2;
+//			if (x > 214 && x < 267 && y > 217 && y < 272 )
+//				return 3;
+			Graphics g = getGraphics();
+			g.setColor(Color.black);
+			g.fillOval( x-radius, y-radius, radius*2, radius*2 );
+			g.dispose();
+			return 0;
+		}
 
-	} 
+	}
+	public int drawCircle(Color color, int x, int y, int radius ) 
+	{ 
+		return display.drawCircle(color, x, y, radius);
+		
+	}
 
 	public WhiteboardWindow(){
 		whiteboard = new JDialog(null, "Whiteboard", Dialog.ModalityType.MODELESS);
 		setupGUI();
 		whiteboard.pack();
 		whiteboard.setVisible(true);
+		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
 	public WhiteboardWindow(String dialogName){
@@ -84,16 +100,17 @@ public class WhiteboardWindow {
 		setupGUI();
 		whiteboard.pack();
 		whiteboard.setVisible(true);
+		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		WhiteboardWindow test = new WhiteboardWindow();
-	}
+	}*/
 
 	private void setupGUI(){
 		BoxLayout bl = new BoxLayout(whiteboard.getContentPane(), BoxLayout.Y_AXIS);
-		whiteboard.setLayout(bl); 
-		Display display = new Display();
+		whiteboard.setLayout(bl);
+		display = new Display();
 		display.setPreferredSize(new Dimension(500, 500));
 		whiteboard.add(display);
 	}
