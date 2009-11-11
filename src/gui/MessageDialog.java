@@ -20,8 +20,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
-public class MessageDialog {
+public class MessageDialog implements ListDataListener{
 
 
 	JDialog conversation;
@@ -90,6 +92,24 @@ public class MessageDialog {
 		buttonPanel.add(sendMsgButton);
 		//conversation.add(Box.createVerticalGlue());
 		conversation.add(buttonPanel);
+	}
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

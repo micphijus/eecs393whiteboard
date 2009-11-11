@@ -1,7 +1,10 @@
 package core.im;
 
 import java.util.Queue;
+import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
+
+import javax.swing.event.ListDataListener;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -13,6 +16,7 @@ import org.jivesoftware.smack.packet.Message;
 public class ChatboardMessage implements MessageListener{
 	
 	XMPPConnection conn;
+	Vector<ListDataListener> listeners;
 	Queue<IM> queue;
 	String theUser;
 	
@@ -21,6 +25,7 @@ public class ChatboardMessage implements MessageListener{
 		conn = null;
 		queue = null;
 		theUser = null;
+		listeners = new Vector<ListDataListener>();
 	}
 	public ChatboardMessage(XMPPConnection conn, String from)
 	{
@@ -29,12 +34,6 @@ public class ChatboardMessage implements MessageListener{
 		this.theUser = from;
 	}
 	
-	public Chat createChat(String userID)
-	{
-		ChatManager manager = conn.getChatManager();
-		Chat chat = manager.createChat(userID, this);
-		return chat;
-	}
 	
 	public void sendMessage(Chat chat, String message)
 	{
