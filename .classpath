@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/smackx-jingle.jar"/>
 	<classpathentry kind="lib" path="lib/smackx.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/plugins/junit4.7/junit-4.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
