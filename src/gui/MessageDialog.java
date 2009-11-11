@@ -2,15 +2,21 @@ package gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,8 +26,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
-public class MessageDialog {
+public class MessageDialog implements ListDataListener{
 
 
 	JDialog conversation;
@@ -31,6 +39,7 @@ public class MessageDialog {
 		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
 		setupGUI();
 		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
 	}
 	
@@ -38,6 +47,7 @@ public class MessageDialog {
 		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
 		setupGUI();
 		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
 	}
 	
@@ -73,23 +83,78 @@ public class MessageDialog {
 		convoWindow.setEditable(false);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
-
-		JButton sendMsgButton = new JButton("Send Message");
-		
 		scrollWindow.getViewport().add(convoWindow);
 		topPanel.add(scrollWindow);
 		//conversation.add(convoPanel);
-		JTextField inputField = new JTextField();
+		final JTextField inputField = new JTextField();
 		inputField.setPreferredSize(new Dimension(300, 150));
+		inputField.addKeyListener(new KeyListener(){
+		
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					sendMessage(inputField);
+				}
+				
+			}
+		});
+		
 		bottomPanel.add(inputField);
 		conversation.add(topPanel);
 		conversation.add(separatorPanel);
 		conversation.add(bottomPanel);
 		conversation.add(Box.createHorizontalStrut(3));
 		
+		JButton sendMsgButton = new JButton("Send Message");
+		sendMsgButton.addActionListener(new ActionListener(){
+		
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				sendMessage(inputField);				
+			}
+		});
+		
 		buttonPanel.add(sendMsgButton);
 		//conversation.add(Box.createVerticalGlue());
 		conversation.add(buttonPanel);
 	}
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//TODO: currently just clears the box... eventually make it do other stuff
+	private void sendMessage(JTextField text){
+		String message = text.getText();
+		text.setText("");
+	}
+	
+	
 	
 }

@@ -184,6 +184,7 @@ public class ChatboardRoster implements RosterListener{
 			offline.add(b);
 		}
 		
+		//Make list unique
 		HashMap<String, Buddy> theMap = new HashMap<String, Buddy>();
 		for(int i = 0; i < online.size(); i++)
 			theMap.put(online.get(i).userID, online.get(i));
