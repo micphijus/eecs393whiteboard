@@ -3,7 +3,9 @@ package core.im;
 import gui.MessageDialog;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Queue;
+import java.util.Set;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -81,13 +83,9 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		String from = arg0.getParticipant().substring(0, arg0.getParticipant().indexOf('/'));
 		chats.put(from, arg0);
 		
-		
-		MessageDialog dialog = messages.get(from);
-		
-		//if the dialog doesn't exist, make one
-		if(dialog == null)
+		if(messages.get(from) == null)
 		{
-			dialog = new MessageDialog(from);
+			MessageDialog dialog = new MessageDialog(from);
 			messages.put(from, dialog);
 		}
 	}
@@ -95,12 +93,17 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		//Contents have been changed.
-		Queue<IM>q = msg.queue;
+		Queue<IM> q = msg.queue;
 		while(!q.isEmpty())
 		{
 			IM im = q.remove();
-			System.out.println(im.message);
+			MessageDialog dialog = messages.get(im.from);
+			if(dialog == null)
+			{
+				dialog = new MessageDialog(im.from);
+				messages.put(im.from, dialog);
+			}
+			dialog.receiveMessage(im);
 		}
 		
 	}

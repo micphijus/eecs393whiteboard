@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Queue;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -32,6 +33,7 @@ import javax.swing.event.ListDataListener;
 
 
 import core.abstraction.Controller;
+import core.im.IM;
 
 public class MessageDialog implements ListDataListener{
 
@@ -148,7 +150,6 @@ public class MessageDialog implements ListDataListener{
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -169,10 +170,17 @@ public class MessageDialog implements ListDataListener{
 		String message = text.getText();
 		for(int i = 0; i < listeners.size(); i++)
 		{
-			listeners.get(i).sendMessage(userName, message);
+			boolean b = listeners.get(i).sendMessage(userName, message);
+			if(b == false)
+				System.out.println("Error, could not send");
 		}
 		
 		text.setText("");
+	}
+	
+	public void receiveMessage(IM im)
+	{
+		System.out.println(im.message);
 	}
 	
 	
