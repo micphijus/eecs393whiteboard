@@ -37,11 +37,12 @@ import core.im.IM;
 
 public class MessageDialog implements ListDataListener{
 
-
+//TODO: possibly temp until a better solution is found
+	String theWholeConvo = "";
 	String userName;
 	JDialog conversation;
 	Vector<Controller>listeners;
-	
+	private JTextPane convoWindow;
 	
 	public MessageDialog(){
 		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
@@ -95,8 +96,8 @@ public class MessageDialog implements ListDataListener{
 		scrollWindow.getViewport().setLayout(new BorderLayout(0, 5));
 		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		JTextPane convoWindow = new JTextPane();
-		convoWindow.setText("The first test! \n And another one!\n\n\n\n\n\n\nTest");
+		convoWindow = new JTextPane();
+	//	convoWindow.setText("The first test! \n And another one!\n\n\n\n\n\n\nTest");
 		convoWindow.setEditable(false);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
@@ -182,6 +183,9 @@ public class MessageDialog implements ListDataListener{
 	
 	public void receiveMessage(IM im)
 	{
+		String newSentence = im.from + im.message;
+		theWholeConvo = theWholeConvo + newSentence + "\n";
+		convoWindow.setText(theWholeConvo);
 		System.out.println(im.message);
 	}
 	
