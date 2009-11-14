@@ -53,7 +53,7 @@ public class MainWindow implements ListDataListener {
 		friendList = new JList(getRoster(roster));
 		theController = new ControlListener(connection, conn.getUserName());
 		theController.addDataListener();
-		
+	
 		friendList.addMouseListener(new MouseAdapter(){
 		
 			public void mouseReleased(MouseEvent e){
@@ -62,6 +62,7 @@ public class MainWindow implements ListDataListener {
 					String sn = friendList.getSelectedValue().toString();
 					MessageDialog test = new MessageDialog(sn);
 					test.addController(theController);
+					theController.addDialog(test, sn);
 				}
 			}
 		});

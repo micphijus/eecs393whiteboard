@@ -57,8 +57,6 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	{
 		ChatManager manager = conn.getChatManager();
 		Chat chat = manager.createChat(userID, msg);
-		MessageDialog dialog = new MessageDialog(userID);
-		messages.put(userID, dialog);
 		return chat;
 	}
 	
@@ -88,6 +86,11 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 			MessageDialog dialog = new MessageDialog(from);
 			messages.put(from, dialog);
 		}
+	}
+	
+	public void addDialog(MessageDialog dialog, String name)
+	{
+		messages.put(name, dialog);
 	}
 	
 

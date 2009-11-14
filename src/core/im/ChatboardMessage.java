@@ -51,7 +51,7 @@ public class ChatboardMessage implements MessageListener{
 			im.from = theUser;
 			im.message = message;
 			im.automatic = false;
-			queue.add(im);
+			//queue.add(im);
 		}
 		catch(XMPPException e)
 		{

@@ -173,6 +173,8 @@ public class MessageDialog implements ListDataListener{
 			boolean b = listeners.get(i).sendMessage(userName, message);
 			if(b == false)
 				System.out.println("Error, could not send");
+			else
+				System.out.println(message);
 		}
 		
 		text.setText("");
