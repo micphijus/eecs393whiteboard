@@ -99,6 +99,7 @@ public class MessageDialog implements ListDataListener{
 		convoWindow = new JTextPane();
 	//	convoWindow.setText("The first test! \n And another one!\n\n\n\n\n\n\nTest");
 		convoWindow.setEditable(false);
+		convoWindow.setPreferredSize(new Dimension(300, 200));
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
 		scrollWindow.getViewport().add(convoWindow);
@@ -179,13 +180,17 @@ public class MessageDialog implements ListDataListener{
 		}
 		
 		text.setText("");
+		//TODO:fix the user's username
+		convoWindow.setText(convoWindow.getText() + "\n" + "me!" + ":  " + message);
 	}
 	
 	public void receiveMessage(IM im)
 	{
-		String newSentence = im.from + im.message;
-		theWholeConvo = theWholeConvo + newSentence + "\n";
-		convoWindow.setText(theWholeConvo);
+		//if needed we can map im.from to client aliases
+		String newSentence = im.from + ":  "+ im.message;
+		//theWholeConvo = theWholeConvo + newSentence + "\n";
+		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
+		//convoWindow.repaint();
 		System.out.println(im.message);
 	}
 	
