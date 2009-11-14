@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -36,9 +37,12 @@ public class AboutWindow extends AbstractWindow {
 	@Override
 	protected void buildWindow() {
 		// TODO Auto-generated method stub
+		ImageIcon fishonfire = new ImageIcon("Images/chatboard-quick-icon.png");
+		JLabel img = new JLabel(fishonfire);
 		JLabel about = new JLabel("Chatboard ALPHA version 0.1");
 		JLabel by = new JLabel("By Justin Michel, Jeff Willebrand, Felix Yuan");
 		JLabel questions = new JLabel("Questions or comments? E-mail chatboard@case.edu");
+		addToPanel(img);
 		addToPanel(about);
 		addToPanel(by);
 		addToPanel(questions);
