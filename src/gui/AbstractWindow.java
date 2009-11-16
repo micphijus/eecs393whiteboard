@@ -23,7 +23,7 @@ public abstract class AbstractWindow {
 	public static JDialog window;
 	private String title;
 	private Window parent;
-	private JButton ok, cancel, apply;
+	protected JButton ok, cancel, apply;
 	private JPanel windowPanel, buttonPanel;
 	private boolean includeApply = false;
 	

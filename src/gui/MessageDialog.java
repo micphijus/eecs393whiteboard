@@ -37,8 +37,6 @@ import core.im.IM;
 
 public class MessageDialog implements ListDataListener{
 
-//TODO: possibly temp until a better solution is found
-	String theWholeConvo = "";
 	String userName;
 	JDialog conversation;
 	Vector<Controller>listeners;
@@ -188,9 +186,7 @@ public class MessageDialog implements ListDataListener{
 	{
 		//if needed we can map im.from to client aliases
 		String newSentence = im.from + ":  "+ im.message;
-		//theWholeConvo = theWholeConvo + newSentence + "\n";
 		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
-		//convoWindow.repaint();
 		System.out.println(im.message);
 	}
 	

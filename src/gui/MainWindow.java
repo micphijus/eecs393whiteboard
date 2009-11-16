@@ -100,6 +100,10 @@ public class MainWindow implements ListDataListener {
 		return menu;
 	}
 	
+	public static ControlListener getController(){
+		return theController;
+	}
+	
 //TODO: remove this method once testing is done!
 	public static void main(String[] args){
 		MainWindow mw = new MainWindow();

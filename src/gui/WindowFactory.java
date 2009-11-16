@@ -56,6 +56,8 @@ public class WindowFactory {
 			return new HelpWindow(windowType.getPrintString(), MainWindow.getInstance());
 		case About:
 			return new AboutWindow(windowType.getPrintString(), MainWindow.getInstance());
+		case NewIM:
+			return new EnterNameWindow(windowType.getPrintString(), MainWindow.getInstance());
 		}
 		throw new IllegalArgumentException("The window type " + windowType + " wasn't found");
 	}
