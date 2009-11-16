@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -140,14 +141,14 @@ public class MessageDialog implements ListDataListener{
 	//	convoPanel.setPreferredSize(new Dimension(300, 200));
 		topPanel.setLayout(new BorderLayout(0,5));
 		bottomPanel.setLayout(new BorderLayout(0,5));
-		JScrollPane scrollWindow = new JScrollPane();
-		scrollWindow.getViewport().setLayout(new BorderLayout(0, 5));
-		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		convoWindow = new JTextPane();
-	//	convoWindow.setText("The first test! \n And another one!\n\n\n\n\n\n\nTest");
 		convoWindow.setEditable(false);
 		convoWindow.setPreferredSize(new Dimension(300, 200));
+		
+
+		JScrollPane scrollWindow = new JScrollPane(convoWindow);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
 		scrollWindow.getViewport().add(convoWindow);
