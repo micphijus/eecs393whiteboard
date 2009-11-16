@@ -2,6 +2,7 @@ package core.im;
 
 import gui.MessageDialog;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Queue;
@@ -15,12 +16,14 @@ import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 
+import sun.rmi.server.WeakClassHashMap;
+
 import core.abstraction.Controller;
 
 public class ControlListener implements ChatManagerListener, ListDataListener, Controller {
 
 	public XMPPConnection conn;
-	public HashMap<String, MessageDialog> messages;
+	public HashMap<String, WeakReference<MessageDialog>> messages;
 	public ChatboardMessage msg;
 	public String userID;
 	public HashMap<String, Chat> chats;
@@ -28,7 +31,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ControlListener()
 	{
 		conn = null;
-		messages = new HashMap<String, MessageDialog>();
+		messages = new HashMap<String, WeakReference<MessageDialog>>();
 		msg = new ChatboardMessage();
 		chats = new HashMap<String, Chat>();
 		userID = "";
@@ -37,7 +40,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ControlListener(XMPPConnection c, String from)
 	{
 		conn = c;
-		messages = new HashMap<String, MessageDialog>();
+		messages = new HashMap<String, WeakReference<MessageDialog>>();
 		msg = new ChatboardMessage(c, from);
 		userID = from;
 		chats = new HashMap<String, Chat>();
@@ -84,13 +87,15 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		if(messages.get(from) == null)
 		{
 			MessageDialog dialog = new MessageDialog(from);
-			messages.put(from, dialog);
+			WeakReference<MessageDialog> d = new WeakReference<MessageDialog>(dialog);
+			messages.put(from, d);
 		}
 	}
 	
 	public void addDialog(MessageDialog dialog, String name)
 	{
-		messages.put(name, dialog);
+		WeakReference<MessageDialog> d = new WeakReference<MessageDialog>(dialog);
+		messages.put(name,  d);
 	}
 	
 
@@ -100,13 +105,14 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		while(!q.isEmpty())
 		{
 			IM im = q.remove();
-			MessageDialog dialog = messages.get(im.from);
-			if(dialog == null)
+			WeakReference<MessageDialog> d = messages.get(im.from);
+			if(d == null)
 			{
-				dialog = new MessageDialog(im.from);
-				messages.put(im.from, dialog);
+				MessageDialog dialog = new MessageDialog(im.from);
+				d = new WeakReference<MessageDialog>(dialog);
+				messages.put(im.from, d);
 			}
-			dialog.receiveMessage(im);
+			d.get().receiveMessage(im);
 		}
 		
 	}
@@ -121,6 +127,12 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public void intervalRemoved(ListDataEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void removeDialog(String key) {
+		// TODO Auto-generated method stub
+		messages.remove(key);
 	}
 
 }

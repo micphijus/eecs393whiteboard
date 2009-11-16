@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -60,6 +61,7 @@ public class MainWindow implements ListDataListener {
 				if(e.getClickCount() == 2){
 					//TODO: fix this temp call
 					String sn = friendList.getSelectedValue().toString();
+					
 					MessageDialog test = new MessageDialog(sn);
 					test.addController(theController);
 					theController.addDialog(test, sn);
