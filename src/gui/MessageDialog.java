@@ -2,6 +2,7 @@ package gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -27,8 +28,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -140,20 +143,20 @@ public class MessageDialog implements ListDataListener{
 	//	convoPanel.setPreferredSize(new Dimension(300, 200));
 		topPanel.setLayout(new BorderLayout(0,5));
 		bottomPanel.setLayout(new BorderLayout(0,5));
-		JScrollPane scrollWindow = new JScrollPane();
-		scrollWindow.getViewport().setLayout(new BorderLayout(0, 5));
-		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		convoWindow = new JTextPane();
-	//	convoWindow.setText("The first test! \n And another one!\n\n\n\n\n\n\nTest");
 		convoWindow.setEditable(false);
 		convoWindow.setPreferredSize(new Dimension(300, 200));
+		
+
+		JScrollPane scrollWindow = new JScrollPane(convoWindow);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
 		scrollWindow.getViewport().add(convoWindow);
 		topPanel.add(scrollWindow);
 		//conversation.add(convoPanel);
-		final JTextField inputField = new JTextField();
+		final JTextArea inputField = new JTextArea();
 		inputField.setPreferredSize(new Dimension(300, 150));
 		inputField.addKeyListener(new KeyListener(){
 		
@@ -166,13 +169,18 @@ public class MessageDialog implements ListDataListener{
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					sendMessage(inputField);
+					if(!arg0.isShiftDown()){
+						sendMessage(inputField);
+						arg0.consume();
+					}
+					else{
+						inputField.append("\n");
+					}
 				}
 				
 			}
@@ -216,8 +224,8 @@ public class MessageDialog implements ListDataListener{
 	}
 	
 	//TODO: currently just clears the box... eventually make it do other stuff
-	private void sendMessage(JTextField text){
-		String message = text.getText();
+	private void sendMessage(JTextArea inputField){
+		String message = inputField.getText();
 		for(int i = 0; i < listeners.size(); i++)
 		{
 			boolean b = listeners.get(i).sendMessage(userName, message);
@@ -227,7 +235,7 @@ public class MessageDialog implements ListDataListener{
 				System.out.println(message);
 		}
 		
-		text.setText("");
+		inputField.setText("");
 		//TODO:fix the user's username
 		convoWindow.setText(convoWindow.getText() + "\n" + "me!" + ":  " + message);
 	}
