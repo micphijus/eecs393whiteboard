@@ -23,7 +23,7 @@ import core.abstraction.Controller;
 public class ControlListener implements ChatManagerListener, ListDataListener, Controller {
 
 	public XMPPConnection conn;
-	public HashMap<String, WeakReference<MessageDialog>> messages;
+	public HashMap<String, MessageDialog> messages;
 	public ChatboardMessage msg;
 	public String userID;
 	public HashMap<String, Chat> chats;
@@ -31,7 +31,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ControlListener()
 	{
 		conn = null;
-		messages = new HashMap<String, WeakReference<MessageDialog>>();
+		messages = new HashMap<String, MessageDialog>();
 		msg = new ChatboardMessage();
 		chats = new HashMap<String, Chat>();
 		userID = "";
@@ -40,7 +40,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ControlListener(XMPPConnection c, String from)
 	{
 		conn = c;
-		messages = new HashMap<String, WeakReference<MessageDialog>>();
+		messages = new HashMap<String, MessageDialog>();
 		msg = new ChatboardMessage(c, from);
 		userID = from;
 		chats = new HashMap<String, Chat>();
@@ -74,6 +74,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -81,21 +82,23 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	@Override
 	public void chatCreated(Chat arg0, boolean arg1) {
 		arg0.addMessageListener(msg);
-		String from = arg0.getParticipant().substring(0, arg0.getParticipant().indexOf('/'));
+		String from = arg0.getParticipant();
+		if(arg0.getParticipant().indexOf('/') != -1)
+			from = arg0.getParticipant().substring(0, arg0.getParticipant().indexOf('/'));
 		chats.put(from, arg0);
 		
 		if(messages.get(from) == null)
 		{
 			MessageDialog dialog = new MessageDialog(from);
-			WeakReference<MessageDialog> d = new WeakReference<MessageDialog>(dialog);
-			messages.put(from, d);
+			
+			messages.put(from, dialog);
 		}
 	}
 	
 	public void addDialog(MessageDialog dialog, String name)
 	{
-		WeakReference<MessageDialog> d = new WeakReference<MessageDialog>(dialog);
-		messages.put(name,  d);
+		
+		messages.put(name,  dialog);
 	}
 	
 
@@ -105,14 +108,13 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		while(!q.isEmpty())
 		{
 			IM im = q.remove();
-			WeakReference<MessageDialog> d = messages.get(im.from);
+			MessageDialog d = messages.get(im.from);
 			if(d == null)
 			{
-				MessageDialog dialog = new MessageDialog(im.from);
-				d = new WeakReference<MessageDialog>(dialog);
+				d = new MessageDialog(im.from);
 				messages.put(im.from, d);
 			}
-			d.get().receiveMessage(im);
+			d.receiveMessage(im);
 		}
 		
 	}

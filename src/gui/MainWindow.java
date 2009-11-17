@@ -21,12 +21,22 @@ import javax.swing.JPanel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.PacketCollector;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.filter.MessageTypeFilter;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
+import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.util.StringUtils;
 
 import gui.WindowFactory.WindowType;
 
 import core.network.*;
 import core.im.*;
+import de.javawi.jstun.attribute.MessageAttributeInterface.MessageAttributeType;
 
 public class MainWindow implements ListDataListener {
 
@@ -54,7 +64,7 @@ public class MainWindow implements ListDataListener {
 		friendList = new JList(getRoster(roster));
 		theController = new ControlListener(connection, conn.getUserName());
 		theController.addDataListener();
-	
+		connection.getChatManager().addChatListener(theController);
 		friendList.addMouseListener(new MouseAdapter(){
 		
 			public void mouseReleased(MouseEvent e){
