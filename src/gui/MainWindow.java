@@ -178,6 +178,17 @@ public class MainWindow implements ListDataListener {
 				menu.add(theItem);
 			}
 		}
+		if(name.equals("File")){
+			JMenuItem exit = new JMenuItem("Exit");
+			exit.setName("Exit");
+			exit.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					MainWindow.getInstance().dispose();
+				}
+			});
+			menu.add(exit);
+		}
 		
 		return menu;
 		
