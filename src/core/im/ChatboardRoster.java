@@ -47,6 +47,7 @@ public class ChatboardRoster implements RosterListener{
 	public void pullRoster()
 	{
 		roster = conn.getRoster();
+		//roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
 		//updateOnline();
 		roster.addRosterListener(this);	
 	}

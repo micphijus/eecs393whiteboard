@@ -32,7 +32,7 @@ public class ChatboardConnection {
 			conn.login(userName, password);
 			while(!conn.isAuthenticated())
 			{
-				
+				return null;
 			}
 			System.out.println("Connection created: " + conn.isAuthenticated());
 		}
