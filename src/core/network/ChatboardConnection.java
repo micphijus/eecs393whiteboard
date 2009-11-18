@@ -9,6 +9,7 @@ import org.jivesoftware.smack.XMPPException;
 public class ChatboardConnection {
 	private String userName;
 	private String password;
+	private XMPPConnection conn;
 		
 	public ChatboardConnection()
 	{
@@ -24,7 +25,7 @@ public class ChatboardConnection {
 	
 	public XMPPConnection createConnection(String server, int port, String alias)
 	{
-		XMPPConnection conn = null;
+		conn = null;
 		try
 		{
 			conn = new XMPPConnection(new ConnectionConfiguration(server, port, alias));
@@ -56,5 +57,10 @@ public class ChatboardConnection {
 	public String getPassword() {
 		return password;
 	}
+
+	public XMPPConnection getConn() {
+		return conn;
+	}
+
 
 }

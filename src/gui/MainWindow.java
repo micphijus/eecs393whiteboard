@@ -33,6 +33,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.util.StringUtils;
 
 import gui.WindowFactory.WindowType;
+import gui.preferenceWindows.LoginWindow;
 
 import core.network.*;
 import core.im.*;
@@ -54,9 +55,11 @@ public class MainWindow implements ListDataListener {
 	//final static String[] helpMenu = {"Help", "About"};
 	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
 	
+	
 	public MainWindow(){
-		conn = new ChatboardConnection("chatboard09@gmail.com", "fishonfire");
-		XMPPConnection connection = conn.createConnection("talk.google.com", 5222, "gmail.com");
+		ChatboardConnection conn = new ChatboardConnection("chatboard09@gmail.com", "fishonfire");
+		conn.createConnection("talk.gmail.com", 5222, "gmail.com");
+		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
 		roster.addListener(this);
 		roster.pullRoster();

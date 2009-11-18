@@ -13,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.jivesoftware.smack.XMPPConnection;
+
+import core.network.ChatboardConnection;
+
 import gui.AbstractWindow;
 import gui.MainWindow;
 import gui.MessageDialog;
@@ -22,6 +26,7 @@ public class LoginWindow extends AbstractWindow {
 
 	private JTextField screenNameIn;
 	private JPasswordField passwordIn;
+	private ChatboardConnection conn;
 	
 	public LoginWindow(String title, JFrame parent) {
 		super();
@@ -87,6 +92,17 @@ public class LoginWindow extends AbstractWindow {
 			}
 		};
 		return login;
+	}
+	
+	public void login(String userName, String password)
+	{
+		conn = new ChatboardConnection(userName, password);
+		conn.createConnection("talk.gmail.com", 5222, "gmail.com");
+		
+	}
+
+	public ChatboardConnection getConn() {
+		return conn;
 	}
 
 }
