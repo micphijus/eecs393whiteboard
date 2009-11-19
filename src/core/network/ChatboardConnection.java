@@ -30,7 +30,7 @@ public class ChatboardConnection {
 		{
 			conn = new XMPPConnection(new ConnectionConfiguration(server, port, alias));
 			conn.connect();
-			conn.login(userName, password);
+			conn.login(userName, password, "Chatboard");
 			while(!conn.isAuthenticated())
 			{
 				return null;

@@ -87,17 +87,20 @@ public class LoginWindow extends AbstractWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+				login(screenNameIn.getText(), passwordIn.getPassword());
 				window.dispose();
 			}
 		};
 		return login;
 	}
 	
-	public void login(String userName, String password)
+	public void login(String userName, char[] password)
 	{
-		conn = new ChatboardConnection(userName, password);
-		conn.createConnection("talk.gmail.com", 5222, "gmail.com");
+		String thePassword = "";
+		for(int i = 0; i < password.length; i++)
+			thePassword = thePassword + password[i];
+		conn = new ChatboardConnection(userName, thePassword);
+		conn.createConnection("talk.google.com", 5222, "gmail.com");
 		
 	}
 

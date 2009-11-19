@@ -57,8 +57,10 @@ public class MainWindow implements ListDataListener {
 	
 	
 	public MainWindow(){
-		ChatboardConnection conn = new ChatboardConnection("chatboard09@gmail.com", "fishonfire");
-		conn.createConnection("talk.gmail.com", 5222, "gmail.com");
+		window = new JFrame();
+		LoginWindow login = new LoginWindow("login", window); 
+		ChatboardConnection conn = login.getConn();
+		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
 		roster.addListener(this);
@@ -90,7 +92,7 @@ public class MainWindow implements ListDataListener {
 		panel.setLayout(bl);
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
-		window = new JFrame();
+		
 		window.setTitle("EECS393 Whiteboard Client SUPER EARLY ALPHA");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.add(panel);
