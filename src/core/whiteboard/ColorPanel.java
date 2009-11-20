@@ -1,6 +1,7 @@
 package core.whiteboard;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,12 +13,14 @@ public class ColorPanel extends JPanel{
 	private Color drawColor;
 	public ColorPanel()
 	{
+		this.setLayout(new GridLayout(0, 2));
 		Color[] colors = { Color.black, Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.magenta };
 		final JButton[] JBcolors = new JButton[8];
 		
 		for (int i = 0; i < colors.length; i++) {
 			final int index = i;
 			JBcolors[i] = new JButton();
+			JBcolors[i].setSize(50, 50);
 			JBcolors[i].putClientProperty("color",colors[i]);
 			JBcolors[i].setBackground((Color)JBcolors[i].getClientProperty("color"));
 			this.add(JBcolors[i]);
@@ -36,6 +39,7 @@ public class ColorPanel extends JPanel{
 	
 	private void setDrawColor(Color newColor)
 	{
+		
 		drawColor = newColor;
 	}
 }

@@ -23,7 +23,7 @@ public class WhiteboardTest {
 	public void testDrawCircleBasic()
 	{
 		int returncode = -1;
-		WhiteboardWindow w = new WhiteboardWindow();
+		WhiteboardPanel w = new WhiteboardPanel();
 		returncode = w.drawCircle(Color.BLACK, 20, 20, 5);
 		System.out.println(returncode);
 		assertEquals(returncode, 0);
@@ -33,7 +33,7 @@ public class WhiteboardTest {
 	public void testDrawCircleCoordsOOB()
 	{
 		int returncode = -1;
-		WhiteboardWindow w = new WhiteboardWindow();
+		WhiteboardPanel w = new WhiteboardPanel();
 		returncode = w.drawCircle(Color.BLACK, -1, 20, 5);
 		System.out.println(returncode);
 		assertEquals(returncode, 1);
@@ -42,7 +42,7 @@ public class WhiteboardTest {
 	public void testDrawCircleRadiusOOB()
 	{
 		int returncode = -1;
-		WhiteboardWindow w = new WhiteboardWindow();
+		WhiteboardPanel w = new WhiteboardPanel();
 		returncode = w.drawCircle(Color.BLACK, 20, 20, -2);
 		System.out.println(returncode);
 		assertEquals(returncode, 2);

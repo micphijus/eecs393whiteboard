@@ -7,31 +7,41 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JPanel;
 
-class Display extends JPanel implements MouseListener, MouseMotionListener  {
+class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 
 	private static final long serialVersionUID = 1L;
-	private int prevX, prevY, curX, curY;  // Most recently processed mouse coords.
-	private boolean dragging;  // Set to true when dragging is in process.
+	private int prevX, prevY, curX, curY;  
+	private boolean dragging;  // true when dragging occurs
+	private Queue<String> commandQueue;
+	private Color drawColor;
 
-	Display() {
+	DrawPanel() {
 		setBackground(Color.white);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		SetColor(Color.black);
+		commandQueue = new LinkedList<String>();
 	}
 
 
 	public void mousePressed(MouseEvent evt) {
+		if (evt.getButton()!= 1)
+			return;
 		dragging = true;
-		curX = evt.getX();  // Remember starting position.
+		curX = evt.getX();  
 		curY = evt.getY();
-
-		//drawCircle(getColor(), prevX, prevY, 5);
+		
 	}
 
 	public void mouseDragged(MouseEvent evt) {
+		int pressed = evt.getButton();
+		if (pressed != 0)
+			return;
 		if ( dragging == false )  
 			return;
 		prevX = curX;
@@ -39,13 +49,15 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(getColor(), prevX, prevY, curX, curY, 1);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, 1);
 	}
 
 	public void mouseMoved(MouseEvent evt) {}	//	Mouse moved when not clicked
 
-	public void mouseReleased(MouseEvent evt) { 
-		
+	public void mouseReleased(MouseEvent evt) {
+		int pressed = evt.getButton();
+		if (pressed != 1)
+			return;
 		if ( dragging == false )  
 			return;               
 		dragging = false;
@@ -55,8 +67,7 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(getColor(), prevX, prevY, curX, curY, 1);
-		//drawCircle(getColor(), prevX, prevY, 5);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, 1);
 	}
 	
 	public void mouseEntered(MouseEvent evt) { }
@@ -66,7 +77,7 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 	
 	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness)
 	{
-		Graphics g = getGraphics();
+		Graphics g = getGraphics(); 
 		Graphics2D g2 = (Graphics2D)g;
 		
 		BasicStroke wideStroke = new BasicStroke(1.0f);
@@ -74,6 +85,8 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 		g2.setStroke(wideStroke);
 		g2.setColor(color);
 		g2.drawLine(x1, y1, x2, y2);
+		
+		commandQueue.add("drawLineT,"+","+color.toString()+","+x1+","+y1+","+x2+","+y2+","+thickness);
 		
 		g2.dispose();
 		g.dispose();
@@ -85,6 +98,9 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 		Graphics g = getGraphics();
 		g.setColor(color);
 		g.drawLine(x1, y1, x2, y2);
+		
+		commandQueue.add("drawLine,"+","+color.toString()+","+x1+","+y1+","+x2+","+y2+","+thickness);
+		
 		g.dispose();
 		return 0;
 	}
@@ -98,14 +114,26 @@ class Display extends JPanel implements MouseListener, MouseMotionListener  {
 			return 2;
 		Graphics g = getGraphics();
 		g.setColor(color);
+		
 		g.fillOval( x-radius, y-radius, radius*2, radius*2 );
+		commandQueue.add("drawCircle,"+","+color.toString()+","+x+","+y+","+radius);
 		g.dispose();
 		return 0;
 	}
 	
-	private Color getColor()
+	protected Queue getCommandQueue()
 	{
-		return Color.black;
+		return commandQueue;
+	}
+	
+	protected Color GetColor()
+	{
+		return drawColor;
+	}
+	
+	protected void SetColor(Color newcolor)
+	{
+		drawColor = newcolor;
 	}
 
 }
