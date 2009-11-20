@@ -121,7 +121,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		return 0;
 	}
 	
-	protected Queue getCommandQueue()
+	protected Queue<String> getCommandQueue()
 	{
 		return commandQueue;
 	}
