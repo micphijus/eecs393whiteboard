@@ -49,7 +49,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(GetColor(), prevX, prevY, curX, curY, 1);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, 1, true);
 	}
 
 	public void mouseMoved(MouseEvent evt) {}	//	Mouse moved when not clicked
@@ -67,7 +67,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(GetColor(), prevX, prevY, curX, curY, 1);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, 1, true);
 	}
 	
 	public void mouseEntered(MouseEvent evt) { }
@@ -75,7 +75,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	public void mouseClicked(MouseEvent evt) { }
 	
 	
-	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness)
+	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness, boolean queue)
 	{
 		Graphics g = getGraphics(); 
 		Graphics2D g2 = (Graphics2D)g;
@@ -86,37 +86,21 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		g2.setColor(color);
 		g2.drawLine(x1, y1, x2, y2);
 		
-		commandQueue.add("drawLineT,"+","+color.toString()+","+x1+","+y1+","+x2+","+y2+","+thickness);
+		if (queue) commandQueue.add("drawLineT,"+color.toString()+","+x1+","+y1+","+x2+","+y2+","+thickness);
 		
 		g2.dispose();
 		g.dispose();
 		return 0;
 	}
 	
-	public int drawLine(Color color, int x1, int y1, int x2, int y2, int thickness)
+	public int drawLine(Color color, int x1, int y1, int x2, int y2, boolean queue)
 	{
 		Graphics g = getGraphics();
 		g.setColor(color);
 		g.drawLine(x1, y1, x2, y2);
 		
-		commandQueue.add("drawLine,"+","+color.toString()+","+x1+","+y1+","+x2+","+y2+","+thickness);
+		if (queue) commandQueue.add("drawLine,"+color.toString()+","+x1+","+y1+","+x2+","+y2);
 		
-		g.dispose();
-		return 0;
-	}
-	
-	
-	public int drawCircle(Color color, int x, int y, int radius ) 
-	{
-		if (x < 1 || y < 1)
-			return 1;
-		if (radius < 0 || radius > 50)
-			return 2;
-		Graphics g = getGraphics();
-		g.setColor(color);
-		
-		g.fillOval( x-radius, y-radius, radius*2, radius*2 );
-		commandQueue.add("drawCircle,"+","+color.toString()+","+x+","+y+","+radius);
 		g.dispose();
 		return 0;
 	}

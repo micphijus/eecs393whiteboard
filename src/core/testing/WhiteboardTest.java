@@ -20,31 +20,27 @@ public class WhiteboardTest {
 	}
 
 	@Test
-	public void testDrawCircleBasic()
+	public void testDrawLineBasic()
 	{
 		int returncode = -1;
 		WhiteboardPanel w = new WhiteboardPanel();
-		returncode = w.drawCircle(Color.BLACK, 20, 20, 5);
+		returncode = w.drawLine(Color.BLACK, 20, 20, 30, 30, true);
 		System.out.println(returncode);
 		assertEquals(returncode, 0);
 	}
 	
 	@Test
-	public void testDrawCircleCoordsOOB()
+	public void testQueue()
 	{
+		String black = Color.green.toString();
 		int returncode = -1;
 		WhiteboardPanel w = new WhiteboardPanel();
-		returncode = w.drawCircle(Color.BLACK, -1, 20, 5);
+		Queue<String> baseQueue = new LinkedList<String>();
+		baseQueue.add("drawLineT,00ff00,100,100,30,50,1");
+		w.applyQueue(baseQueue);
 		System.out.println(returncode);
-		assertEquals(returncode, 1);
+		
+		assertEquals(true, true);
 	}
-	@Test
-	public void testDrawCircleRadiusOOB()
-	{
-		int returncode = -1;
-		WhiteboardPanel w = new WhiteboardPanel();
-		returncode = w.drawCircle(Color.BLACK, 20, 20, -2);
-		System.out.println(returncode);
-		assertEquals(returncode, 2);
-	}
+
 }
