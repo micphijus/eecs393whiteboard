@@ -2,6 +2,8 @@ package core.whiteboard;
 
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
@@ -18,12 +20,19 @@ public class WhiteboardPanelExecuter {
 		whiteboard.setLayout(bl);
 
 		WhiteboardPanel wPanel = new WhiteboardPanel();
-		wPanel.setPreferredSize(new Dimension(650, 650));
+		wPanel.setPreferredSize(new Dimension(550, 550));
 		whiteboard.add(wPanel);
 		
 		whiteboard.pack();
 		whiteboard.setVisible(true);
 		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		
+		Queue<String> inQueue = new LinkedList<String>();
+		inQueue.add("drawLine,0x00FF00,10,10,10,390");
+		inQueue.add("drawLine,0xFFFF00,10,390,390,390");
+		inQueue.add("drawLine,0x00FFFF,390,390,390,10");
+		inQueue.add("drawLine,0x0000FF,390,10,10,10");
+		wPanel.applyQueue(inQueue);
 	}
 	
 

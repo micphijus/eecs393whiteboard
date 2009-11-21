@@ -18,9 +18,9 @@ public class WhiteboardPanel extends JPanel{
 	private ColorPanel colorpanel;
 	private Queue<String> outQueue;
 
-	public int drawLine(Color color, int x1, int y1, int x2, int y2, boolean queue) 
+	public int drawLine(Color color, int x1, int y1, int x2, int y2, boolean toQueue) 
 	{ 
-		return drawPanel.drawLine(color, x1, y1, x2, y2, queue);
+		return drawPanel.drawLine(color, x1, y1, x2, y2, toQueue);
 	}
 
 	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness, boolean queue ) 
@@ -36,12 +36,9 @@ public class WhiteboardPanel extends JPanel{
 		colorpanel.setMaximumSize(new Dimension(100,250));
 		
 		drawPanel = new DrawPanel();
-		drawPanel.setPreferredSize(new Dimension(500,500));
-		drawPanel.setMinimumSize(new Dimension(500,500));
-		drawPanel.setMaximumSize(new Dimension(500,500));
-//		
-//		this.add(colorpanel);
-//		this.add(drawPanel);
+		drawPanel.setPreferredSize(new Dimension(400,400));
+		drawPanel.setMinimumSize(new Dimension(400,400));
+		drawPanel.setMaximumSize(new Dimension(400,400));
 		
 		GroupLayout WBLayout = new GroupLayout(this);
 		this.setLayout(WBLayout);
@@ -64,22 +61,28 @@ public class WhiteboardPanel extends JPanel{
 		
 	}
 	
-	/** Applies the specified Queue to whiteboard*/
+	/** Applies the specified Queue to whiteboard
+	 * @return 0 for success, 1 for NumberFormatException (usually from Color.decode) 
+	 * */
 	public int applyQueue(Queue<String> inQueue)
 	{
-		String command = "";
 		String[] params;
-		command = inQueue.poll();
+		String command = inQueue.poll();
 		while (command != null)
 		{
 			params = command.split(",");
 			if (params[0].equals("drawLine")) {
-				drawPanel.drawLine(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), false);
+				try {
+					drawPanel.drawLine(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), false);
+				} catch ( NumberFormatException e) { return 1; }
 			}
 			else if (params[0].equals("drawLineT")) {
-				drawPanel.drawLineT(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), Integer.parseInt(params[6]), false);
-			}
+				try {
+					drawPanel.drawLineT(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), Integer.parseInt(params[6]), false);
+				} catch ( NumberFormatException e) { return 1; }
 				
+			}
+			command = inQueue.poll();
 		}
 		return 0;
 	}

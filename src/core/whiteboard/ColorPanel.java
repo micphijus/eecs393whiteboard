@@ -67,8 +67,6 @@ public class ColorPanel extends JPanel{
 				.addComponent(JBcolors[6])
 				.addComponent(JBcolors[7]))
 		);
-			
-		
 	}
 	/** 
 	 * Applies the specified color as the Color used to draw
