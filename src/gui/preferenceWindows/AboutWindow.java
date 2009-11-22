@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import gui.AbstractWindow;
+import gui.MainWindow;
 
 public class AboutWindow extends AbstractWindow {
 //TODO: hide cancel button! Doesn't make sense here!
@@ -17,7 +18,7 @@ public class AboutWindow extends AbstractWindow {
 		setTitle(title);
 		setParent(parent);
 		build();
-		window.setPreferredSize(new Dimension(400, 200));
+		window.setPreferredSize(new Dimension(400, 250));
 		window.pack();
 		window.setVisible(true);
 
@@ -37,7 +38,7 @@ public class AboutWindow extends AbstractWindow {
 	@Override
 	protected void buildWindow() {
 		// TODO Auto-generated method stub
-		ImageIcon fishonfire = new ImageIcon("Images/chatboard-quick-icon.png");
+		ImageIcon fishonfire = new ImageIcon(MainWindow.fishIcon);
 		JLabel img = new JLabel(fishonfire);
 		JLabel about = new JLabel("Chatboard ALPHA version 0.1");
 		JLabel by = new JLabel("By Justin Michel, Jeff Willebrand, Felix Yuan");

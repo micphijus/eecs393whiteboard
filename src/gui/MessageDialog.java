@@ -200,8 +200,18 @@ public class MessageDialog implements ListDataListener{
 				sendMessage(inputField);				
 			}
 		});
+	
+		JButton openWbButton = new JButton("Whiteboard >");
+		openWbButton.addActionListener(new ActionListener(){
+		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//open a whiteboard
+			}
+		});
 		
 		buttonPanel.add(sendMsgButton);
+		buttonPanel.add(openWbButton);
 		//conversation.add(Box.createVerticalGlue());
 		conversation.add(buttonPanel);
 	}

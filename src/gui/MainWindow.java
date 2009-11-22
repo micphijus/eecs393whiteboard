@@ -60,7 +60,7 @@ public class MainWindow implements ListDataListener {
 	//final static String[] prefsMenu = {"Edit Preferences" };
 	//final static String[] helpMenu = {"Help", "About"};
 	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
-	
+	public final static String fishIcon = "Images/fish-on-fire.png";
 	
 	public MainWindow(){
 		aliasBuddyMap = new HashMap<String, String>();
@@ -106,7 +106,7 @@ public class MainWindow implements ListDataListener {
 		window.setJMenuBar(menu);
 		window.setVisible(true);
 		
-		ImageIcon fishOnFire = new ImageIcon("Images/chatboard-quick-icon.png");
+		ImageIcon fishOnFire = new ImageIcon(fishIcon);
 		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();

@@ -60,7 +60,9 @@ public class WindowFactory {
 		case NewIM:
 			return new EnterNameWindow(windowType.getPrintString(), MainWindow.getInstance());
 		case OpenWB:
-			MainWindow.createWhiteBoard();
+			if(MainWindow.whiteboard != null){
+				MainWindow.createWhiteBoard();
+			}
 			return null;
 		}
 		throw new IllegalArgumentException("The window type " + windowType + " wasn't found");
