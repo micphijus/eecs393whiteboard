@@ -30,7 +30,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 
 
 	public void mousePressed(MouseEvent evt) {
-		if (evt.getButton()!= 1)
+		if (evt.getButton()!= MouseEvent.BUTTON1)
 			return;
 		dragging = true;
 		curX = evt.getX();  
@@ -40,8 +40,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 
 	public void mouseDragged(MouseEvent evt) {
 		int pressed = evt.getButton();
-		if (pressed != 0)
-			return;
+		//if (pressed != MouseEvent.MOUSE_PRESSED)
+			//return;
 		if ( dragging == false )  
 			return;
 		prevX = curX;
@@ -56,7 +56,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 
 	public void mouseReleased(MouseEvent evt) {
 		int pressed = evt.getButton();
-		if (pressed != 1)
+		if (pressed != MouseEvent.BUTTON1)
 			return;
 		if ( dragging == false )  
 			return;               

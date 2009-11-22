@@ -1,6 +1,7 @@
 
 package gui;
 
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -37,6 +39,7 @@ import gui.WindowFactory.WindowType;
 import gui.preferenceWindows.LoginWindow;
 
 import core.network.*;
+import core.whiteboard.WhiteboardPanel;
 import core.im.*;
 import de.javawi.jstun.attribute.MessageAttributeInterface.MessageAttributeType;
 
@@ -50,6 +53,7 @@ public class MainWindow implements ListDataListener {
 	static ChatboardRoster roster;
 	static ControlListener theController;
 	static HashMap<String, String> aliasBuddyMap;
+	static JDialog whiteboard;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
@@ -106,6 +110,7 @@ public class MainWindow implements ListDataListener {
 		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();
+		createWhiteBoard();
 	}
 	
 	public static JFrame getInstance(){
@@ -224,7 +229,22 @@ public class MainWindow implements ListDataListener {
 		}
 		return onlineFriends;
 	}
+	
+	public void createWhiteBoard()
+	{
+		whiteboard = new JDialog(null, "Whiteboard", Dialog.ModalityType.MODELESS);
+		
+		BoxLayout bl = new BoxLayout(whiteboard.getContentPane(), BoxLayout.Y_AXIS);
+		whiteboard.setLayout(bl);
 
+		WhiteboardPanel wPanel = new WhiteboardPanel();
+		wPanel.setPreferredSize(new Dimension(550, 550));
+		whiteboard.add(wPanel);
+		
+		whiteboard.pack();
+		whiteboard.setVisible(true);
+		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
 		Vector <String> updatedRoster = getRoster(roster);

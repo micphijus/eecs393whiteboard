@@ -63,25 +63,56 @@ public class ChatboardMessage implements MessageListener{
 			e.printStackTrace();
 		}
 	}
+	public void sendQueue(Chat chat, Queue<String> q)
+	{
+		try
+		{
+			boolean sendFlag = false;
+			String theParticipant = chat.getParticipant();
+			if(theParticipant.indexOf("/") != -1)
+			{
+				String client = theParticipant.substring(theParticipant.indexOf("/") + 1);
+				if(client.equalsIgnoreCase("chatboard"))
+					sendFlag = true;
+			}
+			if(sendFlag)
+			{
+				Message message = new Message();
+				message.setProperty("whiteboardqueue", q);
+				chat.sendMessage(message);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public void processMessage(Chat arg0, Message arg1) {
-		if (arg1.getBody() == null)
+		if (arg1.getBody() == null && arg1.getProperty("whiteboardqueue") == null)
 			return;
-		IM im = new IM();
-		im.automatic = false;
-		
-		String participant = arg0.getParticipant(); //First message has a slight exception to handle
-		
-		if(participant.indexOf("/") != -1)
-			participant = participant.substring(0, participant.indexOf("/"));
-		im.from = participant;
-		im.to = theUser;
-		im.message = arg1.getBody();
-		
-		queue.add(im);
-		for(int i = 0; i < listeners.size(); i++)
+		if(arg1.getBody() != null)
 		{
-			listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+			IM im = new IM();
+			im.automatic = false;
+			
+			String participant = arg0.getParticipant(); //First message has a slight exception to handle
+			
+			if(participant.indexOf("/") != -1)
+				participant = participant.substring(0, participant.indexOf("/"));
+			im.from = participant;
+			im.to = theUser;
+			im.message = arg1.getBody();
+			
+			queue.add(im);
+			for(int i = 0; i < listeners.size(); i++)
+			{
+				listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+			}
+		}
+		else
+		{
+			//We got a whiteboard message
 		}
 	}
 	
