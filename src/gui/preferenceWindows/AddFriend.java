@@ -72,6 +72,9 @@ public class AddFriend extends AbstractWindow {
 		JTextField screenNameIn = new JTextField();
 		JTextField aliasNameIn = new JTextField();
 		
+		screenNameIn.addKeyListener(enterAction());
+		aliasNameIn.addKeyListener(enterAction());
+		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
 		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));
 		 

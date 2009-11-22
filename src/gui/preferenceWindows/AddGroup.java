@@ -67,6 +67,8 @@ public class AddGroup extends AbstractWindow {
 		
 		JTextField groupNameIn = new JTextField();
 		
+		groupNameIn.addKeyListener(enterAction());
+		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
 		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));
 		 

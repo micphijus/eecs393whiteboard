@@ -46,28 +46,7 @@ public class EnterNameWindow extends AbstractWindow {
 		JLabel title = new JLabel(WindowType.NewIM.getPrintString());
 		
 		usernameIn = new JTextField();
-		usernameIn.addKeyListener(new KeyListener(){
-		
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER){
-					ok.doClick();
-				}
-			}
-		
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
+		usernameIn.addKeyListener(enterAction());
 		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
 		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));

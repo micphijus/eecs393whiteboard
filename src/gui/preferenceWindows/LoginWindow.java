@@ -56,6 +56,8 @@ public class LoginWindow extends AbstractWindow {
 		screenNameIn = new JTextField();
 		passwordIn = new JPasswordField();
 		
+		screenNameIn.addKeyListener(enterAction());
+		passwordIn.addKeyListener(enterAction());
 		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
 		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));

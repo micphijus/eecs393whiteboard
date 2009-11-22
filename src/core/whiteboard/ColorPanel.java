@@ -25,7 +25,7 @@ public class ColorPanel extends JPanel{
 			JBcolors[i].setMaximumSize(new Dimension(25, 25));
 			JBcolors[i].putClientProperty("color",colors[i]);
 			JBcolors[i].setBackground((Color)JBcolors[i].getClientProperty("color"));
-			
+			JBcolors[i].setFocusable(false);
 			
 			JBcolors[i].addActionListener(new ActionListener() {
 				@Override
