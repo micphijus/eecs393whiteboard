@@ -230,7 +230,7 @@ public class MainWindow implements ListDataListener {
 		return onlineFriends;
 	}
 	
-	public void createWhiteBoard()
+	public static void createWhiteBoard()
 	{
 		whiteboard = new JDialog(null, "Whiteboard", Dialog.ModalityType.MODELESS);
 		

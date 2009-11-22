@@ -1,5 +1,6 @@
 package gui;
 
+import core.whiteboard.WhiteboardPanelExecuter;
 import gui.preferenceWindows.*;
 
 public class WindowFactory {
@@ -58,6 +59,9 @@ public class WindowFactory {
 			return new AboutWindow(windowType.getPrintString(), MainWindow.getInstance());
 		case NewIM:
 			return new EnterNameWindow(windowType.getPrintString(), MainWindow.getInstance());
+		case OpenWB:
+			MainWindow.createWhiteBoard();
+			return null;
 		}
 		throw new IllegalArgumentException("The window type " + windowType + " wasn't found");
 	}
