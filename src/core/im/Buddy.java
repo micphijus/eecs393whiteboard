@@ -7,6 +7,7 @@ public class Buddy {
 	public String groupName;
 	public String mergeID;
 	public String userID;
+	public String client;
 	public String screenname;
 	public String status;
 	public String message;

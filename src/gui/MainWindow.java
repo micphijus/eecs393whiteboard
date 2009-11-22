@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -48,6 +49,7 @@ public class MainWindow implements ListDataListener {
 	static ChatboardConnection conn;
 	static ChatboardRoster roster;
 	static ControlListener theController;
+	static HashMap<String, String> aliasBuddyMap;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
@@ -57,6 +59,7 @@ public class MainWindow implements ListDataListener {
 	
 	
 	public MainWindow(){
+		aliasBuddyMap = new HashMap<String, String>();
 		window = new JFrame();
 		LoginWindow login = new LoginWindow("login", window); 
 		ChatboardConnection conn = login.getConn();
@@ -76,7 +79,7 @@ public class MainWindow implements ListDataListener {
 				if(e.getClickCount() == 2){
 					//TODO: fix this temp call
 					String sn = friendList.getSelectedValue().toString();
-					
+					sn = aliasBuddyMap.get(sn);
 					MessageDialog test = new MessageDialog(sn);
 					test.addController(theController);
 					theController.addDialog(test, sn);
@@ -206,7 +209,19 @@ public class MainWindow implements ListDataListener {
 		Iterator<Buddy> iter = online.iterator();
 		Vector<String> onlineFriends = new Vector<String>();
 		while(iter.hasNext())
-			onlineFriends.add(iter.next().userID);
+		{
+			Buddy b = iter.next();
+	
+			if(b.alias == null)
+			{
+				if(b.userID.indexOf("@") != -1)
+					b.alias = b.userID.substring(0, b.userID.indexOf("@"));
+				else
+					b.alias = b.userID;
+			}
+			aliasBuddyMap.put(b.alias, b.userID);
+			onlineFriends.add(b.alias);
+		}
 		return onlineFriends;
 	}
 
