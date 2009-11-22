@@ -150,7 +150,9 @@ public class ChatboardRoster implements RosterListener{
 		System.out.println(arg0.getFrom());
 		String participant = arg0.getFrom();
 		participant = participant.substring(0, participant.indexOf("/"));
+		String client = participant.substring(participant.indexOf("/") + 1);
 		b.userID = participant;
+		b.client = client;
 		
 		//Set alias if we can find one
 		b.alias = roster.getEntry(participant).getName();
