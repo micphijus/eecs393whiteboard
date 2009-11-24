@@ -33,19 +33,24 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 
 import core.abstraction.Controller;
 import core.im.IM;
+import core.whiteboard.WhiteboardPanel;
 
 public class MessageDialog implements ListDataListener{
 
 	String userName;
 	JDialog conversation;
+	JPanel messagePanel;
+	JTextArea inputArea;
 	Vector<Controller>listeners;
 	private JTextPane convoWindow;
+	private Dimension defaultSize = new Dimension(600,400);
 	
 	public MessageDialog(){
 		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
@@ -60,6 +65,7 @@ public class MessageDialog implements ListDataListener{
 	public MessageDialog(String dialogName){
 		userName = dialogName;
 		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
+		messagePanel = new JPanel();
 		setupGUI();
 		conversation.pack();
 		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -78,8 +84,10 @@ public class MessageDialog implements ListDataListener{
 	}
 
 	private void setupGUI(){
-		BoxLayout bl = new BoxLayout(conversation.getContentPane(), BoxLayout.Y_AXIS);
-		conversation.setLayout(bl); 
+	//	BoxLayout bl = new BoxLayout(conversation.getContentPane(), BoxLayout.Y_AXIS);
+		BoxLayout bl2 = new BoxLayout(messagePanel, BoxLayout.Y_AXIS);
+	//	conversation.setLayout(bl); 
+		messagePanel.setLayout(bl2);
 		conversation.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -156,9 +164,9 @@ public class MessageDialog implements ListDataListener{
 		scrollWindow.getViewport().add(convoWindow);
 		topPanel.add(scrollWindow);
 		//conversation.add(convoPanel);
-		final JTextArea inputField = new JTextArea();
-		inputField.setPreferredSize(new Dimension(300, 150));
-		inputField.addKeyListener(new KeyListener(){
+		inputArea = new JTextArea();
+		inputArea.setPreferredSize(new Dimension(300, 150));
+		inputArea.addKeyListener(new KeyListener(){
 		
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -175,29 +183,29 @@ public class MessageDialog implements ListDataListener{
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
 					if(!arg0.isShiftDown()){
-						sendMessage(inputField);
+						sendMessage(inputArea);
 						arg0.consume();
 					}
 					else{
-						inputField.append("\n");
+						inputArea.append("\n");
 					}
 				}
 				
 			}
 		});
 		
-		bottomPanel.add(inputField);
-		conversation.add(topPanel);
-		conversation.add(separatorPanel);
-		conversation.add(bottomPanel);
-		conversation.add(Box.createHorizontalStrut(3));
+		bottomPanel.add(inputArea);
+		messagePanel.add(topPanel);
+		messagePanel.add(separatorPanel);
+		messagePanel.add(bottomPanel);
+		messagePanel.add(Box.createHorizontalStrut(3));
 		
 		JButton sendMsgButton = new JButton("Send Message");
 		sendMsgButton.addActionListener(new ActionListener(){
 		
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				sendMessage(inputField);				
+				sendMessage(inputArea);				
 			}
 		});
 	
@@ -206,14 +214,17 @@ public class MessageDialog implements ListDataListener{
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//open a whiteboard
+		            WhiteboardDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
+		            conversation.dispose();
 			}
 		});
 		
 		buttonPanel.add(sendMsgButton);
 		buttonPanel.add(openWbButton);
 		//conversation.add(Box.createVerticalGlue());
-		conversation.add(buttonPanel);
+		
+		conversation.add(messagePanel, BorderLayout.EAST);
+		conversation.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
 	@Override
@@ -257,7 +268,6 @@ public class MessageDialog implements ListDataListener{
 		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
 		System.out.println(im.message);
 	}
-	
 	
 	
 }
