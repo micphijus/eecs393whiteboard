@@ -54,6 +54,7 @@ public class MainWindow implements ListDataListener {
 	static ControlListener theController;
 	static HashMap<String, String> aliasBuddyMap;
 	static JDialog whiteboard;
+	static String sn;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
@@ -67,6 +68,7 @@ public class MainWindow implements ListDataListener {
 		window = new JFrame();
 		LoginWindow login = new LoginWindow("login", window); 
 		ChatboardConnection conn = login.getConn();
+		sn = conn.getUserName();
 		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
@@ -110,7 +112,8 @@ public class MainWindow implements ListDataListener {
 		window.setIconImage(fishOnFire.getImage());
 		panel.add(friendList);
 		window.pack();
-		createWhiteBoard();
+		WhiteboardPanel wPanel = createWhiteBoard();
+		theController.addWhiteboard(sn, wPanel);
 	}
 	
 	public static JFrame getInstance(){
@@ -230,7 +233,7 @@ public class MainWindow implements ListDataListener {
 		return onlineFriends;
 	}
 	
-	public static void createWhiteBoard()
+	public static WhiteboardPanel createWhiteBoard()
 	{
 		whiteboard = new JDialog(null, "Whiteboard", Dialog.ModalityType.MODELESS);
 		
@@ -244,6 +247,7 @@ public class MainWindow implements ListDataListener {
 		whiteboard.pack();
 		whiteboard.setVisible(true);
 		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		return wPanel;
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {

@@ -215,6 +215,7 @@ public class MessageDialog implements ListDataListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		            WhiteboardDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
+		            
 		            conversation.dispose();
 			}
 		});
