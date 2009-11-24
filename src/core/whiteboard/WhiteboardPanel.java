@@ -4,6 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.GroupLayout;
 import javax.swing.JPanel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 import com.sun.net.ssl.internal.ssl.Debug;
 
@@ -11,7 +13,25 @@ import java.awt.*;
 import java.util.Queue;
 
 
-public class WhiteboardPanel extends JPanel{
+public class WhiteboardPanel extends JPanel implements ListDataListener{
+
+	@Override
+	public void contentsChanged(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalAdded(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void intervalRemoved(ListDataEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private static final long serialVersionUID = 1L;
 	private DrawPanel drawPanel;

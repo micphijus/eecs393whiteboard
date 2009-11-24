@@ -15,10 +15,12 @@ import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Message;
 
 import sun.rmi.server.WeakClassHashMap;
 
 import core.abstraction.Controller;
+import core.whiteboard.WhiteboardPanel;
 
 public class ControlListener implements ChatManagerListener, ListDataListener, Controller {
 
@@ -27,6 +29,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ChatboardMessage msg;
 	public String userID;
 	public HashMap<String, Chat> chats;
+	public HashMap<String, WhiteboardPanel> whiteboards;
 	
 	public ControlListener()
 	{
@@ -35,6 +38,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		msg = new ChatboardMessage();
 		chats = new HashMap<String, Chat>();
 		userID = "";
+		whiteboards = new HashMap<String, WhiteboardPanel>();
 	}
 
 	public ControlListener(XMPPConnection c, String from)
@@ -44,6 +48,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		msg = new ChatboardMessage(c, from);
 		userID = from;
 		chats = new HashMap<String, Chat>();
+		whiteboards = new HashMap<String, WhiteboardPanel>();
 	}
 	
 	public void createChatboardMessage(String from)
@@ -54,6 +59,11 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public void addDataListener()
 	{
 		msg.listeners.add(this);
+	}
+	
+	public void addWhiteboard(String from, WhiteboardPanel whiteboard)
+	{
+		whiteboards.put(from, whiteboard);
 	}
 	
 	public Chat createChat(String userID)
@@ -122,6 +132,40 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("Received message queue");
+		Queue <Message> q = msg.whiteBoardQueue;
+		while(!q.isEmpty())
+		{
+			Message message = q.remove();
+			String from = message.getFrom();
+			if(from.indexOf("/") != -1)
+			{
+				String client = from.substring(from.indexOf("/") + 1);
+				from = from.substring(0, from.indexOf("/"));
+				if(!client.equalsIgnoreCase("chatboard"))
+					continue;
+				//now get the q and check if there's anything to draw
+				try
+				{
+					Queue<String> theQ = (Queue<String>)message.getProperty("whiteboardqueue");
+					if(theQ == null)
+					{
+						System.out.println("queue is empty");
+						continue;
+					}
+					WhiteboardPanel p = whiteboards.get(from);
+					p.applyQueue(theQ);
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+					continue;
+				}
+
+			}
+			else
+				continue;
+		}
 		
 	}
 

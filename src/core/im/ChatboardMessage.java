@@ -18,8 +18,10 @@ public class ChatboardMessage implements MessageListener{
 	
 	XMPPConnection conn;
 	Vector<ListDataListener> listeners;
+	Vector<ListDataListener> whiteboards;
 	Queue<IM> queue;
 	String theUser;
+	Queue<Message> whiteBoardQueue;
 	
 	public ChatboardMessage()
 	{
@@ -27,6 +29,8 @@ public class ChatboardMessage implements MessageListener{
 		queue = null;
 		theUser = null;
 		listeners = new Vector<ListDataListener>();
+		whiteboards = new Vector<ListDataListener>();
+		whiteBoardQueue = null;
 	}
 	public ChatboardMessage(XMPPConnection conn, String from)
 	{
@@ -34,6 +38,8 @@ public class ChatboardMessage implements MessageListener{
 		queue = new ArrayBlockingQueue<IM>(10);
 		this.theUser = from;
 		listeners = new Vector<ListDataListener>();
+		whiteboards = new Vector<ListDataListener>();
+		whiteBoardQueue = new ArrayBlockingQueue<Message>(10);
 	}
 	
 	
@@ -91,28 +97,40 @@ public class ChatboardMessage implements MessageListener{
 	public void processMessage(Chat arg0, Message arg1) {
 		if (arg1.getBody() == null && arg1.getProperty("whiteboardqueue") == null)
 			return;
+		
+		String participant = arg0.getParticipant(); //First message has a slight exception to handle
+		
+		if(participant.indexOf("/") != -1)
+			participant = participant.substring(0, participant.indexOf("/"));
 		if(arg1.getBody() != null)
 		{
 			IM im = new IM();
 			im.automatic = false;
 			
-			String participant = arg0.getParticipant(); //First message has a slight exception to handle
 			
-			if(participant.indexOf("/") != -1)
-				participant = participant.substring(0, participant.indexOf("/"));
 			im.from = participant;
 			im.to = theUser;
 			im.message = arg1.getBody();
 			
 			queue.add(im);
 			for(int i = 0; i < listeners.size(); i++)
-			{
 				listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
-			}
 		}
 		else
 		{
 			//We got a whiteboard message
+			try
+			{
+				whiteBoardQueue.add(arg1);
+				
+				for(int i = 0; i < listeners.size(); i++) 
+					listeners.get(i).intervalAdded(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+	
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 	
