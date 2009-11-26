@@ -101,6 +101,7 @@ public class LoginWindow extends AbstractWindow {
 		String thePassword = "";
 		for(int i = 0; i < password.length; i++)
 			thePassword = thePassword + password[i];
+		//System.out.println(thePassword);
 		conn = new ChatboardConnection(userName, thePassword);
 		conn.createConnection("talk.google.com", 5222, "gmail.com");
 		

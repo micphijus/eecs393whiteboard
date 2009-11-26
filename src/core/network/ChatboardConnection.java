@@ -25,6 +25,7 @@ public class ChatboardConnection {
 	
 	public XMPPConnection createConnection(String server, int port, String alias)
 	{
+		XMPPConnection.DEBUG_ENABLED=true; 
 		conn = null;
 		try
 		{
@@ -40,6 +41,7 @@ public class ChatboardConnection {
 		catch(XMPPException e)
 		{
 			System.out.println("Error in establishing connection using XMPP: " + e);
+			e.printStackTrace();
 		}
 		return conn;
 	}
