@@ -89,21 +89,38 @@ public class LoginWindow extends AbstractWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				login(screenNameIn.getText(), passwordIn.getPassword());
-				window.dispose();
+				boolean b = login(screenNameIn.getText(), passwordIn.getPassword());
+				if(b)
+					window.dispose();
+				else
+				{
+					System.out.println("Could not log in.  Try again.");
+					screenNameIn.setText("");
+					passwordIn.setText("");
+				}
 			}
 		};
 		return login;
 	}
 	
-	public void login(String userName, char[] password)
+	public boolean login(String userName, char[] password)
 	{
-		String thePassword = "";
-		for(int i = 0; i < password.length; i++)
-			thePassword = thePassword + password[i];
-		//System.out.println(thePassword);
-		conn = new ChatboardConnection(userName, thePassword);
-		conn.createConnection("talk.google.com", 5222, "gmail.com");
+		try
+		{
+			String thePassword = "";
+			for(int i = 0; i < password.length; i++)
+				thePassword = thePassword + password[i];
+			//System.out.println(thePassword);
+			conn = new ChatboardConnection(userName, thePassword);
+			conn.createConnection("talk.google.com", 5222, "gmail.com");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Caught Exception");
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 		
 	}
 
