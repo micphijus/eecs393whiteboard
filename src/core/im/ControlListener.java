@@ -100,7 +100,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		if(messages.get(from) == null)
 		{
 			MessageDialog dialog = new MessageDialog(from);
-			
+			dialog.addController(this);
 			messages.put(from, dialog);
 		}
 	}
@@ -122,6 +122,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 			if(d == null)
 			{
 				d = new MessageDialog(im.from);
+				d.addController(this);
 				messages.put(im.from, d);
 			}
 			d.receiveMessage(im);
