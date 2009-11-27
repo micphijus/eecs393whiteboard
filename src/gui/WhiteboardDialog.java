@@ -41,38 +41,24 @@ import core.abstraction.Controller;
 import core.im.IM;
 import core.whiteboard.WhiteboardPanel;
 
-public class WhiteboardDialog implements ListDataListener{
+public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 
-		String userName;
+	//string to hold the conversation from the old messagedialog
 		String prevConvo;
-		JDialog conversation;
-		JPanel messagePanel;
+	//panel that contains the whiteboard
 		JPanel whiteboardPanel;
-		JTextArea inputArea;
-		Vector<Controller>listeners;
-		private JTextPane convoWindow;
-		private Dimension defaultSize = new Dimension(1200,800);
 		
+		//default no-args constructor, probably not necessary
 		public WhiteboardDialog(){
-			conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
-			setupGUI();
-			conversation.pack();
-			conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			conversation.setVisible(true);
-			listeners = new Vector<Controller>();
-			userName = "";
+			super();
+			defaultSize = new Dimension(1200,800);
 		}
 		
+		//constructor if you go straight to a WhiteboardDialog (there is no previous MessageDialog)
 		public WhiteboardDialog(String dialogName){
-			userName = dialogName;
-			conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
-			setupGUI();
-			conversation.pack();
-			conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			conversation.setVisible(true);
-			listeners = new Vector<Controller>();
+			super(dialogName);
 		}
-		
+		//constructor for case where you open a whiteboardDialog from an existing messageDialog
 		public WhiteboardDialog(String dialogName, String message, JPanel oldMessagePanel, JTextArea oldInput, JTextPane oldConvo, Vector<Controller> oldListeners){
 			userName = dialogName;
 			prevConvo = message;
@@ -88,11 +74,6 @@ public class WhiteboardDialog implements ListDataListener{
 			for(Controller c : oldListeners){
 				listeners.add(c);
 			}
-		}
-		
-		public void addController(Controller controller)
-		{
-			listeners.add(controller);
 		}
 		
 		public static void main(String[] args) {
@@ -196,45 +177,4 @@ public class WhiteboardDialog implements ListDataListener{
 			conversation.add(buttonPanel, BorderLayout.SOUTH);
 		}
 
-		@Override
-		public void contentsChanged(ListDataEvent e) {
-			
-		}
-
-		@Override
-		public void intervalAdded(ListDataEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void intervalRemoved(ListDataEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		//TODO: currently just clears the box... eventually make it do other stuff
-		private void sendMessage(JTextArea inputField){
-			String message = inputField.getText();
-			for(int i = 0; i < listeners.size(); i++)
-			{
-				boolean b = listeners.get(i).sendMessage(userName, message);
-				if(b == false)
-					System.out.println("Error, could not send");
-				else
-					System.out.println(message);
-			}
-			
-			inputField.setText("");
-			//TODO:fix the user's username
-			convoWindow.setText(convoWindow.getText() + "\n" + "me!" + ":  " + message);
-		}
-		
-		public void receiveMessage(IM im)
-		{
-			//if needed we can map im.from to client aliases
-			String newSentence = im.from + ":  "+ im.message;
-			convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
-			System.out.println(im.message);
-		}
 }

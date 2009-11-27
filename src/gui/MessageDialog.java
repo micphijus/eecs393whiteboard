@@ -49,17 +49,11 @@ public class MessageDialog implements ListDataListener{
 	JPanel messagePanel;
 	JTextArea inputArea;
 	Vector<Controller>listeners;
-	private JTextPane convoWindow;
-	private Dimension defaultSize = new Dimension(600,400);
+	protected JTextPane convoWindow;
+	protected Dimension defaultSize = new Dimension(600,400);
 	
 	public MessageDialog(){
-		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
-		setupGUI();
-		conversation.pack();
-		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		conversation.setVisible(true);
-		listeners = new Vector<Controller>();
-		userName = "";
+		/*Do nothing, because we don't want WhiteboardDialog to use this */
 	}
 	
 	public MessageDialog(String dialogName){
@@ -215,7 +209,7 @@ public class MessageDialog implements ListDataListener{
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		            WhiteboardDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
+		            MessageDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
 		            //will remove the dialog
 		            for(int i = 0; i < listeners.size(); i++)
 					{
@@ -252,7 +246,7 @@ public class MessageDialog implements ListDataListener{
 	}
 	
 	//TODO: currently just clears the box... eventually make it do other stuff
-	private void sendMessage(JTextArea inputField){
+	protected void sendMessage(JTextArea inputField){
 		String message = inputField.getText();
 		for(int i = 0; i < listeners.size(); i++)
 		{
