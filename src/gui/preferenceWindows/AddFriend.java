@@ -21,6 +21,9 @@ import gui.WindowFactory.WindowType;
 
 public class AddFriend extends AbstractWindow {
 
+	private JTextField screenNameIn;
+	private JTextField aliasNameIn;	
+	
 	public AddFriend(String title, Window parent){
 		super();
 		setTitle(title);
@@ -69,8 +72,8 @@ public class AddFriend extends AbstractWindow {
 		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddFriend.getPrintString());
 		
-		JTextField screenNameIn = new JTextField();
-		JTextField aliasNameIn = new JTextField();
+		screenNameIn = new JTextField();
+		aliasNameIn = new JTextField();
 		
 		screenNameIn.addKeyListener(enterAction());
 		aliasNameIn.addKeyListener(enterAction());
