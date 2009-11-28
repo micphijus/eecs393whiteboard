@@ -1,6 +1,8 @@
 
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -22,6 +25,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -37,6 +42,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.util.StringUtils;
 
 import gui.WindowFactory.WindowType;
+import gui.implementations.ChatboardListCellRenderer;
 import gui.preferenceWindows.LoginWindow;
 
 import core.network.*;
@@ -77,7 +83,12 @@ public class MainWindow implements ListDataListener {
 		roster.addListener(this);
 		roster.pullRoster();
 		
+		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
 		friendList = new JList(getRoster(roster));
+		friendList.setOpaque(false);
+		friendList.setCellRenderer(cbRenderer);
+		//friendList.setAlignmentX(SwingConstants.LEFT);
+		
 		theController = new ControlListener(connection, conn.getUserName());
 		theController.addDataListener();
 		connection.getChatManager().addChatListener(theController);
@@ -99,8 +110,11 @@ public class MainWindow implements ListDataListener {
 		
 	
 		panel = new JPanel();
+		JPanel leftAlign = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
+		BoxLayout bl2 = new BoxLayout(leftAlign, BoxLayout.X_AXIS);
 		panel.setLayout(bl);
+		leftAlign.setLayout(bl2);
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		
@@ -112,7 +126,10 @@ public class MainWindow implements ListDataListener {
 		
 		ImageIcon fishOnFire = new ImageIcon(fishIcon);
 		window.setIconImage(fishOnFire.getImage());
-		panel.add(friendList);
+		leftAlign.add(friendList);
+		leftAlign.add(Box.createHorizontalGlue());
+		panel.add(leftAlign);
+		panel.add(Box.createVerticalGlue());
 		window.pack();
 		WhiteboardPanel wPanel = createWhiteBoard();
 		theController.addWhiteboard(sn, wPanel);
