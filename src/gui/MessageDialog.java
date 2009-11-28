@@ -210,18 +210,16 @@ public class MessageDialog implements ListDataListener{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 		            MessageDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
+		            wb.listeners = listeners;
 		            //will remove the dialog
 		            for(int i = 0; i < listeners.size(); i++)
 					{
 						listeners.get(i).removeDialog(userName);
-						wb.addController(listeners.get(i));
-					}
-		            for(int i = 0; i < wb.listeners.size(); i++)
-		            {
-		            	listeners.get(i).addDialog(wb, userName);
+						listeners.get(i).addDialog(wb, userName);
 						listeners.get(i).addWhiteboard(userName, (WhiteboardDialog)wb);
-		            }
-		            conversation.dispose();
+					}
+		            conversation.setVisible(false);
+		            //conversation.dispose();
 			}
 		});
 		
