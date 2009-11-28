@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import core.im.ChatboardRoster;
+
 /**
  * need to set a title and parent for each window
  * @author Justin
@@ -121,5 +123,9 @@ public abstract class AbstractWindow {
 				
 			}
 		};
+	}
+	public void setRoster(ChatboardRoster roster)
+	{
+		
 	}
 }

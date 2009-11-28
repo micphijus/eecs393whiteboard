@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -109,6 +111,50 @@ public class MainWindow implements ListDataListener {
 		window.add(panel);
 		window.setJMenuBar(menu);
 		window.setVisible(true);
+		window.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				closeWindow();
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		ImageIcon fishOnFire = new ImageIcon(fishIcon);
 		window.setIconImage(fishOnFire.getImage());
@@ -141,6 +187,11 @@ public class MainWindow implements ListDataListener {
 		System.out.println(mw.menu.getMenu(0).getMenuComponent(0).getName());
 
 		
+	}
+	
+	public static void closeWindow()
+	{
+		conn.disconnect();
 	}
 	
 	private JMenuBar setupMenu(){
@@ -189,7 +240,11 @@ public class MainWindow implements ListDataListener {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
+						///////////////////////////////////////////
+						//THIS LINE DOESN'T SEEM TO EXECUTE////////
+						///////////////////////////////////////////
 						AbstractWindow test = WindowFactory.createWindow(window);
+						test.setRoster(roster);
 					}
 					
 				});
@@ -203,6 +258,7 @@ public class MainWindow implements ListDataListener {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					MainWindow.getInstance().dispose();
+					closeWindow();
 				}
 			});
 			menu.add(exit);

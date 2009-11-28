@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import core.im.ChatboardRoster;
+
 import gui.AbstractWindow;
 import gui.MainWindow;
 import gui.WindowFactory.WindowType;
@@ -23,6 +25,7 @@ public class AddFriend extends AbstractWindow {
 
 	private JTextField screenNameIn;
 	private JTextField aliasNameIn;	
+	private ChatboardRoster theRoster;
 	
 	public AddFriend(String title, Window parent){
 		super();
@@ -55,7 +58,15 @@ public class AddFriend extends AbstractWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("this is a test!!");
-				
+				String [] groups = {"contacts"};
+				try
+				{
+					theRoster.addBuddy(screenNameIn.getText(), aliasNameIn.getText(), groups);
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		};
 		return al;
@@ -95,5 +106,9 @@ public class AddFriend extends AbstractWindow {
 		
 		window.add(title);
 		window.add(theFinalOne);
+	}
+	public void setRoster(ChatboardRoster roster)
+	{
+		theRoster = roster;
 	}
 }

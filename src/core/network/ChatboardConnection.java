@@ -45,6 +45,11 @@ public class ChatboardConnection {
 		}
 		return conn;
 	}
+	
+	public void disconnect()
+	{
+		conn.disconnect();
+	}
 
 	//Getters and setters, however password does not have a getter
 	//For added security
