@@ -214,8 +214,13 @@ public class MessageDialog implements ListDataListener{
 		            for(int i = 0; i < listeners.size(); i++)
 					{
 						listeners.get(i).removeDialog(userName);
-						//listeners.get(i).addDialog(wb, userName);
+						wb.addController(listeners.get(i));
 					}
+		            for(int i = 0; i < wb.listeners.size(); i++)
+		            {
+		            	listeners.get(i).addDialog(wb, userName);
+						listeners.get(i).addWhiteboard(userName, (WhiteboardDialog)wb);
+		            }
 		            conversation.dispose();
 			}
 		});

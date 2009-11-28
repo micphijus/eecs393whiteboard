@@ -177,8 +177,6 @@ public class MainWindow implements ListDataListener {
 		panel.add(leftAlign);
 		panel.add(Box.createVerticalGlue());
 		window.pack();
-		WhiteboardPanel wPanel = createWhiteBoard();
-		theController.addWhiteboard(sn, wPanel);
 	}
 	
 	public static JFrame getInstance(){

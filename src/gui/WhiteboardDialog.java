@@ -176,5 +176,8 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 			conversation.add(whiteboardPanel, BorderLayout.EAST);
 			conversation.add(buttonPanel, BorderLayout.SOUTH);
 		}
-
+		public WhiteboardPanel getPanel()
+		{
+			return (WhiteboardPanel) whiteboardPanel;
+		}
 }
