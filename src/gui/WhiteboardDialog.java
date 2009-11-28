@@ -162,10 +162,8 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//go back to message dialog only!
-					WhiteboardPanel wPanel = new WhiteboardPanel();
-			    		wPanel.setPreferredSize(new Dimension(550, 550));
-			            conversation.add(wPanel);
-			            wPanel.setVisible(true);
+					MessageDialog md = new MessageDialog(userName, convoWindow.getText(), listeners);
+					conversation.dispose();
 				}
 			});
 			

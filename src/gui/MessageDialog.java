@@ -48,6 +48,8 @@ public class MessageDialog implements ListDataListener{
 	JDialog conversation;
 	JPanel messagePanel;
 	JTextArea inputArea;
+	//continued conversation from another messageDialog
+	String contConvo = null;
 	Vector<Controller>listeners;
 	protected JTextPane convoWindow;
 	protected Dimension defaultSize = new Dimension(600,400);
@@ -65,6 +67,21 @@ public class MessageDialog implements ListDataListener{
 		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		conversation.setVisible(true);
 		listeners = new Vector<Controller>();
+	}
+	
+	public MessageDialog(String dialogName, String oldMessage, Vector<Controller> oldListeners){
+		userName = dialogName;
+		contConvo = oldMessage;
+		messagePanel = new JPanel();
+		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
+		setupGUI();
+		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		conversation.setVisible(true);
+		listeners = new Vector<Controller>();
+		for(Controller c : oldListeners){
+			listeners.add(c);
+		}
 	}
 	
 	public void addController(Controller controller)
@@ -151,7 +168,9 @@ public class MessageDialog implements ListDataListener{
 		convoWindow = new JTextPane();
 		convoWindow.setEditable(false);
 		convoWindow.setPreferredSize(new Dimension(300, 200));
-		
+		if(contConvo != null){
+			convoWindow.setText(contConvo);
+		}
 
 		JScrollPane scrollWindow = new JScrollPane(convoWindow);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
