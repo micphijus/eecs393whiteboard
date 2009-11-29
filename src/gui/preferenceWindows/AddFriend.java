@@ -15,12 +15,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import core.im.ChatboardRoster;
+
 import gui.AbstractWindow;
 import gui.MainWindow;
 import gui.WindowFactory.WindowType;
 
 public class AddFriend extends AbstractWindow {
 
+	private JTextField screenNameIn;
+	private JTextField aliasNameIn;	
+	private ChatboardRoster theRoster;
+	
 	public AddFriend(String title, Window parent){
 		super();
 		setTitle(title);
@@ -52,7 +58,15 @@ public class AddFriend extends AbstractWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("this is a test!!");
-				
+				String [] groups = {"contacts"};
+				try
+				{
+					theRoster.addBuddy(screenNameIn.getText(), aliasNameIn.getText(), groups);
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		};
 		return al;
@@ -69,8 +83,8 @@ public class AddFriend extends AbstractWindow {
 		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddFriend.getPrintString());
 		
-		JTextField screenNameIn = new JTextField();
-		JTextField aliasNameIn = new JTextField();
+		screenNameIn = new JTextField();
+		aliasNameIn = new JTextField();
 		
 		screenNameIn.addKeyListener(enterAction());
 		aliasNameIn.addKeyListener(enterAction());
@@ -92,5 +106,9 @@ public class AddFriend extends AbstractWindow {
 		
 		window.add(title);
 		window.add(theFinalOne);
+	}
+	public void setRoster(ChatboardRoster roster)
+	{
+		theRoster = roster;
 	}
 }

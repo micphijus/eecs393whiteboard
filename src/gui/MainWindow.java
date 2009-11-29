@@ -1,17 +1,23 @@
 
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -21,6 +27,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -36,6 +44,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.util.StringUtils;
 
 import gui.WindowFactory.WindowType;
+import gui.implementations.ChatboardListCellRenderer;
 import gui.preferenceWindows.LoginWindow;
 
 import core.network.*;
@@ -62,6 +71,7 @@ public class MainWindow implements ListDataListener {
 	//final static String[] helpMenu = {"Help", "About"};
 	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
 	public final static String fishIcon = "Images/fish-on-fire.png";
+	public final static String logFolder = System.getProperty("user.home") + File.separator + "Chatboard" + File.separator + "logs";
 	
 	public MainWindow(){
 		aliasBuddyMap = new HashMap<String, String>();
@@ -75,7 +85,12 @@ public class MainWindow implements ListDataListener {
 		roster.addListener(this);
 		roster.pullRoster();
 		
+		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
 		friendList = new JList(getRoster(roster));
+		friendList.setOpaque(false);
+		friendList.setCellRenderer(cbRenderer);
+		//friendList.setAlignmentX(SwingConstants.LEFT);
+		
 		theController = new ControlListener(connection, conn.getUserName());
 		theController.addDataListener();
 		connection.getChatManager().addChatListener(theController);
@@ -97,8 +112,11 @@ public class MainWindow implements ListDataListener {
 		
 	
 		panel = new JPanel();
+		JPanel leftAlign = new JPanel();
 		BoxLayout bl = new BoxLayout(panel, BoxLayout.Y_AXIS);
+		BoxLayout bl2 = new BoxLayout(leftAlign, BoxLayout.X_AXIS);
 		panel.setLayout(bl);
+		leftAlign.setLayout(bl2);
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		
@@ -107,13 +125,58 @@ public class MainWindow implements ListDataListener {
 		window.add(panel);
 		window.setJMenuBar(menu);
 		window.setVisible(true);
+		window.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				closeWindow();
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		ImageIcon fishOnFire = new ImageIcon(fishIcon);
 		window.setIconImage(fishOnFire.getImage());
-		panel.add(friendList);
+		leftAlign.add(friendList);
+		leftAlign.add(Box.createHorizontalGlue());
+		panel.add(leftAlign);
+		panel.add(Box.createVerticalGlue());
 		window.pack();
-		WhiteboardPanel wPanel = createWhiteBoard();
-		theController.addWhiteboard(sn, wPanel);
 	}
 	
 	public static JFrame getInstance(){
@@ -139,6 +202,11 @@ public class MainWindow implements ListDataListener {
 		System.out.println(mw.menu.getMenu(0).getMenuComponent(0).getName());
 
 		
+	}
+	
+	public static void closeWindow()
+	{
+		conn.disconnect();
 	}
 	
 	private JMenuBar setupMenu(){
@@ -187,7 +255,11 @@ public class MainWindow implements ListDataListener {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
+						///////////////////////////////////////////
+						//THIS LINE DOESN'T SEEM TO EXECUTE////////
+						///////////////////////////////////////////
 						AbstractWindow test = WindowFactory.createWindow(window);
+						test.setRoster(roster);
 					}
 					
 				});
@@ -201,6 +273,7 @@ public class MainWindow implements ListDataListener {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					MainWindow.getInstance().dispose();
+					closeWindow();
 				}
 			});
 			menu.add(exit);

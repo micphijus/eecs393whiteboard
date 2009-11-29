@@ -53,6 +53,7 @@ public class testMessage {
 		}
 		catch (XMPPException e) {
 			System.out.println("Threw an XMPP error: " + e.toString());
+			e.printStackTrace();
 		}
 		catch(Exception e)
 		{

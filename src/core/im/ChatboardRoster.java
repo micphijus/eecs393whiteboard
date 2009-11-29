@@ -44,6 +44,20 @@ public class ChatboardRoster implements RosterListener{
 		listeners.add(ldl);
 	}
 	
+	public void addBuddy(String userName, String alias, String[] group) throws Exception
+	{
+		try
+		{
+			System.out.println("Stuff happened in here");
+			roster.createEntry(userName, alias, group);
+			updateOnline();
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+	}
+	
 	public void pullRoster()
 	{
 		roster = conn.getRoster();

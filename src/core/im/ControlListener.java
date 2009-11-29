@@ -1,6 +1,7 @@
 package core.im;
 
 import gui.MessageDialog;
+import gui.WhiteboardDialog;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public ChatboardMessage msg;
 	public String userID;
 	public HashMap<String, Chat> chats;
-	public HashMap<String, WhiteboardPanel> whiteboards;
+	public HashMap<String, WhiteboardDialog> whiteboards;
 	
 	public ControlListener()
 	{
@@ -38,7 +39,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		msg = new ChatboardMessage();
 		chats = new HashMap<String, Chat>();
 		userID = "";
-		whiteboards = new HashMap<String, WhiteboardPanel>();
+		whiteboards = new HashMap<String, WhiteboardDialog>();
 	}
 
 	public ControlListener(XMPPConnection c, String from)
@@ -48,7 +49,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		msg = new ChatboardMessage(c, from);
 		userID = from;
 		chats = new HashMap<String, Chat>();
-		whiteboards = new HashMap<String, WhiteboardPanel>();
+		whiteboards = new HashMap<String, WhiteboardDialog>();
 	}
 	
 	public void createChatboardMessage(String from)
@@ -61,9 +62,9 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		msg.listeners.add(this);
 	}
 	
-	public void addWhiteboard(String from, WhiteboardPanel whiteboard)
+	public void addWhiteboard(String from, WhiteboardDialog wb)
 	{
-		whiteboards.put(from, whiteboard);
+		whiteboards.put(from, wb);
 	}
 	
 	public Chat createChat(String userID)
@@ -91,18 +92,21 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	}
 	@Override
 	public void chatCreated(Chat arg0, boolean arg1) {
-		arg0.addMessageListener(msg);
+		
 		String from = arg0.getParticipant();
 		if(arg0.getParticipant().indexOf('/') != -1)
 			from = arg0.getParticipant().substring(0, arg0.getParticipant().indexOf('/'));
+		
+		arg0.addMessageListener(msg);
 		chats.put(from, arg0);
 		
 		if(messages.get(from) == null)
 		{
 			MessageDialog dialog = new MessageDialog(from);
-			
+			dialog.addController(this);
 			messages.put(from, dialog);
 		}
+
 	}
 	
 	public void addDialog(MessageDialog dialog, String name)
@@ -110,7 +114,10 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		
 		messages.put(name,  dialog);
 	}
-	
+	public void removeWhiteboard(String key)
+	{
+		whiteboards.remove(key);
+	}
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
@@ -118,10 +125,12 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		while(!q.isEmpty())
 		{
 			IM im = q.remove();
-			MessageDialog d = messages.get(im.from);
+			System.out.println(messages.get(im.from));
+			MessageDialog d = (MessageDialog)messages.get(im.from);
 			if(d == null)
 			{
 				d = new MessageDialog(im.from);
+				d.addController(this);
 				messages.put(im.from, d);
 			}
 			d.receiveMessage(im);
@@ -153,8 +162,9 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 						System.out.println("queue is empty");
 						continue;
 					}
-					WhiteboardPanel p = whiteboards.get(from);
-					p.applyQueue(theQ);
+					WhiteboardPanel p = whiteboards.get(from).getPanel();
+					if(p != null)
+						p.applyQueue(theQ);
 				}
 				catch(Exception e1)
 				{

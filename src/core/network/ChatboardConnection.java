@@ -23,8 +23,9 @@ public class ChatboardConnection {
 		password = myPass;
 	}
 	
-	public XMPPConnection createConnection(String server, int port, String alias)
+	public XMPPConnection createConnection(String server, int port, String alias) throws XMPPException
 	{
+		//XMPPConnection.DEBUG_ENABLED=true; 
 		conn = null;
 		try
 		{
@@ -39,9 +40,15 @@ public class ChatboardConnection {
 		}
 		catch(XMPPException e)
 		{
-			System.out.println("Error in establishing connection using XMPP: " + e);
+			throw e;
+			
 		}
 		return conn;
+	}
+	
+	public void disconnect()
+	{
+		conn.disconnect();
 	}
 
 	//Getters and setters, however password does not have a getter

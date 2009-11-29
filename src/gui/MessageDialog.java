@@ -48,18 +48,14 @@ public class MessageDialog implements ListDataListener{
 	JDialog conversation;
 	JPanel messagePanel;
 	JTextArea inputArea;
+	//continued conversation from another messageDialog
+	String contConvo = null;
 	Vector<Controller>listeners;
-	private JTextPane convoWindow;
-	private Dimension defaultSize = new Dimension(600,400);
+	protected JTextPane convoWindow;
+	protected Dimension defaultSize = new Dimension(600,400);
 	
 	public MessageDialog(){
-		conversation = new JDialog(null, "Conversation", Dialog.ModalityType.MODELESS);
-		setupGUI();
-		conversation.pack();
-		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		conversation.setVisible(true);
-		listeners = new Vector<Controller>();
-		userName = "";
+		/*Do nothing, because we don't want WhiteboardDialog to use this */
 	}
 	
 	public MessageDialog(String dialogName){
@@ -73,6 +69,37 @@ public class MessageDialog implements ListDataListener{
 		listeners = new Vector<Controller>();
 	}
 	
+	public MessageDialog(String dialogName, String oldMessage, Vector<Controller> oldListeners){
+		userName = dialogName;
+		contConvo = oldMessage;
+		messagePanel = new JPanel();
+		conversation = new JDialog(null, dialogName, Dialog.ModalityType.MODELESS);
+		setupGUI();
+		conversation.pack();
+		conversation.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		conversation.setVisible(true);
+		listeners = new Vector<Controller>();
+		for(Controller c : oldListeners){
+			listeners.add(c);
+			c.removeDialog(userName);
+			c.removeWhiteboard(userName);
+			c.addDialog(this, userName);
+		}
+	}
+	/*public MessageDialog(JDialog dialog, String oldMessage, Vector<Controller> oldListeners)
+	{
+		userName = dialog.getName();
+		contConvo = oldMessage;
+		conversation = dialog;
+		conversation.setVisible(true);
+		listeners = oldListeners;
+		for(Controller c : oldListeners)
+		{
+			c.removeDialog(userName);
+			c.removeWhiteboard(userName);
+			c.addDialog(this, userName);
+		}
+	}*/
 	public void addController(Controller controller)
 	{
 		listeners.add(controller);
@@ -125,6 +152,7 @@ public class MessageDialog implements ListDataListener{
 				// TODO Auto-generated method stub
 				for(int i = 0; i < listeners.size(); i++)
 				{
+					
 					listeners.get(i).removeDialog(userName);
 				}
 				
@@ -156,7 +184,9 @@ public class MessageDialog implements ListDataListener{
 		convoWindow = new JTextPane();
 		convoWindow.setEditable(false);
 		convoWindow.setPreferredSize(new Dimension(300, 200));
-		
+		if(contConvo != null){
+			convoWindow.setText(contConvo);
+		}
 
 		JScrollPane scrollWindow = new JScrollPane(convoWindow);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
@@ -214,9 +244,17 @@ public class MessageDialog implements ListDataListener{
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		            WhiteboardDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
-		            
-		            conversation.dispose();
+		            MessageDialog wb = new WhiteboardDialog(userName, convoWindow.getText(), messagePanel, inputArea, convoWindow, listeners);
+		            wb.listeners = listeners;
+		            //will remove the dialog
+		            for(int i = 0; i < listeners.size(); i++)
+					{
+						listeners.get(i).removeDialog(userName);
+						listeners.get(i).addDialog(wb, userName);
+						listeners.get(i).addWhiteboard(userName, (WhiteboardDialog)wb);
+					}
+		            conversation.setVisible(false);
+		            wb.setPreviousPanel(conversation);
 			}
 		});
 		
@@ -246,7 +284,7 @@ public class MessageDialog implements ListDataListener{
 	}
 	
 	//TODO: currently just clears the box... eventually make it do other stuff
-	private void sendMessage(JTextArea inputField){
+	protected void sendMessage(JTextArea inputField){
 		String message = inputField.getText();
 		for(int i = 0; i < listeners.size(); i++)
 		{
@@ -269,6 +307,9 @@ public class MessageDialog implements ListDataListener{
 		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
 		System.out.println(im.message);
 	}
-	
+	public void setPreviousPanel(JDialog panel)
+	{
+		
+	}
 	
 }
