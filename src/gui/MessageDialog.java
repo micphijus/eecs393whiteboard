@@ -13,6 +13,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Queue;
 import java.util.Vector;
 
@@ -128,7 +133,8 @@ public class MessageDialog implements ListDataListener{
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-				
+
+				startLogs();
 			}
 			
 			@Override
@@ -290,6 +296,27 @@ public class MessageDialog implements ListDataListener{
 		String newSentence = im.from + ":  "+ im.message;
 		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
 		System.out.println(im.message);
+	}
+	
+	protected void startLogs(){
+		Date currentDate = new Date();
+		SimpleDateFormat dateForm = new SimpleDateFormat();
+		dateForm.applyPattern("yyyy_MM_dd_HH_mm");
+		String dateName = dateForm.format(currentDate);
+		File logFolder = new File(MainWindow.logFolder + File.separator + userName);
+		logFolder.mkdirs();
+		File logFile = new File(logFolder.getAbsolutePath(), dateName+".txt");
+		try {
+			logFile.createNewFile();
+			PrintWriter print = new PrintWriter(logFile);
+			String conversation = convoWindow.getText();
+			print.write(convoWindow.getText());
+			print.flush();
+			print.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

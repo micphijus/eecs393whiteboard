@@ -120,7 +120,7 @@ public class MainWindow implements ListDataListener {
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		
-		window.setTitle("EECS393 Whiteboard Client SUPER EARLY ALPHA");
+		window.setTitle("EECS393 Whiteboard Client BETA");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.add(panel);
 		window.setJMenuBar(menu);
