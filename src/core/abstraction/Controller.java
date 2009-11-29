@@ -9,4 +9,5 @@ public interface Controller {
 	public void removeDialog(String key);
 	public void addDialog(MessageDialog dialog, String name);
 	public void addWhiteboard(String from, WhiteboardDialog wb);
+	public void removeWhiteboard(String key);
 }

@@ -114,7 +114,10 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		
 		messages.put(name,  dialog);
 	}
-	
+	public void removeWhiteboard(String key)
+	{
+		whiteboards.remove(key);
+	}
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
@@ -160,7 +163,8 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 						continue;
 					}
 					WhiteboardPanel p = whiteboards.get(from).getPanel();
-					p.applyQueue(theQ);
+					if(p != null)
+						p.applyQueue(theQ);
 				}
 				catch(Exception e1)
 				{
