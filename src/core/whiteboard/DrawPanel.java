@@ -18,13 +18,13 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	private int prevX, prevY, curX, curY;  
 	private boolean dragging;  // true when dragging occurs
 	private Queue<String> commandQueue;
-	private Color drawColor;
+	private CurrentColor drawColor;
 
-	DrawPanel() {
+	DrawPanel(CurrentColor mainColor) {
 		setBackground(Color.white);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		SetColor(Color.black);
+		drawColor = mainColor;
 		commandQueue = new LinkedList<String>();
 	}
 
@@ -111,12 +111,12 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	
 	protected Color GetColor()
 	{
-		return drawColor;
+		return drawColor.Get();
 	}
 	
 	protected void SetColor(Color newcolor)
 	{
-		drawColor = newcolor;
+		drawColor.Set(newcolor);
 	}
 
 }

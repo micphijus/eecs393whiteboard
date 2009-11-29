@@ -37,6 +37,7 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 	private DrawPanel drawPanel;
 	private ColorPanel colorpanel;
 	private Queue<String> outQueue;
+	protected Color currentColor;
 
 	public int drawLine(Color color, int x1, int y1, int x2, int y2, boolean toQueue) 
 	{ 
@@ -48,14 +49,16 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 		return drawPanel.drawLineT(color, x1, y1, x2, y2, thickness, queue);
 	}
 	
-	public WhiteboardPanel(){
-		
-		colorpanel = new ColorPanel();
+	public WhiteboardPanel()
+	{		
+		CurrentColor currentColor = new CurrentColor(Color.pink);
+
+		colorpanel = new ColorPanel(currentColor);
 		colorpanel.setPreferredSize(new Dimension(100,250));
 		colorpanel.setMinimumSize(new Dimension(100,250));
 		colorpanel.setMaximumSize(new Dimension(100,250));
 		
-		drawPanel = new DrawPanel();
+		drawPanel = new DrawPanel(currentColor);
 		drawPanel.setPreferredSize(new Dimension(400,400));
 		drawPanel.setMinimumSize(new Dimension(400,400));
 		drawPanel.setMaximumSize(new Dimension(400,400));
@@ -75,10 +78,10 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 				.addComponent(drawPanel))
 		);
 	}
-	public void getCommandQueue(){
+	public void fetchCommandQueue()
+	{
 		outQueue = drawPanel.getCommandQueue();
 		//SendQueue(outQueue);
-		
 	}
 	
 	/** Applies the specified Queue to whiteboard
