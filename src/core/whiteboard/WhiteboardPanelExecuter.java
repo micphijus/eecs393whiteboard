@@ -30,8 +30,8 @@ public class WhiteboardPanelExecuter {
 		Queue<String> inQueue = new LinkedList<String>();
 		inQueue.add("drawLine,0x00FF00,10,10,10,390");
 		inQueue.add("drawLine,0xFFFF00,10,390,390,390");
-		inQueue.add("drawLine,0x00FFFF,390,390,390,10");
-		inQueue.add("drawLine,0x0000FF,390,10,10,10");
+		inQueue.add("drawLineT,0x00FFFF,390,390,390,10,3");
+		inQueue.add("drawLineT,0x0000FF,390,10,10,10,3");
 		wPanel.applyQueue(inQueue);
 	}
 	

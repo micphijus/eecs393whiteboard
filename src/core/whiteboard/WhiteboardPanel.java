@@ -98,7 +98,7 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 			}
 			else if (params[0].equals("drawLineT")) {
 				try {
-					drawPanel.drawLineT(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), Integer.parseInt(params[6]), false);
+					drawPanel.drawLineT(Color.decode(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]), Integer.parseInt(params[4]), Integer.parseInt(params[5]), Float.parseFloat(params[6]), false);
 				} catch ( NumberFormatException e) { return 1; }
 				
 			}

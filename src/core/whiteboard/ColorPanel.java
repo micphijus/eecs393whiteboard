@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public class ColorPanel extends JPanel{
 	
-	private Color drawColor;
+	Color drawColor;
 	public ColorPanel()
 	{
 		Color[] colors = { Color.black, Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.magenta };
