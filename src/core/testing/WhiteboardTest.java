@@ -19,15 +19,15 @@ public class WhiteboardTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testDrawLineBasic()
-	{
-		int returncode = -1;
-		WhiteboardPanel w = new WhiteboardPanel();
-		returncode = w.drawLine(Color.BLACK, 20, 20, 30, 30, true);
-		System.out.println(returncode);
-		assertEquals(returncode, 0);
-	}
+//	@Test
+//	public void testDrawLineBasic()
+//	{
+//		int returncode = -1;
+//		WhiteboardPanel w = new WhiteboardPanel();
+//		returncode = w.drawLine(Color.BLACK, 20, 20, 30, 30, true);
+//		System.out.println(returncode);
+//		assertEquals(returncode, 0);
+//	}
 	
 	@Test
 	public void testQueue()
