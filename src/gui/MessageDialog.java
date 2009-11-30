@@ -53,6 +53,7 @@ public class MessageDialog implements ListDataListener{
 	Vector<Controller>listeners;
 	protected JTextPane convoWindow;
 	protected Dimension defaultSize = new Dimension(600,400);
+	Queue <String> commandQueue;
 	
 	public MessageDialog(){
 		/*Do nothing, because we don't want WhiteboardDialog to use this */
@@ -255,6 +256,7 @@ public class MessageDialog implements ListDataListener{
 					}
 		            conversation.setVisible(false);
 		            wb.setPreviousPanel(conversation);
+		            wb.commandQueue = commandQueue;
 			}
 		});
 		
@@ -311,5 +313,11 @@ public class MessageDialog implements ListDataListener{
 	{
 		
 	}
-	
+	public void applyQueue(Queue<String> q)
+	{
+		if(commandQueue == null)
+			commandQueue = q;
+		else
+			commandQueue.addAll(q);
+	}
 }

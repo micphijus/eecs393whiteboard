@@ -59,7 +59,7 @@ public class MainWindow implements ListDataListener {
 	static JList friendList;
 	static JMenuBar menu;
 	static ChatboardConnection conn;
-	static ChatboardRoster roster;
+	public static ChatboardRoster roster;
 	static ControlListener theController;
 	static HashMap<String, String> aliasBuddyMap;
 	static JDialog whiteboard;
@@ -321,6 +321,10 @@ public class MainWindow implements ListDataListener {
 		whiteboard.setVisible(true);
 		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		return wPanel;
+	}
+	public static ChatboardRoster getRoster()
+	{
+		return roster;
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
