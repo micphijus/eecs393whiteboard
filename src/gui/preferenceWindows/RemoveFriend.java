@@ -1,14 +1,22 @@
 package gui.preferenceWindows;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import gui.AbstractWindow;
+import gui.WindowFactory.WindowType;
 
 public class RemoveFriend extends AbstractWindow {
+
+	private JTextField removeNameIn;
 
 	public RemoveFriend(String title, Window parent){
 		super();
@@ -16,7 +24,7 @@ public class RemoveFriend extends AbstractWindow {
 		setParent(parent);
 		
 		build();
-		window.setPreferredSize(new Dimension(300, 200));
+		window.setPreferredSize(new Dimension(500, 200));
 		window.pack();
 		window.setVisible(true);
 
@@ -31,7 +39,28 @@ public class RemoveFriend extends AbstractWindow {
 
 	@Override
 	protected void buildWindow() {
-		// TODO Auto-generated method stub
+JLabel title = new JLabel(WindowType.ViewLog.getPrintString());
+		
+		removeNameIn = new JTextField();
+		
+		removeNameIn.addKeyListener(enterAction());
+		
+		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
+		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));
+		 
+		labelPanel.add(new JLabel("Enter full Username to remove user (include the @): "));
+		valuePanel.add(removeNameIn);
+		
+		 
+		JPanel formPanel = new JPanel(new BorderLayout(5,5));
+		formPanel.add(labelPanel, BorderLayout.WEST);
+		formPanel.add(valuePanel, BorderLayout.CENTER);
+		 
+		JPanel theFinalOne = new JPanel(new BorderLayout(5,5));
+		theFinalOne.add(formPanel, BorderLayout.NORTH);
+		
+		window.add(title);
+		window.add(theFinalOne);
 
 	}
 

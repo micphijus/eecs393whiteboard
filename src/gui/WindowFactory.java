@@ -22,7 +22,6 @@ public class WindowFactory {
 		AddAccount("Add Account", MainWindow.fileMenu),
 		AddGroup("Add Group", MainWindow.friendsMenu),
 		RemoveFriend("Remove Friend", MainWindow.friendsMenu),
-		BlockFriend("Block Friend", MainWindow.friendsMenu),
 		ViewLog("View Log", MainWindow.friendsMenu),
 		EditPrefs("Edit Preferences", MainWindow.prefsMenu),
 		Help("Help", MainWindow.helpMenu),
@@ -51,8 +50,6 @@ public class WindowFactory {
 			return new AddAccount(windowType.getPrintString(), MainWindow.getInstance());
 		case AddGroup:
 			return new AddGroup(windowType.getPrintString(), MainWindow.getInstance());
-		case BlockFriend:
-			return new BlockFriend(windowType.getPrintString(), MainWindow.getInstance());
 		case RemoveFriend:
 			return new RemoveFriend(windowType.getPrintString(), MainWindow.getInstance());
 		case ViewLog:

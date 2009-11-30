@@ -31,7 +31,7 @@ public class ViewLog extends AbstractWindow {
 		setTitle(title);
 		setParent(parent);
 		build();
-		window.setPreferredSize(new Dimension(300, 200));
+		window.setPreferredSize(new Dimension(500, 200));
 		window.pack();
 		window.setVisible(true);
 
