@@ -328,7 +328,12 @@ public class MessageDialog implements ListDataListener{
 			logFile.createNewFile();
 			PrintWriter print = new PrintWriter(logFile);
 			String conversation = convoWindow.getText();
-			print.write(convoWindow.getText());
+			String[] lines = conversation.split("\\n");
+			for(String line : lines){
+				print.write(line);
+				print.println();
+			}
+			
 			print.flush();
 			print.close();
 		} catch (IOException e) {
