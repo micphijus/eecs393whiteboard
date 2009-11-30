@@ -102,10 +102,12 @@ public class ChatboardMessage implements MessageListener{
 			//return;
 		
 		String participant = arg0.getParticipant(); //First message has a slight exception to handle
-		System.out.println(arg1.getPropertyNames());
+		Object property = arg1.getProperty("whiteboardqueue");
+		System.out.println(property);
 		if(participant.indexOf("/") != -1)
 			participant = participant.substring(0, participant.indexOf("/"));
-		if(arg1.getBody() != "")
+		System.out.println(arg1.getBody());
+		if(arg1.getBody() != null)
 		{
 			IM im = new IM();
 			im.automatic = false;
@@ -119,7 +121,7 @@ public class ChatboardMessage implements MessageListener{
 			for(int i = 0; i < listeners.size(); i++)
 				listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
 		}
-		if(arg1.getProperty("whiteboardqueue") != null)
+		if(property != null)
 		{
 			//We got a whiteboard message
 			try

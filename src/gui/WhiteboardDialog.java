@@ -209,4 +209,9 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 			WhiteboardPanel wp = (WhiteboardPanel) whiteboardPanel;
 			wp.applyQueue(commandQueue);
 		}
+		public void setCommandQueue(Queue<String>q)
+		{
+			super.setCommandQueue(q);
+			applyQueue(q);
+		}
 }

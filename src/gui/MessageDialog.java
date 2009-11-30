@@ -262,7 +262,7 @@ public class MessageDialog implements ListDataListener{
 					}
 		            conversation.setVisible(false);
 		            wb.setPreviousPanel(conversation);
-		            wb.commandQueue = commandQueue;
+		            wb.setCommandQueue(commandQueue);
 			}
 		});
 		
@@ -305,15 +305,21 @@ public class MessageDialog implements ListDataListener{
 		
 		inputField.setText("");
 		//TODO:fix the user's username
-		convoWindow.setText(convoWindow.getText() + "\n" + "me!" + ":  " + message);
+		if(!message.equals(""))
+			convoWindow.setText(convoWindow.getText() + "\n" + "me!" + ":  " + message);
 	}
 	
 	public void receiveMessage(IM im)
 	{
-		//if needed we can map im.from to client aliases
-		String newSentence = im.from + ":  "+ im.message;
-		convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
-		System.out.println(im.message);
+		if (!im.message.trim().equals("")  && !im.message.equals("null"))
+		{
+			//if needed we can map im.from to client aliases
+			String newSentence = im.from + ":  "+ im.message;
+			
+			convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
+			System.out.println(im.message);
+		}
+		
 	}
 	
 	protected void startLogs(){
@@ -346,6 +352,10 @@ public class MessageDialog implements ListDataListener{
 	public void setPreviousPanel(JDialog panel)
 	{
 		
+	}
+	public void setCommandQueue(Queue<String> q)
+	{
+		commandQueue = q;
 	}
 	public void applyQueue(Queue<String> q)
 	{
