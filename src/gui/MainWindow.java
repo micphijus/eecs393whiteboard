@@ -77,7 +77,7 @@ public class MainWindow implements ListDataListener {
 		aliasBuddyMap = new HashMap<String, String>();
 		window = new JFrame();
 		LoginWindow login = new LoginWindow("login", window); 
-		ChatboardConnection conn = login.getConn();
+		conn = login.getConn();
 		sn = conn.getUserName();
 		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
@@ -255,11 +255,9 @@ public class MainWindow implements ListDataListener {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						///////////////////////////////////////////
-						//THIS LINE DOESN'T SEEM TO EXECUTE////////
-						///////////////////////////////////////////
+						//Add friend now works
 						AbstractWindow test = WindowFactory.createWindow(window);
-						test.setRoster(roster);
+
 					}
 					
 				});
