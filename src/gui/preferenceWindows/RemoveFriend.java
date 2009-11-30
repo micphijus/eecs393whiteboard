@@ -1,35 +1,35 @@
 package gui.preferenceWindows;
 
 import java.awt.BorderLayout;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.JFileChooser;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import core.im.ChatboardRoster;
+
 import gui.AbstractWindow;
 import gui.MainWindow;
 import gui.WindowFactory.WindowType;
 
-public class ViewLog extends AbstractWindow {
+public class RemoveFriend extends AbstractWindow {
 
-	private JTextField logNameIn;
-	private Window theParent;
-	public ViewLog(String title, Window parent){
+	private JTextField removeNameIn;
+	private ChatboardRoster theRoster;
+
+	public RemoveFriend(String title, Window parent){
 		super();
-		theParent = parent;
 		setTitle(title);
 		setParent(parent);
+		
 		build();
 		window.setPreferredSize(new Dimension(500, 200));
 		window.pack();
@@ -37,10 +37,7 @@ public class ViewLog extends AbstractWindow {
 
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	//TODO: remove no-args constructor?
-	public ViewLog(){
-		
-	}
+	
 	@Override
 	public ActionListener applyListener() {
 		// TODO Auto-generated method stub
@@ -49,17 +46,17 @@ public class ViewLog extends AbstractWindow {
 
 	@Override
 	protected void buildWindow() {
-		JLabel title = new JLabel(WindowType.ViewLog.getPrintString());
+JLabel title = new JLabel(WindowType.ViewLog.getPrintString());
 		
-		logNameIn = new JTextField();
+		removeNameIn = new JTextField();
 		
-		logNameIn.addKeyListener(enterAction());
+		removeNameIn.addKeyListener(enterAction());
 		
 		JPanel labelPanel = new JPanel(new GridLayout(2,1,4,4));
 		JPanel valuePanel = new JPanel(new GridLayout(2,1,4,4));
 		 
-		labelPanel.add(new JLabel("Enter full Username to view logs of (include the @): "));
-		valuePanel.add(logNameIn);
+		labelPanel.add(new JLabel("Enter full Username to remove user (include the @): "));
+		valuePanel.add(removeNameIn);
 		
 		 
 		JPanel formPanel = new JPanel(new BorderLayout(5,5));
@@ -71,33 +68,43 @@ public class ViewLog extends AbstractWindow {
 		
 		window.add(title);
 		window.add(theFinalOne);
+
 	}
 
 	@Override
 	public ActionListener okListener() {
-		ActionListener okal = new ActionListener(){
+		ActionListener al = new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser(new File(MainWindow.logFolder,logNameIn.getText()));
-				int option = fc.showOpenDialog(theParent);
-				if(option == JFileChooser.APPROVE_OPTION){
-					if(Desktop.isDesktopSupported()){
-						Desktop dtop = Desktop.getDesktop();
-						try {
-							dtop.edit(fc.getSelectedFile());
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-					else{
-						JOptionPane.showMessageDialog(theParent, "Sorry, your OS is not currently supported.\n You must open the log files from your file browser.");
-					}
+				// TODO Auto-generated method stub
+				setRoster(MainWindow.getRoster());
+				try
+				{
+					theRoster.removeBuddy(removeNameIn.getText());
+					JOptionPane.showMessageDialog(window,
+							"You just removed a friend", 
+							"Confirmation", 
+							JOptionPane.INFORMATION_MESSAGE,
+							new ImageIcon(MainWindow.fishIcon));
+					
+					window.dispose();
 				}
-				window.dispose();
+				catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(window,
+							"Could not remove friend", 
+							"Error", 
+							JOptionPane.ERROR_MESSAGE,
+							new ImageIcon(MainWindow.fishIcon));
+					removeNameIn.setText("");
+				}
 			}
 		};
-		return okal;
+		return al;
 	}
-
+	public void setRoster(ChatboardRoster roster)
+	{
+		theRoster = roster;
+	}
 }

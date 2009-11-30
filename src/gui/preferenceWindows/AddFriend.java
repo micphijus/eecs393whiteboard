@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,10 +28,12 @@ public class AddFriend extends AbstractWindow {
 	private JTextField aliasNameIn;	
 	private ChatboardRoster theRoster;
 	
+	
 	public AddFriend(String title, Window parent){
 		super();
 		setTitle(title);
 		setParent(parent);
+		
 		build();
 		window.setPreferredSize(new Dimension(300, 200));
 		window.pack();
@@ -54,19 +57,31 @@ public class AddFriend extends AbstractWindow {
 	@Override
 	public ActionListener okListener() {
 		ActionListener al = new ActionListener(){
-		
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("this is a test!!");
+				setRoster(MainWindow.getRoster());
 				String [] groups = {"contacts"};
 				try
 				{
 					theRoster.addBuddy(screenNameIn.getText(), aliasNameIn.getText(), groups);
+					JOptionPane.showMessageDialog(window,
+							"Sent a notification.  You must wait until your friend accepts", 
+							"Confirmation", 
+							JOptionPane.INFORMATION_MESSAGE,
+							new ImageIcon(MainWindow.fishIcon));
+					
+					window.dispose();
 				}
 				catch(Exception e1)
 				{
+					System.out.println("Cannot register name");
+					screenNameIn.setText("");
+					aliasNameIn.setText("");
 					e1.printStackTrace();
 				}
+				
 			}
 		};
 		return al;

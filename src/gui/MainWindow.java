@@ -59,7 +59,7 @@ public class MainWindow implements ListDataListener {
 	static JList friendList;
 	static JMenuBar menu;
 	static ChatboardConnection conn;
-	static ChatboardRoster roster;
+	public static ChatboardRoster roster;
 	static ControlListener theController;
 	static HashMap<String, String> aliasBuddyMap;
 	static JDialog whiteboard;
@@ -77,7 +77,7 @@ public class MainWindow implements ListDataListener {
 		aliasBuddyMap = new HashMap<String, String>();
 		window = new JFrame();
 		LoginWindow login = new LoginWindow("login", window); 
-		ChatboardConnection conn = login.getConn();
+		conn = login.getConn();
 		sn = conn.getUserName();
 		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
@@ -120,7 +120,7 @@ public class MainWindow implements ListDataListener {
 		panel.setPreferredSize(new Dimension(250,700));
 		menu = setupMenu();
 		
-		window.setTitle("EECS393 Whiteboard Client SUPER EARLY ALPHA");
+		window.setTitle("EECS393 Whiteboard Client BETA");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.add(panel);
 		window.setJMenuBar(menu);
@@ -255,11 +255,9 @@ public class MainWindow implements ListDataListener {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						///////////////////////////////////////////
-						//THIS LINE DOESN'T SEEM TO EXECUTE////////
-						///////////////////////////////////////////
+						//Add friend now works
 						AbstractWindow test = WindowFactory.createWindow(window);
-						test.setRoster(roster);
+
 					}
 					
 				});
@@ -321,6 +319,10 @@ public class MainWindow implements ListDataListener {
 		whiteboard.setVisible(true);
 		whiteboard.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		return wPanel;
+	}
+	public static ChatboardRoster getRoster()
+	{
+		return roster;
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
