@@ -4,19 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import core.im.ChatboardRoster;
+
 import gui.AbstractWindow;
+import gui.MainWindow;
 import gui.WindowFactory.WindowType;
 
 public class RemoveFriend extends AbstractWindow {
 
 	private JTextField removeNameIn;
+	private ChatboardRoster theRoster;
 
 	public RemoveFriend(String title, Window parent){
 		super();
@@ -66,8 +73,38 @@ JLabel title = new JLabel(WindowType.ViewLog.getPrintString());
 
 	@Override
 	public ActionListener okListener() {
-		// TODO Auto-generated method stub
-		return null;
+		ActionListener al = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				setRoster(MainWindow.getRoster());
+				try
+				{
+					theRoster.removeBuddy(removeNameIn.getText());
+					JOptionPane.showMessageDialog(window,
+							"You just removed a friend", 
+							"Confirmation", 
+							JOptionPane.INFORMATION_MESSAGE,
+							new ImageIcon(MainWindow.fishIcon));
+					
+					window.dispose();
+				}
+				catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(window,
+							"Could not remove friend", 
+							"Error", 
+							JOptionPane.ERROR_MESSAGE,
+							new ImageIcon(MainWindow.fishIcon));
+					removeNameIn.setText("");
+				}
+			}
+		};
+		return al;
 	}
-
+	public void setRoster(ChatboardRoster roster)
+	{
+		theRoster = roster;
+	}
 }

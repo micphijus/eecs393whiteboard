@@ -48,11 +48,28 @@ public class ChatboardRoster implements RosterListener{
 	{
 		try
 		{
-			System.out.println("Stuff happened in here");
 			roster.createEntry(userName, alias, group);
 			updateOnline();
 		}
 		catch(Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public void removeBuddy(String userName) throws Exception
+	{
+		try
+		{
+			roster.removeEntry(roster.getEntry(userName));
+			roster.reload();
+			online = new Vector<Buddy>();
+			offline = new Vector<Buddy>();
+			updateOnline();
+			dedupe();
+			informParent();
+		}
+		catch (Exception e)
 		{
 			throw e;
 		}
@@ -146,8 +163,6 @@ public class ChatboardRoster implements RosterListener{
 	@Override
 	public void entriesUpdated(Collection<String> arg0) {
 		pullRoster();
-		
-		
 	}
 
 	@Override
@@ -201,6 +216,14 @@ public class ChatboardRoster implements RosterListener{
 			offline.add(b);
 		}
 		
+		dedupe();
+
+		informParent();
+		
+	}
+	
+	public void dedupe()
+	{
 		//Make list unique
 		HashMap<String, Buddy> theMap = new HashMap<String, Buddy>();
 		for(int i = 0; i < online.size(); i++)
@@ -218,13 +241,15 @@ public class ChatboardRoster implements RosterListener{
 		iter = theMap.keySet().iterator();
 		while(iter.hasNext())
 			offline.add(theMap.get(iter.next()));
-
+	}
+	
+	public void informParent()
+	{
 		for(int i = 0; i < listeners.size(); i++)
 		{
 			ListDataListener ldl = listeners.get(i);
 			ldl.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
 		}
-		
 	}
 
 	public Vector<Buddy> getOnline() {
