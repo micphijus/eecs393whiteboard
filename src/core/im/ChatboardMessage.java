@@ -116,7 +116,7 @@ public class ChatboardMessage implements MessageListener{
 			for(int i = 0; i < listeners.size(); i++)
 				listeners.get(i).contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
 		}
-		else
+		if(arg1.getProperty("whiteboardqueue") != null)
 		{
 			//We got a whiteboard message
 			try

@@ -58,6 +58,7 @@ public class MessageDialog implements ListDataListener{
 	Vector<Controller>listeners;
 	protected JTextPane convoWindow;
 	protected Dimension defaultSize = new Dimension(600,400);
+	Queue <String> commandQueue;
 	
 	public MessageDialog(){
 		/*Do nothing, because we don't want WhiteboardDialog to use this */
@@ -86,9 +87,25 @@ public class MessageDialog implements ListDataListener{
 		listeners = new Vector<Controller>();
 		for(Controller c : oldListeners){
 			listeners.add(c);
+			c.removeDialog(userName);
+			c.removeWhiteboard(userName);
+			c.addDialog(this, userName);
 		}
 	}
-	
+	/*public MessageDialog(JDialog dialog, String oldMessage, Vector<Controller> oldListeners)
+	{
+		userName = dialog.getName();
+		contConvo = oldMessage;
+		conversation = dialog;
+		conversation.setVisible(true);
+		listeners = oldListeners;
+		for(Controller c : oldListeners)
+		{
+			c.removeDialog(userName);
+			c.removeWhiteboard(userName);
+			c.addDialog(this, userName);
+		}
+	}*/
 	public void addController(Controller controller)
 	{
 		listeners.add(controller);
@@ -244,7 +261,8 @@ public class MessageDialog implements ListDataListener{
 						listeners.get(i).addWhiteboard(userName, (WhiteboardDialog)wb);
 					}
 		            conversation.setVisible(false);
-		            //conversation.dispose();
+		            wb.setPreviousPanel(conversation);
+		            wb.commandQueue = commandQueue;
 			}
 		});
 		
@@ -320,4 +338,15 @@ public class MessageDialog implements ListDataListener{
 	}
 	
 	
+	public void setPreviousPanel(JDialog panel)
+	{
+		
+	}
+	public void applyQueue(Queue<String> q)
+	{
+		if(commandQueue == null)
+			commandQueue = q;
+		else
+			commandQueue.addAll(q);
+	}
 }

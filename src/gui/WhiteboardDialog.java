@@ -47,6 +47,7 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 		String prevConvo;
 	//panel that contains the whiteboard
 		JPanel whiteboardPanel;
+		private JDialog previousConvoPanel;
 		
 		//default no-args constructor, probably not necessary
 		public WhiteboardDialog(){
@@ -163,7 +164,9 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 				public void actionPerformed(ActionEvent e) {
 					//go back to message dialog only!
 					MessageDialog md = new MessageDialog(userName, convoWindow.getText(), listeners);
-					conversation.dispose();
+					//MessageDialog md = new MessageDialog(previousConvoPanel, convoWindow.getText(), listeners);
+					//So for some reason dispose causes this to fail.
+					conversation.setVisible(false);
 				}
 			});
 			
@@ -177,5 +180,31 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 		public WhiteboardPanel getPanel()
 		{
 			return (WhiteboardPanel) whiteboardPanel;
+		}
+		public void setPreviousPanel(JDialog panel)
+		{
+			previousConvoPanel = panel; 
+		}
+		protected void sendMessage(JTextArea inputField){
+			try
+			{
+				String s = inputField.getText();
+				super.sendMessage(inputField);
+			}
+			catch(NullPointerException e)
+			{
+				for(int i = 0; i < listeners.size(); i++)
+				{
+					WhiteboardPanel wp = (WhiteboardPanel) whiteboardPanel;
+					Queue<String>queue;
+				}
+			}
+		}
+		public void applyQueue(Queue<String> q)
+		{
+			super.applyQueue(q);
+			//then apply stuff
+			WhiteboardPanel wp = (WhiteboardPanel) whiteboardPanel;
+			wp.applyQueue(commandQueue);
 		}
 }

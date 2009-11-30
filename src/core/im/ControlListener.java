@@ -90,6 +90,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		}
 		return true;
 	}
+	
 	@Override
 	public void chatCreated(Chat arg0, boolean arg1) {
 		
@@ -114,7 +115,10 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		
 		messages.put(name,  dialog);
 	}
-	
+	public void removeWhiteboard(String key)
+	{
+		whiteboards.remove(key);
+	}
 
 	@Override
 	public void contentsChanged(ListDataEvent e) {
@@ -159,8 +163,15 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 						System.out.println("queue is empty");
 						continue;
 					}
-					WhiteboardPanel p = whiteboards.get(from).getPanel();
-					p.applyQueue(theQ);
+					MessageDialog d = messages.get(from);
+					if(d == null)
+					{
+						d = new MessageDialog(from);
+						d.addController(this);
+						messages.put(from, d);
+					}
+					d.applyQueue(theQ);
+					
 				}
 				catch(Exception e1)
 				{
@@ -185,6 +196,22 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	public void removeDialog(String key) {
 		// TODO Auto-generated method stub
 		messages.remove(key);
+	}
+
+	public boolean sendQueue(String from, Queue<String> q) {
+		try
+		{
+			Chat chat = chats.get(from);
+			if(chat == null)
+				chat = createChat(from);
+			msg.sendQueue(chat, q);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }

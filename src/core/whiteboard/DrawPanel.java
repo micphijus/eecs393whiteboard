@@ -18,13 +18,13 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	private int prevX, prevY, curX, curY;  
 	private boolean dragging;  // true when dragging occurs
 	private Queue<String> commandQueue;
-	private Color drawColor;
+	private CurrentColor drawColor;
 
-	DrawPanel() {
+	DrawPanel(CurrentColor mainColor) {
 		setBackground(Color.white);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		SetColor(Color.black);
+		drawColor = mainColor;
 		commandQueue = new LinkedList<String>();
 	}
 
@@ -39,9 +39,6 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	}
 
 	public void mouseDragged(MouseEvent evt) {
-		int pressed = evt.getButton();
-		//if (pressed != MouseEvent.MOUSE_PRESSED)
-			//return;
 		if ( dragging == false )  
 			return;
 		prevX = curX;
@@ -55,8 +52,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	public void mouseMoved(MouseEvent evt) {}	//	Mouse moved when not clicked
 
 	public void mouseReleased(MouseEvent evt) {
-		int pressed = evt.getButton();
-		if (pressed != MouseEvent.BUTTON1)
+		if (evt.getButton() != MouseEvent.BUTTON1)
 			return;
 		if ( dragging == false )  
 			return;               
@@ -75,12 +71,15 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	public void mouseClicked(MouseEvent evt) { }
 	
 	
-	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness, boolean queue)
+	public int drawLineT(Color color, int x1, int y1, int x2, int y2, float thickness, boolean queue)
 	{
 		Graphics g = getGraphics(); 
 		Graphics2D g2 = (Graphics2D)g;
 		
-		BasicStroke wideStroke = new BasicStroke(1.0f);
+		if (thickness < 1.0f | thickness > 4.0f )
+			return 1;
+		BasicStroke wideStroke = new BasicStroke(thickness);
+		
 
 		g2.setStroke(wideStroke);
 		g2.setColor(color);
@@ -112,12 +111,12 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	
 	protected Color GetColor()
 	{
-		return drawColor;
+		return drawColor.Get();
 	}
 	
 	protected void SetColor(Color newcolor)
 	{
-		drawColor = newcolor;
+		drawColor.Set(newcolor);
 	}
 
 }
