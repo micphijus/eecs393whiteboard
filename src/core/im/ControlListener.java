@@ -139,6 +139,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void intervalAdded(ListDataEvent e) {
 		// TODO Auto-generated method stub
@@ -152,7 +153,7 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 			{
 				String client = from.substring(from.indexOf("/") + 1);
 				from = from.substring(0, from.indexOf("/"));
-				if(!client.equalsIgnoreCase("chatboard"))
+				if(!client.contains("Chatboard"))
 					continue;
 				//now get the q and check if there's anything to draw
 				try

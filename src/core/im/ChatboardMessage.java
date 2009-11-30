@@ -10,9 +10,11 @@ import javax.swing.event.ListDataListener;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.MessageListener;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
+import org.jivesoftware.smack.packet.Packet;
 
 public class ChatboardMessage implements MessageListener{
 	
@@ -74,13 +76,13 @@ public class ChatboardMessage implements MessageListener{
 		try
 		{
 
-			boolean sendFlag = false;
+			boolean sendFlag = true;
 			String theParticipant = chat.getParticipant();
 			if(theParticipant.indexOf("/") != -1)
 			{
-				String client = theParticipant.substring(theParticipant.indexOf("/") + 1);
-				if(client.contains("Chatboard"))
-					sendFlag = true;
+				//String client = theParticipant.substring(theParticipant.indexOf("/") + 1);
+				//if(client.contains("Chatboard"))
+				sendFlag = true;
 			}
 			if(sendFlag)
 			{
@@ -96,11 +98,11 @@ public class ChatboardMessage implements MessageListener{
 	}
 	@Override
 	public void processMessage(Chat arg0, Message arg1) {
-		if (arg1.getBody() == "" && arg1.getProperty("whiteboardqueue") == null)
-			return;
+		//if (arg1.getBody().trim() == "" && arg1.getProperty("whiteboardqueue") == null)
+			//return;
 		
 		String participant = arg0.getParticipant(); //First message has a slight exception to handle
-		
+		System.out.println(arg1.getPropertyNames());
 		if(participant.indexOf("/") != -1)
 			participant = participant.substring(0, participant.indexOf("/"));
 		if(arg1.getBody() != "")
@@ -125,7 +127,7 @@ public class ChatboardMessage implements MessageListener{
 				whiteBoardQueue.add(arg1);
 				
 				for(int i = 0; i < listeners.size(); i++) 
-					listeners.get(i).intervalAdded(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
+					listeners.get(i).intervalAdded(new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, 0, 0));
 	
 			}
 			catch(Exception e)
