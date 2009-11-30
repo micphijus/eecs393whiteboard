@@ -190,14 +190,16 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 			{
 				String s = inputField.getText();
 				super.sendMessage(inputField);
+				WhiteboardPanel wp = (WhiteboardPanel) whiteboardPanel;
+				Queue<String>queue = wp.getQueue();
+				for(int i = 0; i < listeners.size(); i++)
+					listeners.get(i).sendQueue(userName, queue);
+				
+				
 			}
 			catch(NullPointerException e)
 			{
-				for(int i = 0; i < listeners.size(); i++)
-				{
-					WhiteboardPanel wp = (WhiteboardPanel) whiteboardPanel;
-					Queue<String>queue;
-				}
+				
 			}
 		}
 		public void applyQueue(Queue<String> q)

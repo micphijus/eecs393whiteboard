@@ -73,12 +73,13 @@ public class ChatboardMessage implements MessageListener{
 	{
 		try
 		{
+
 			boolean sendFlag = false;
 			String theParticipant = chat.getParticipant();
 			if(theParticipant.indexOf("/") != -1)
 			{
 				String client = theParticipant.substring(theParticipant.indexOf("/") + 1);
-				if(client.equalsIgnoreCase("chatboard"))
+				if(client.contains("Chatboard"))
 					sendFlag = true;
 			}
 			if(sendFlag)
@@ -95,14 +96,14 @@ public class ChatboardMessage implements MessageListener{
 	}
 	@Override
 	public void processMessage(Chat arg0, Message arg1) {
-		if (arg1.getBody() == null && arg1.getProperty("whiteboardqueue") == null)
+		if (arg1.getBody() == "" && arg1.getProperty("whiteboardqueue") == null)
 			return;
 		
 		String participant = arg0.getParticipant(); //First message has a slight exception to handle
 		
 		if(participant.indexOf("/") != -1)
 			participant = participant.substring(0, participant.indexOf("/"));
-		if(arg1.getBody() != null)
+		if(arg1.getBody() != "")
 		{
 			IM im = new IM();
 			im.automatic = false;
