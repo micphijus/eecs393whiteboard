@@ -45,6 +45,11 @@ public class Buddy {
 		}
 	}
 	
+	public String toString()
+	{
+		return userID;
+	}
+	
 	public boolean getOffline()
 	{
 		return isOffline;

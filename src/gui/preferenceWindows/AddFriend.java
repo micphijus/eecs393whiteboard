@@ -62,7 +62,7 @@ public class AddFriend extends AbstractWindow {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("this is a test!!");
 				setRoster(MainWindow.getRoster());
-				String [] groups = {"contacts"};
+				String [] groups = {"Contacts"};
 				try
 				{
 					theRoster.addBuddy(screenNameIn.getText(), aliasNameIn.getText(), groups);

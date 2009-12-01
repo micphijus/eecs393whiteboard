@@ -49,6 +49,7 @@ import gui.preferenceWindows.LoginWindow;
 
 import core.network.*;
 import core.whiteboard.WhiteboardPanel;
+import core.abstraction.RosterModel;
 import core.im.*;
 import de.javawi.jstun.attribute.MessageAttributeInterface.MessageAttributeType;
 
@@ -63,6 +64,7 @@ public class MainWindow implements ListDataListener {
 	static ControlListener theController;
 	static HashMap<String, String> aliasBuddyMap;
 	static JDialog whiteboard;
+	public RosterModel theRosterModel;
 	static String sn;
 	
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
@@ -84,6 +86,7 @@ public class MainWindow implements ListDataListener {
 		roster = new ChatboardRoster(connection);
 		roster.addListener(this);
 		roster.pullRoster();
+		theRosterModel = new RosterModel(roster);
 		
 		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
 		friendList = new JList(getRoster(roster));
@@ -327,10 +330,10 @@ public class MainWindow implements ListDataListener {
 	@Override
 	public void contentsChanged(ListDataEvent e) {
 		Vector <String> updatedRoster = getRoster(roster);
-		for(int i = 0; i < updatedRoster.size(); i++)
-			System.out.println(updatedRoster.get(i));
+		System.out.println(theRosterModel.onlineMap);
 		friendList.setListData(updatedRoster);
 		window.repaint();
+		//theRosterModel.printAll();
 	}
 
 	@Override

@@ -176,7 +176,6 @@ public class ChatboardRoster implements RosterListener{
 		Buddy b = new Buddy();
 		//Get the participant from the presence
 		//Need to parse out some stuff
-		System.out.println(arg0.getFrom());
 		String participant = arg0.getFrom();
 		participant = participant.substring(0, participant.indexOf("/"));
 		String client = participant.substring(participant.indexOf("/") + 1);
@@ -187,7 +186,6 @@ public class ChatboardRoster implements RosterListener{
 		b.alias = roster.getEntry(participant).getName();
 		Presence bestPresence = roster.getPresence(arg0.getFrom());
 		b.setStatusMessage(arg0.getStatus());
-		System.out.println(bestPresence.getMode());
 		b.setPresence(bestPresence);
 		
 		

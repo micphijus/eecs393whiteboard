@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterGroup;
 
 import core.im.Buddy;
@@ -31,18 +32,24 @@ public class RosterModel implements ListDataListener{
 	
 	public RosterModel(ChatboardRoster theRoster)
 	{
-		super();
+		this();
 		roster = theRoster;
-		setup();
+		//setup();
+		roster.addListener(this);
 	}
 	
 	public void setup()
 	{
-		groups = (Vector<RosterGroup>)roster.roster.getGroups();
+		groups = new Vector<RosterGroup>(roster.roster.getGroups());
 		updateOnline(roster.online);
 	}
 	
-	public void updateOnline(Vector<Buddy> online)
+	public String toString()
+	{
+		return onlineMap.toString();
+	}
+	
+	public synchronized void updateOnline(Vector<Buddy> online)
 	{
 		for(RosterGroup g : groups)
 		{
@@ -51,12 +58,15 @@ public class RosterModel implements ListDataListener{
 			{
 				if(g.contains(b.userID))
 				{
+					b.groupName = g.getName();
 					groupBuddies.add(b);
 					online.removeElement(b);
-				}
+				}		
 			}
 			onlineMap.put(g.getName(), groupBuddies);
 		}
+		if(!online.isEmpty())
+			onlineMap.put("Unorganized", online);
 	}
 	
 	public ChatboardRoster getRoster() {
