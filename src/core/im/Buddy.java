@@ -23,7 +23,7 @@ public class Buddy {
 	
 	public void setPresence(Presence p)
 	{
-		if(p.getMode() == Presence.Mode.available || p.getMode() == Presence.Mode.chat || p.getStatus() != null)
+		if(p.getMode() == Presence.Mode.available || p.getMode() == Presence.Mode.chat || p.getStatus() != null || p.getType() == Presence.Type.available)
 		{
 			status = "Available";
 			isOffline = false;

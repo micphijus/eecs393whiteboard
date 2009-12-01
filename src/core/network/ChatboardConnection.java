@@ -5,6 +5,8 @@ import java.security.*;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.Presence.Type;
 
 public class ChatboardConnection {
 	private String userName;
@@ -37,6 +39,8 @@ public class ChatboardConnection {
 				return null;
 			}
 			System.out.println("Connection created: " + conn.isAuthenticated());
+			Presence userPresence = new Presence(Type.available);
+			conn.sendPacket(userPresence);
 		}
 		catch(XMPPException e)
 		{
