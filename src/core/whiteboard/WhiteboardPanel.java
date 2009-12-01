@@ -10,7 +10,6 @@ import javax.swing.event.ListDataListener;
 
 import com.sun.net.ssl.internal.ssl.Debug;
 
-import java.awt.*;
 import java.util.Queue;
 
 
@@ -35,15 +34,10 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 	}
 
 	private static final long serialVersionUID = 1L;
-	private DrawPanel drawPanel;
 	private ColorPanel colorpanel;
-	protected Color currentColor;
-
-//	public int drawLine(Color color, int x1, int y1, int x2, int y2, boolean toQueue) 
-//	{ 
-//		return drawPanel.drawLine(color, x1, y1, x2, y2, toQueue);
-//	}
-
+	private ThicknessPanel thicknesspanel;
+	private DrawPanel drawPanel;
+	
 	public int drawLineT(Color color, int x1, int y1, int x2, int y2, int thickness, boolean queue ) 
 	{ 
 		return drawPanel.drawLineT(color, x1, y1, x2, y2, thickness, queue);
@@ -51,14 +45,19 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 	
 	public WhiteboardPanel()
 	{		
-		CurrentColor currentColor = new CurrentColor(Color.black);
+		CurrentDrawConfig currentDrawConfig = new CurrentDrawConfig(Color.black, 1.0f);
 
-		colorpanel = new ColorPanel(currentColor);
+		colorpanel = new ColorPanel(currentDrawConfig);
 		colorpanel.setPreferredSize(new Dimension(100,250));
 		colorpanel.setMinimumSize(new Dimension(100,250));
 		colorpanel.setMaximumSize(new Dimension(100,250));
 		
-		drawPanel = new DrawPanel(currentColor);
+		thicknesspanel = new ThicknessPanel(currentDrawConfig);
+		thicknesspanel.setPreferredSize(new Dimension(100,250));
+		thicknesspanel.setMinimumSize(new Dimension(100,250));
+		thicknesspanel.setMaximumSize(new Dimension(100,250));
+		
+		drawPanel = new DrawPanel(currentDrawConfig);
 		drawPanel.setPreferredSize(new Dimension(400,400));
 		drawPanel.setMinimumSize(new Dimension(400,400));
 		drawPanel.setMaximumSize(new Dimension(400,400));
@@ -67,14 +66,17 @@ public class WhiteboardPanel extends JPanel implements ListDataListener{
 		this.setLayout(WBLayout);
 		WBLayout.setAutoCreateGaps(true);
 		WBLayout.setAutoCreateContainerGaps(true);
-		WBLayout.setHorizontalGroup(WBLayout.createSequentialGroup()	
+		WBLayout.setHorizontalGroup(WBLayout.createSequentialGroup()
 			.addComponent(colorpanel)
+			.addComponent(thicknesspanel)
 			.addComponent(drawPanel)
+				
 		);
 		
 		WBLayout.setVerticalGroup(WBLayout.createSequentialGroup()
-			.addGroup(WBLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+			.addGroup(WBLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(colorpanel)
+				.addComponent(thicknesspanel)
 				.addComponent(drawPanel))
 		);
 	}

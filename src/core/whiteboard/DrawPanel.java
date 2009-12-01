@@ -20,19 +20,19 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 
 	private static final long serialVersionUID = 1L;
 	private int prevX, prevY, curX, curY;  
-	private boolean dragging;  // true when dragging occurs
+	private boolean dragging;  
 	private Queue<String> recentComQueue, fullCommandQueue;
-	private CurrentColor drawColor;
-	private Timer timer = new Timer(1000, new TimeListener(){});
+	private CurrentDrawConfig curConfig;
+	private Timer timer = new Timer(1000, new TimeListener(){});	//Allows whiteboard to refresh and show drawings properly.
 
-	DrawPanel(CurrentColor mainColor) {
+	DrawPanel(CurrentDrawConfig newConfig) {
 		timer.start();
 		setBackground(Color.white);
 		setDoubleBuffered(false);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		drawColor = mainColor;
+		curConfig = newConfig;
 		recentComQueue = new LinkedList<String>();
 		fullCommandQueue = new LinkedList<String>();
 	}
@@ -139,7 +139,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(GetColor(), prevX, prevY, curX, curY, 1, true);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, GetThickness(), true);
 	}
 
 	public void mouseReleased(MouseEvent evt) {
@@ -154,7 +154,7 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		curX = evt.getX(); 
 		curY = evt.getY();
 		
-		drawLineT(GetColor(), prevX, prevY, curX, curY, 1, true);
+		drawLineT(GetColor(), prevX, prevY, curX, curY, GetThickness(), true);
 	}
 	
 	public void mouseEntered(MouseEvent evt) { }
@@ -211,13 +211,14 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	
 	public Color GetColor()
 	{
-		return drawColor.Get();
+		return curConfig.GetColor();
 	}
 	
-	public void SetColor(Color newcolor)
+	public float GetThickness()
 	{
-		drawColor.Set(newcolor);
+		return curConfig.GetThickness();
 	}
+	
 	private class TimeListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			repaint();
