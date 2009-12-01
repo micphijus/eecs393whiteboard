@@ -16,11 +16,11 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
 public class ChatboardRoster implements RosterListener{
-	XMPPConnection conn;
-	Vector<Buddy>online;
-	Vector<Buddy>offline;
-	Vector<ListDataListener> listeners;
-	Roster roster;
+	public XMPPConnection conn;
+	public Vector<Buddy>online;
+	public Vector<Buddy>offline;
+	public Vector<ListDataListener> listeners;
+	public Roster roster;
 	
 	public ChatboardRoster()
 	{
