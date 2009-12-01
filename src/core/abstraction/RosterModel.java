@@ -16,10 +16,12 @@ import core.im.ChatboardRoster;
 public class RosterModel implements ListDataListener{
 	
 	private Vector<RosterGroup> groups;
+	private Vector<ListDataListener>listeners;
 	private ChatboardRoster roster;
 	
 	public HashMap<String, String> aliasMap;
 	public HashMap<String, Vector<Buddy>> onlineMap;
+	
 	
 	
 	public RosterModel()
@@ -27,6 +29,7 @@ public class RosterModel implements ListDataListener{
 		groups = new Vector<RosterGroup>();
 		onlineMap = new HashMap<String, Vector<Buddy>>();
 		aliasMap = new HashMap<String, String>();
+		listeners = new Vector<ListDataListener>();
 		roster = null;
 	}
 	
@@ -36,6 +39,11 @@ public class RosterModel implements ListDataListener{
 		roster = theRoster;
 		//setup();
 		roster.addListener(this);
+	}
+	
+	public void addListener(ListDataListener listener)
+	{
+		listeners.add(listener);
 	}
 	
 	public void setup()

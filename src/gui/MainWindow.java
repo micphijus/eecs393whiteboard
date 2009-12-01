@@ -85,8 +85,13 @@ public class MainWindow implements ListDataListener {
 		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
 		roster.addListener(this);
-		roster.pullRoster();
+		
 		theRosterModel = new RosterModel(roster);
+		theRosterModel.addListener(this);
+		
+		roster.pullRoster();
+		
+		
 		
 		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
 		friendList = new JList(getRoster(roster));
