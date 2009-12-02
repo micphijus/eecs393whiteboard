@@ -9,6 +9,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -54,7 +55,7 @@ public class MainWindow implements ListDataListener {
 	static JDialog whiteboard;
 	public RosterModel theRosterModel;
 	static String sn;
-	static Vector<JList> groupsList;
+	static JList groupsList;
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
 	//final static String[] prefsMenu = {"Edit Preferences" };
@@ -103,6 +104,11 @@ public class MainWindow implements ListDataListener {
 				}
 			}
 		});
+		
+		groupsList = new JList(toList(theRosterModel.onlineMap));
+		//////////////
+		//ADD CELL RENDERER
+		///////////////
 		
 		//add the controller
 		
@@ -321,27 +327,26 @@ public class MainWindow implements ListDataListener {
 		return roster;
 	}
 	
-	public Vector<JList> toList(HashMap<String, Vector<Buddy>> theMap)
+	public Vector<String> toList(HashMap<String, Vector<Buddy>> theMap)
 	{
-		Vector<JList> lists = new Vector<JList>();
 		Vector<String> keys = new Vector<String>(theMap.keySet());
-		for(String k : keys)
+		Vector<String> finalList = new Vector<String>();
+		for(String key : keys)
 		{
-			Vector<String> groupList = new Vector<String>();
-			groupList.add(k);
-			Vector<Buddy> groupBuddies = theMap.get(k);
-			for(Buddy b : groupBuddies)
-				groupList.add(b.alias);
-			lists.add(new JList(groupList));
+			finalList.add("#" + key);
+			Vector<Buddy> buddies = theMap.get(key);
+			for(Buddy b : buddies)
+				finalList.add(b.alias);
 		}
-		return lists;
+		return finalList;
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
 		Vector <String> updatedRoster = getRoster(roster);
 		System.out.println(theRosterModel.onlineMap);
 		friendList.setListData(updatedRoster);
-		groupsList = toList(theRosterModel.onlineMap);
+		updatedRoster = toList(theRosterModel.onlineMap);
+		groupsList.setListData(updatedRoster);
 		window.repaint();
 		//theRosterModel.printAll();
 	}
