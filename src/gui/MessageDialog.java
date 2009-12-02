@@ -58,6 +58,7 @@ public class MessageDialog implements ListDataListener{
 	Vector<Controller>listeners;
 	protected JTextPane convoWindow;
 	protected Dimension defaultSize = new Dimension(600,400);
+	protected JScrollPane scrollWindow;
 	Queue <String> commandQueue;
 	
 	public MessageDialog(){
@@ -195,7 +196,7 @@ public class MessageDialog implements ListDataListener{
 			convoWindow.setText(contConvo);
 		}
 
-		JScrollPane scrollWindow = new JScrollPane(convoWindow);
+		scrollWindow = new JScrollPane(convoWindow);
 		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
 		scrollWindow.getViewport().add(convoWindow);
@@ -318,6 +319,9 @@ public class MessageDialog implements ListDataListener{
 			
 			convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
 			
+			scrollWindow.getVerticalScrollBar().setValue(
+					scrollWindow.getVerticalScrollBar().getMaximum());
+            
 			System.out.println(im.message);
 		}
 		

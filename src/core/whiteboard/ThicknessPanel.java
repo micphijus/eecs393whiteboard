@@ -18,7 +18,7 @@ public class ThicknessPanel extends JPanel{
 	public ThicknessPanel(CurrentDrawConfig newConfig)
 	{
 		curConfig = newConfig;
-		Float[] thicknesses = { 1.0f, 2.0f, 3.0f, 4.0f };
+		Float[] thicknesses = { 1.0f, 2.0f, 3.0f, 4.0f, 15.0f };
 		final JDrawButton[] JBThicknesses = new JDrawButton[thicknesses.length];
 		
 		for (int i = 0; i < thicknesses.length; i++) {
@@ -51,7 +51,8 @@ public class ThicknessPanel extends JPanel{
 		colorLayout.setHorizontalGroup(colorLayout.createSequentialGroup()	
 			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(JBThicknesses[0])
-				.addComponent(JBThicknesses[2]))
+				.addComponent(JBThicknesses[2])
+				.addComponent(JBThicknesses[4]))
 			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(JBThicknesses[1])
 				.addComponent(JBThicknesses[3]))
@@ -64,6 +65,8 @@ public class ThicknessPanel extends JPanel{
 			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(JBThicknesses[2])
 				.addComponent(JBThicknesses[3]))
+			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(JBThicknesses[4]))
 		);
 	}
 	/** 

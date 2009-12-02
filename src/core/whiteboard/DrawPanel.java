@@ -165,9 +165,9 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 	public int drawLineT(Color thecolor, int x1, int y1, int x2, int y2, float thickness, boolean queue, Graphics g)
 	{ 
 		Graphics2D g2 = (Graphics2D)g;
-		
-		if (thickness < 1.0f | thickness > 4.0f )
-			return 1;
+//		
+//		if (thickness < 1.0f | thickness > 8.0f )
+//			return 1;
 		BasicStroke wideStroke = new BasicStroke(thickness);
 		
 
@@ -187,8 +187,8 @@ class DrawPanel extends JPanel implements MouseListener, MouseMotionListener  {
 		Graphics g = getGraphics();
 		Graphics2D g2 = (Graphics2D)g;
 		
-		if (thickness < 1.0f | thickness > 4.0f )
-			return 1;
+//		if (thickness < 1.0f | thickness > 8.0f )
+//			return 1;
 		BasicStroke wideStroke = new BasicStroke(thickness);
 		
 

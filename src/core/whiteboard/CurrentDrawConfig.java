@@ -15,4 +15,5 @@ public class CurrentDrawConfig {
 	public Color GetColor(){		return color;	}
 	public void SetThickness(float newThickness){	thickness = newThickness;	}
 	public float GetThickness(){		return thickness;	}
+	
 }

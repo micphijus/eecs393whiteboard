@@ -16,7 +16,7 @@ public class ColorPanel extends JPanel{
 	public ColorPanel(CurrentDrawConfig mainColor)
 	{
 		curConfig = mainColor;
-		Color[] colors = { Color.black, Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.magenta };
+		Color[] colors = { Color.black, Color.white, Color.gray, Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.magenta };
 		final JButton[] JBcolors = new JButton[colors.length];
 		
 		for (int i = 0; i < colors.length; i++) {
@@ -46,12 +46,14 @@ public class ColorPanel extends JPanel{
 				.addComponent(JBcolors[0])
 				.addComponent(JBcolors[2])
 				.addComponent(JBcolors[4])
-				.addComponent(JBcolors[6]))
+				.addComponent(JBcolors[6])
+				.addComponent(JBcolors[8]))
 			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(JBcolors[1])
 				.addComponent(JBcolors[3])
 				.addComponent(JBcolors[5])
-				.addComponent(JBcolors[7]))
+				.addComponent(JBcolors[7])
+				.addComponent(JBcolors[9]))
 		);
 		
 		colorLayout.setVerticalGroup(colorLayout.createSequentialGroup()
@@ -67,6 +69,9 @@ public class ColorPanel extends JPanel{
 			.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(JBcolors[6])
 				.addComponent(JBcolors[7]))
+				.addGroup(colorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(JBcolors[8])
+				.addComponent(JBcolors[9]))
 		);
 	}
 	/** 
