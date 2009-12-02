@@ -106,12 +106,26 @@ public class MainWindow implements ListDataListener {
 		});
 		
 		groupsList = new JList(toList(theRosterModel.onlineMap));
-		//////////////
-		//ADD CELL RENDERER
-		///////////////
+		groupsList = new JList(getRoster(roster));
+		groupsList.setOpaque(false);
+		groupsList.setCellRenderer(cbRenderer);
 		
-		//add the controller
+		theController = new ControlListener(connection, conn.getUserName());
+		theController.addDataListener();
+		connection.getChatManager().addChatListener(theController);
+		groupsList.addMouseListener(new MouseAdapter(){
 		
+			public void mouseReleased(MouseEvent e){
+				if(e.getClickCount() == 2){
+					//TODO: fix this temp call
+					String sn = groupsList.getSelectedValue().toString();
+					sn = theRosterModel.aliasMap.get(sn);
+					MessageDialog test = new MessageDialog(sn);
+					test.addController(theController);
+					theController.addDialog(test, sn);
+				}
+			}
+		});		
 	
 		panel = new JPanel();
 		JPanel leftAlign = new JPanel();
@@ -174,7 +188,7 @@ public class MainWindow implements ListDataListener {
 		
 		ImageIcon fishOnFire = new ImageIcon(fishIcon);
 		window.setIconImage(fishOnFire.getImage());
-		leftAlign.add(friendList);
+		leftAlign.add(groupsList);
 		leftAlign.add(Box.createHorizontalGlue());
 		panel.add(leftAlign);
 		panel.add(Box.createVerticalGlue());

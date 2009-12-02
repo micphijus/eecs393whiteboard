@@ -2,7 +2,9 @@ package gui.implementations;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
@@ -34,11 +36,10 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 			
 			boolean isGroup = value.toString().substring(0,1).equals("#");
 			if(isGroup){
-				setText(value.toString().substring(1));
-				setForeground(Color.red);
+				value = value.toString().substring(1);
 			}
 			else{
-				setText("   " + value.toString());
+				value = "   " + value.toString();
 			}
 			
 			setComponentOrientation(list.getComponentOrientation());
@@ -67,8 +68,7 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 		else {
 			setOpaque(false);
 			setBackground(list.getBackground());
-			if(!isGroup)
-				setForeground(list.getForeground());
+			setForeground(list.getForeground());
 		}
 	        
 		if (value instanceof Icon) {
@@ -82,7 +82,7 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
-	        
+
 	        Border border = null;
 	        if (cellHasFocus) {
 	            if (isSelected) {
@@ -91,7 +91,8 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 	            if (border == null) {
 	                border = DefaultLookup.getBorder(this, ui, "List.focusCellHighlightBorder");
 	            }
-	        } else {
+	        }
+	        else {
 	            border = getNoFocusBorder();
 	        }
 		setBorder(border);
