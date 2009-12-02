@@ -69,6 +69,8 @@ public class RosterModel implements ListDataListener{
 					b.groupName = g.getName();
 					groupBuddies.add(b);
 					online.removeElement(b);
+					if(aliasMap.get(b.alias) == null)
+						aliasMap.put(b.alias, b.userID);
 				}		
 			}
 			onlineMap.put(g.getName(), groupBuddies);
