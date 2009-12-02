@@ -167,7 +167,7 @@ public class ChatboardRoster implements RosterListener{
 
 	@Override
 	public void presenceChanged(Presence arg0) {
-		System.out.println("Presence change detected");
+		//System.out.println("Presence change detected");
 		//First get the user
 		//then get the entry
 		//Finally remove the entry from one list, and add to the other
