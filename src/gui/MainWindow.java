@@ -1,8 +1,10 @@
 
 package gui;
 
-import java.awt.Color;
-import java.awt.Component;
+import gui.WindowFactory.WindowType;
+import gui.implementations.ChatboardListCellRenderer;
+import gui.preferenceWindows.LoginWindow;
+
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
@@ -28,30 +29,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.PacketCollector;
-import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.filter.MessageTypeFilter;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.filter.PacketTypeFilter;
-import org.jivesoftware.smack.packet.Message;
-import org.jivesoftware.smack.packet.Packet;
-import org.jivesoftware.smack.util.StringUtils;
 
-import gui.WindowFactory.WindowType;
-import gui.implementations.ChatboardListCellRenderer;
-import gui.preferenceWindows.LoginWindow;
-
-import core.network.*;
-import core.whiteboard.WhiteboardPanel;
 import core.abstraction.RosterModel;
-import core.im.*;
-import de.javawi.jstun.attribute.MessageAttributeInterface.MessageAttributeType;
+import core.im.Buddy;
+import core.im.ChatboardRoster;
+import core.im.ControlListener;
+import core.network.ChatboardConnection;
+import core.whiteboard.WhiteboardPanel;
 
 public class MainWindow implements ListDataListener {
 
@@ -66,7 +54,7 @@ public class MainWindow implements ListDataListener {
 	static JDialog whiteboard;
 	public RosterModel theRosterModel;
 	static String sn;
-	
+	static Vector<JList> groupsList;
 	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
 	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
 	//final static String[] prefsMenu = {"Edit Preferences" };
@@ -108,7 +96,7 @@ public class MainWindow implements ListDataListener {
 				if(e.getClickCount() == 2){
 					//TODO: fix this temp call
 					String sn = friendList.getSelectedValue().toString();
-					sn = aliasBuddyMap.get(sn);
+					sn = theRosterModel.aliasMap.get(sn);
 					MessageDialog test = new MessageDialog(sn);
 					test.addController(theController);
 					theController.addDialog(test, sn);
@@ -332,11 +320,28 @@ public class MainWindow implements ListDataListener {
 	{
 		return roster;
 	}
+	
+	public Vector<JList> toList(HashMap<String, Vector<Buddy>> theMap)
+	{
+		Vector<JList> lists = new Vector<JList>();
+		Vector<String> keys = new Vector<String>(theMap.keySet());
+		for(String k : keys)
+		{
+			Vector<String> groupList = new Vector<String>();
+			groupList.add(k);
+			Vector<Buddy> groupBuddies = theMap.get(k);
+			for(Buddy b : groupBuddies)
+				groupList.add(b.alias);
+			lists.add(new JList(groupList));
+		}
+		return lists;
+	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
 		Vector <String> updatedRoster = getRoster(roster);
 		System.out.println(theRosterModel.onlineMap);
 		friendList.setListData(updatedRoster);
+		groupsList = toList(theRosterModel.onlineMap);
 		window.repaint();
 		//theRosterModel.printAll();
 	}
