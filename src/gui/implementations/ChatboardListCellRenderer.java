@@ -33,7 +33,6 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-			
 			boolean isGroup = value.toString().substring(0,1).equals("#");
 			if(isGroup){
 				value = value.toString().substring(1);

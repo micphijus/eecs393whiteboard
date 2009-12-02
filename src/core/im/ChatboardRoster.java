@@ -10,6 +10,7 @@ import javax.swing.event.ListDataListener;
 
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.RosterGroup;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -20,6 +21,7 @@ public class ChatboardRoster implements RosterListener{
 	public Vector<Buddy>online;
 	public Vector<Buddy>offline;
 	public Vector<ListDataListener> listeners;
+	public Vector<RosterGroup> groups;
 	public Roster roster;
 	
 	public ChatboardRoster()
@@ -78,6 +80,7 @@ public class ChatboardRoster implements RosterListener{
 	public void pullRoster()
 	{
 		roster = conn.getRoster();
+		groups = new Vector<RosterGroup>(roster.getGroups());
 		//roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
 		//updateOnline();
 		roster.addRosterListener(this);	

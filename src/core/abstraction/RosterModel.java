@@ -19,7 +19,7 @@ public class RosterModel implements ListDataListener{
 	private Vector<ListDataListener>listeners;
 	private ChatboardRoster roster;
 	
-	public HashMap<String, String> aliasMap;
+	//public HashMap<String, String> aliasMap;
 	public HashMap<String, Vector<Buddy>> onlineMap;
 	
 	
@@ -28,7 +28,7 @@ public class RosterModel implements ListDataListener{
 	{
 		groups = new Vector<RosterGroup>();
 		onlineMap = new HashMap<String, Vector<Buddy>>();
-		aliasMap = new HashMap<String, String>();
+		//aliasMap = new HashMap<String, String>();
 		listeners = new Vector<ListDataListener>();
 		roster = null;
 	}
@@ -46,11 +46,6 @@ public class RosterModel implements ListDataListener{
 		listeners.add(listener);
 	}
 	
-	public void setup()
-	{
-		groups = new Vector<RosterGroup>(roster.roster.getGroups());
-		updateOnline(roster.online);
-	}
 	
 	public String toString()
 	{
@@ -59,29 +54,32 @@ public class RosterModel implements ListDataListener{
 	
 	public void updateOnline(Vector<Buddy> online)
 	{
+		Vector<Buddy>localOnline = new Vector<Buddy>(online);
+		Vector<RosterGroup> groups = roster.groups;
 		for(RosterGroup g : groups)
 		{
 			Vector<Buddy>groupBuddies = new Vector<Buddy>();
-			for(int i = 0; i < online.size(); i++)
+			for(int i = 0; i < localOnline.size(); i++)
 			{
-				Buddy b = online.get(i);
+				Buddy b = localOnline.get(i);
 				//System.out.println(g.contains(b.userID));
 				if(g.contains(b.userID))
 				{
 					//System.out.println("In here");
 					b.groupName = g.getName();
 					groupBuddies.add(b);
-					online.remove(i);
+					localOnline.remove(i);
 					i--;
 					
 				}		
-				if(aliasMap.get(b.alias) == null)
-					aliasMap.put(b.alias, b.userID);
+			//	if(aliasMap.get(b.alias) == null)
+				//	aliasMap.put(b.alias, b.userID);
+				//System.out.println(aliasMap);
 			}
 			onlineMap.put(g.getName(), groupBuddies);
 		}
-		if(!online.isEmpty())
-			onlineMap.put("Unorganized", online);
+		if(!localOnline.isEmpty())
+			onlineMap.put("Unorganized", localOnline);
 	}
 	
 	public ChatboardRoster getRoster() {
@@ -96,17 +94,18 @@ public class RosterModel implements ListDataListener{
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		setup();
-		
+		updateOnline(roster.online);
+		for(ListDataListener l : listeners)
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, 0));
 	}
 	@Override
 	public void intervalAdded(ListDataEvent e) {
-		setup();
+		updateOnline(roster.online);
 		
 	}
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
-		setup();
+		updateOnline(roster.online);
 		
 	}
 }

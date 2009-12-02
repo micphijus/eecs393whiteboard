@@ -73,40 +73,21 @@ public class MainWindow implements ListDataListener {
 		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
-		roster.addListener(this);
+		//roster.addListener(this);
 		
 		theRosterModel = new RosterModel(roster);
 		theRosterModel.addListener(this);
 		
 		roster.pullRoster();
 		
+		theRosterModel.updateOnline(roster.online);
 		
+		getRoster(roster);
 		
 		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
-		friendList = new JList(getRoster(roster));
-		friendList.setOpaque(false);
-		friendList.setCellRenderer(cbRenderer);
-		//friendList.setAlignmentX(SwingConstants.LEFT);
-		
-		theController = new ControlListener(connection, conn.getUserName());
-		theController.addDataListener();
-		connection.getChatManager().addChatListener(theController);
-		friendList.addMouseListener(new MouseAdapter(){
-		
-			public void mouseReleased(MouseEvent e){
-				if(e.getClickCount() == 2){
-					//TODO: fix this temp call
-					String sn = friendList.getSelectedValue().toString();
-					sn = theRosterModel.aliasMap.get(sn);
-					MessageDialog test = new MessageDialog(sn);
-					test.addController(theController);
-					theController.addDialog(test, sn);
-				}
-			}
-		});
-		
-		groupsList = new JList(toList(theRosterModel.onlineMap));
-		groupsList = new JList(getRoster(roster));
+		Vector<String> intermediary = toList(theRosterModel.onlineMap);
+		groupsList = new JList(intermediary);
+		//System.out.println(intermediary);
 		groupsList.setOpaque(false);
 		groupsList.setCellRenderer(cbRenderer);
 		
@@ -119,7 +100,7 @@ public class MainWindow implements ListDataListener {
 				if(e.getClickCount() == 2){
 					//TODO: fix this temp call
 					String sn = groupsList.getSelectedValue().toString();
-					sn = theRosterModel.aliasMap.get(sn);
+					sn = aliasBuddyMap.get(sn);
 					MessageDialog test = new MessageDialog(sn);
 					test.addController(theController);
 					theController.addDialog(test, sn);
@@ -297,12 +278,11 @@ public class MainWindow implements ListDataListener {
 		
 	}
 	
-	public Vector<String> getRoster(ChatboardRoster r)
+	public void getRoster(ChatboardRoster r)
 	{
 		
 		Vector<Buddy> online = r.getOnline();
 		Iterator<Buddy> iter = online.iterator();
-		Vector<String> onlineFriends = new Vector<String>();
 		while(iter.hasNext())
 		{
 			Buddy b = iter.next();
@@ -315,9 +295,8 @@ public class MainWindow implements ListDataListener {
 					b.alias = b.userID;
 			}
 			aliasBuddyMap.put(b.alias, b.userID);
-			onlineFriends.add(b.alias);
 		}
-		return onlineFriends;
+		
 	}
 	
 	public static WhiteboardPanel createWhiteBoard()
@@ -356,10 +335,11 @@ public class MainWindow implements ListDataListener {
 	}
 	@Override
 	public void contentsChanged(ListDataEvent e) {
-		Vector <String> updatedRoster = getRoster(roster);
+		getRoster(roster);
+		Vector <String> updatedRoster = toList(theRosterModel.onlineMap);
 		System.out.println(theRosterModel.onlineMap);
-		friendList.setListData(updatedRoster);
-		updatedRoster = toList(theRosterModel.onlineMap);
+		//friendList.setListData(updatedRoster);
+		
 		groupsList.setListData(updatedRoster);
 		window.repaint();
 		//theRosterModel.printAll();
