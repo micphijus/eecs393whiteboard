@@ -106,6 +106,9 @@ public class MainWindow implements ListDataListener {
 		});
 		
 		groupsList = new JList(toList(theRosterModel.onlineMap));
+		//////////////
+		//ADD CELL RENDERER
+		///////////////
 		
 		//add the controller
 		
