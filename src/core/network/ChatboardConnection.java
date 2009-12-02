@@ -17,17 +17,19 @@ public class ChatboardConnection {
 	{
 		userName = null;
 		password = null;
+		conn = null;
 	}
 	
 	public ChatboardConnection(String myName, String myPass)
 	{
 		userName = myName;
 		password = myPass;
+		conn = null;
 	}
 	
 	public XMPPConnection createConnection(String server, int port, String alias) throws XMPPException
 	{
-		XMPPConnection.DEBUG_ENABLED=true; 
+		//XMPPConnection.DEBUG_ENABLED=true; 
 		conn = null;
 		try
 		{

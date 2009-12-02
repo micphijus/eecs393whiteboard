@@ -67,7 +67,10 @@ public class MainWindow implements ListDataListener {
 	public MainWindow(){
 		aliasBuddyMap = new HashMap<String, String>();
 		window = new JFrame();
-		LoginWindow login = new LoginWindow("login", window); 
+		LoginWindow login = new LoginWindow("login", window);
+		if(login.getConn() == null)
+			System.exit(0);
+		
 		conn = login.getConn();
 		sn = conn.getUserName();
 		//conn.createConnection("talk.google.com", 5222, "gmail.com");
