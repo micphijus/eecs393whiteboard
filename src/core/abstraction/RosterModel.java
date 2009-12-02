@@ -62,13 +62,17 @@ public class RosterModel implements ListDataListener{
 		for(RosterGroup g : groups)
 		{
 			Vector<Buddy>groupBuddies = new Vector<Buddy>();
-			for(Buddy b : online)
+			for(int i = 0; i < online.size(); i++)
 			{
+				Buddy b = online.get(i);
+				//System.out.println(g.contains(b.userID));
 				if(g.contains(b.userID))
 				{
+					//System.out.println("In here");
 					b.groupName = g.getName();
 					groupBuddies.add(b);
-					online.removeElement(b);
+					online.remove(i);
+					i--;
 					if(aliasMap.get(b.alias) == null)
 						aliasMap.put(b.alias, b.userID);
 				}		
