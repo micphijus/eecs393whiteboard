@@ -113,14 +113,43 @@ public class ChatboardRoster implements RosterListener{
 	
 	public boolean createGroup(String name)
 	{
-		if(roster.getGroup(name) != null)
+		if(roster.getGroup(name) == null)
 		{
 			roster.createGroup(name);
+			groups = new Vector<RosterGroup>(roster.getGroups());
+			informParent();
 			return true;
 		}
 		else
 			System.out.println("Group already exists");
+		
 		return false;
+	}
+	
+	public boolean addBuddyToGroup(String userID, String groupName) throws Exception
+	{
+		try
+		{
+			RosterEntry entry = roster.getEntry(userID);
+			if(entry.getGroups() != null)
+			{
+				Vector<RosterGroup> groups1 = new Vector<RosterGroup>(entry.getGroups());
+				for(RosterGroup g : groups1)
+					g.removeEntry(entry);
+			}
+			
+			RosterGroup theGroup = roster.getGroup(groupName);
+			theGroup.addEntry(entry);
+			updateOnline();
+			dedupe();
+			groups = new Vector<RosterGroup>(roster.getGroups());
+			informParent();
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
+		return true;
 	}
 	
 	public void updateOnline()

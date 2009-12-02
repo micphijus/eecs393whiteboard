@@ -54,6 +54,7 @@ public class RosterModel implements ListDataListener{
 	
 	public void updateOnline(Vector<Buddy> online)
 	{
+		onlineMap = new HashMap<String, Vector<Buddy>>();
 		Vector<Buddy>localOnline = new Vector<Buddy>(online);
 		Vector<RosterGroup> groups = roster.groups;
 		for(RosterGroup g : groups)

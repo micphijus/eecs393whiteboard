@@ -82,7 +82,23 @@ public class AddToGroup extends AbstractWindow {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				ChatboardRoster roster = MainWindow.roster;
+				boolean b = false;
+				
+				try
+				{
+					b = roster.addBuddyToGroup(screenNameIn.getText(), groupNameIn.getText());
+					window.dispose();
+				}
+				catch(Exception e1)
+				{
+					System.out.println("Could not add to group");
+					screenNameIn.setText("");
+					groupNameIn.setText("");
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		};
 		return al;

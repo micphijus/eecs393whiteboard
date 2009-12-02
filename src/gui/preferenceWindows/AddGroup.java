@@ -18,6 +18,9 @@ import gui.MainWindow;
 import gui.WindowFactory.WindowType;
 
 public class AddGroup extends AbstractWindow {
+	
+	public JTextField groupNameIn;
+	
 	public AddGroup(String title, Window parent){
 		super();
 		setTitle(title);
@@ -49,7 +52,8 @@ public class AddGroup extends AbstractWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("this is a test!!");
-				
+				MainWindow.roster.createGroup(groupNameIn.getText());
+				window.dispose();
 			}
 		};
 		return al;
@@ -65,7 +69,7 @@ public class AddGroup extends AbstractWindow {
 		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddGroup.getPrintString());
 		
-		JTextField groupNameIn = new JTextField();
+		groupNameIn = new JTextField();
 		
 		groupNameIn.addKeyListener(enterAction());
 		
