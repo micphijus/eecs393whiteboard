@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 
 public class ColorPanel extends JPanel{
 	
-	private CurrentDrawConfig curConfig;
-	public ColorPanel(CurrentDrawConfig mainColor)
+	private CurrentColor drawColor;
+	public ColorPanel(CurrentColor mainColor)
 	{
-		curConfig = mainColor;
+		drawColor = mainColor;
 		Color[] colors = { Color.black, Color.red, Color.orange, Color.yellow, Color.green, Color.cyan, Color.blue, Color.magenta };
-		final JButton[] JBcolors = new JButton[colors.length];
+		final JButton[] JBcolors = new JButton[8];
 		
 		for (int i = 0; i < colors.length; i++) {
 			final int index = i;
@@ -75,6 +75,6 @@ public class ColorPanel extends JPanel{
 	 */
 	protected void setDrawColor(Color newColor)
 	{
-		curConfig.SetColor(newColor);
+		drawColor.Set(newColor);
 	}
 }
