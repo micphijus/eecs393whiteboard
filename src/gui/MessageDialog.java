@@ -317,6 +317,7 @@ public class MessageDialog implements ListDataListener{
 			String newSentence = im.from + ":  "+ im.message;
 			
 			convoWindow.setText(convoWindow.getText() + "\n" + newSentence);
+			
 			System.out.println(im.message);
 		}
 		

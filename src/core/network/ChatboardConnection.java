@@ -27,7 +27,7 @@ public class ChatboardConnection {
 	
 	public XMPPConnection createConnection(String server, int port, String alias) throws XMPPException
 	{
-		XMPPConnection.DEBUG_ENABLED=true; 
+		XMPPConnection.DEBUG_ENABLED=false; 
 		conn = null;
 		try
 		{
