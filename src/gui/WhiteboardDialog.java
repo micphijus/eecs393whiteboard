@@ -118,7 +118,7 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 				@Override
 				public void windowClosing(WindowEvent e) {
 					// TODO Auto-generated method stub
-					
+					startLogs();
 				}
 				
 				@Override
