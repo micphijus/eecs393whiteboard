@@ -20,7 +20,8 @@ public class WindowFactory {
 		OpenWB("Open Whiteboard", MainWindow.fileMenu),
 		AddFriend("Add Friend", MainWindow.friendsMenu),
 		AddAccount("Add Account", MainWindow.fileMenu),
-		AddGroup("Add Group", MainWindow.friendsMenu),
+		AddGroup("Create Group", MainWindow.friendsMenu),
+		AddToGroup("Add to Group", MainWindow.friendsMenu),
 		RemoveFriend("Remove Friend", MainWindow.friendsMenu),
 		ViewLog("View Log", MainWindow.friendsMenu),
 		EditPrefs("Edit Preferences", MainWindow.prefsMenu),
@@ -50,6 +51,8 @@ public class WindowFactory {
 			return new AddAccount(windowType.getPrintString(), MainWindow.getInstance());
 		case AddGroup:
 			return new AddGroup(windowType.getPrintString(), MainWindow.getInstance());
+		case AddToGroup:
+			return new AddToGroup(windowType.getPrintString(), MainWindow.getInstance());
 		case RemoveFriend:
 			return new RemoveFriend(windowType.getPrintString(), MainWindow.getInstance());
 		case ViewLog:
