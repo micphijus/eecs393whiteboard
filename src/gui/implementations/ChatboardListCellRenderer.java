@@ -31,7 +31,17 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		  setComponentOrientation(list.getComponentOrientation());
+			
+			boolean isGroup = value.toString().substring(0,1).equals("#");
+			if(isGroup){
+				setText(value.toString().substring(1));
+				setForeground(Color.red);
+			}
+			else{
+				setText("   " + value.toString());
+			}
+			
+			setComponentOrientation(list.getComponentOrientation());
 
 		  	setHorizontalTextPosition(SwingConstants.LEFT);
 		  
@@ -57,7 +67,8 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 		else {
 			setOpaque(false);
 			setBackground(list.getBackground());
-		    setForeground(list.getForeground());
+			if(!isGroup)
+				setForeground(list.getForeground());
 		}
 	        
 		if (value instanceof Icon) {
