@@ -84,6 +84,10 @@ public class ChatboardListCellRenderer extends DefaultListCellRenderer implement
 	            border = getNoFocusBorder();
 	        }
 		setBorder(border);
+		
+		if(index == 0){
+			setForeground(Color.RED);
+		}
 		return this;
 	}
 
