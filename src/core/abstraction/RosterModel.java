@@ -57,7 +57,7 @@ public class RosterModel implements ListDataListener{
 		return onlineMap.toString();
 	}
 	
-	public synchronized void updateOnline(Vector<Buddy> online)
+	public void updateOnline(Vector<Buddy> online)
 	{
 		for(RosterGroup g : groups)
 		{
