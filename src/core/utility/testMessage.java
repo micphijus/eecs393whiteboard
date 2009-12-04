@@ -25,8 +25,6 @@ public class testMessage {
 			XMPPConnection conn = new XMPPConnection(new ConnectionConfiguration("talk.google.com", 5222, "gmail.com"));
 			conn.connect();
 			md.update(password.getBytes());
-			//password = md.digest().toString();
-			//SASLAuthentication.supportSASLMechanism("PLAIN", 0);
 			conn.login(username, password);
 			Roster roster = conn.getRoster();
 			Collection<RosterEntry> entries = roster.getEntries();

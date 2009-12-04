@@ -42,7 +42,6 @@ public class EnterNameWindow extends AbstractWindow {
 
 	@Override
 	protected void buildWindow() {
-		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.NewIM.getPrintString());
 		
 		usernameIn = new JTextField();

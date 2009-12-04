@@ -37,10 +37,7 @@ public class ViewLog extends AbstractWindow {
 
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	//TODO: remove no-args constructor?
-	public ViewLog(){
-		
-	}
+	
 	@Override
 	public ActionListener applyListener() {
 		// TODO Auto-generated method stub

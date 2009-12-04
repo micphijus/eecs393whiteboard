@@ -41,12 +41,7 @@ public class AddFriend extends AbstractWindow {
 
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
-	//TODO: Remove the no-args constructor
-	public AddFriend(){
-		JOptionPane.showMessageDialog(MainWindow.getInstance(), "A second test message!", "Add Friend", JOptionPane.INFORMATION_MESSAGE);
 
-	}
 	
 	@Override
 	public ActionListener applyListener() {
@@ -95,7 +90,6 @@ public class AddFriend extends AbstractWindow {
 	@Override
 	//TODO: also make them select protocol!
 	protected void buildWindow() {
-		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddFriend.getPrintString());
 		
 		screenNameIn = new JTextField();

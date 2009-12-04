@@ -142,7 +142,6 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 	@SuppressWarnings("unchecked")
 	@Override
 	public void intervalAdded(ListDataEvent e) {
-		// TODO Auto-generated method stub
 		System.out.println("Received message queue");
 		Queue <Message> q = msg.whiteBoardQueue;
 		while(!q.isEmpty())
@@ -189,13 +188,11 @@ public class ControlListener implements ChatManagerListener, ListDataListener, C
 
 	@Override
 	public void intervalRemoved(ListDataEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void removeDialog(String key) {
-		// TODO Auto-generated method stub
 		messages.remove(key);
 	}
 

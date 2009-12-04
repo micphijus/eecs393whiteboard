@@ -56,10 +56,6 @@ public class MainWindow implements ListDataListener {
 	public RosterModel theRosterModel;
 	static String sn;
 	static JList groupsList;
-	//final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
-	//final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
-	//final static String[] prefsMenu = {"Edit Preferences" };
-	//final static String[] helpMenu = {"Help", "About"};
 	public final static String fileMenu = "File", friendsMenu = "Friends", prefsMenu = "Preferences", helpMenu = "Help"; 
 	public final static String fishIcon = "Images/fish-on-fire.png";
 	public final static String logFolder = System.getProperty("user.home") + File.separator + "Chatboard" + File.separator + "logs";
@@ -73,10 +69,8 @@ public class MainWindow implements ListDataListener {
 		
 		conn = login.getConn();
 		sn = conn.getUserName();
-		//conn.createConnection("talk.google.com", 5222, "gmail.com");
 		XMPPConnection connection = conn.getConn();
 		roster = new ChatboardRoster(connection);
-		//roster.addListener(this);
 		
 		theRosterModel = new RosterModel(roster);
 		theRosterModel.addListener(this);
@@ -90,7 +84,6 @@ public class MainWindow implements ListDataListener {
 		ListCellRenderer cbRenderer = new ChatboardListCellRenderer();
 		Vector<String> intermediary = toList(theRosterModel.onlineMap);
 		groupsList = new JList(intermediary);
-		//System.out.println(intermediary);
 		groupsList.setOpaque(false);
 		groupsList.setCellRenderer(cbRenderer);
 		
@@ -195,13 +188,8 @@ public class MainWindow implements ListDataListener {
 		return theController;
 	}
 	
-//TODO: remove this method once testing is done!
 	public static void main(String[] args){
 		MainWindow mw = new MainWindow();
-		//can grab each component by name...
-		System.out.println(mw.menu.getMenu(0).getMenuComponent(0).getName());
-
-		
 	}
 	
 	public static void closeWindow()
@@ -211,10 +199,6 @@ public class MainWindow implements ListDataListener {
 	
 	private JMenuBar setupMenu(){
 		JMenuBar theMenu = new JMenuBar();
-		/*JMenu fileMenu = addMenu("File", this.fileMenu);
-		JMenu friendMenu = addMenu("Friends", this.friendsMenu);
-		JMenu prefMenu = addMenu("Preferences", this.prefsMenu);
-		JMenu helpMenu = addMenu("Help", this.helpMenu);*/
 		
 		JMenu file = addMenu(fileMenu);
 		JMenu friends = addMenu(friendsMenu);
@@ -231,22 +215,9 @@ public class MainWindow implements ListDataListener {
 	}
 	
 	private JMenu addMenu(String name){
-		/*ActionListener dlg = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AddFriend test = new AddFriend("Add Friend", getInstance());				
-		
-			}
-		};*/
 		
 		JMenu menu = new JMenu(name);
-	/*	for(int i = 0; i < items.length; i++){
-			JMenuItem theItem = new JMenuItem(items[i]);
-			theItem.setName(items[i]);
-			theItem.addActionListener(dlg);
-			menu.add(theItem);
-		}*/
+
 		for(final WindowType window : WindowType.values()){
 			if(window.getParentMenu().equals(name)){
 				JMenuItem theItem = new JMenuItem(window.getPrintString());
@@ -255,7 +226,6 @@ public class MainWindow implements ListDataListener {
 	
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						//Add friend now works
 						AbstractWindow test = WindowFactory.createWindow(window);
 
 					}
@@ -341,11 +311,9 @@ public class MainWindow implements ListDataListener {
 		getRoster(roster);
 		Vector <String> updatedRoster = toList(theRosterModel.onlineMap);
 		System.out.println(theRosterModel.onlineMap);
-		//friendList.setListData(updatedRoster);
 		
 		groupsList.setListData(updatedRoster);
 		window.repaint();
-		//theRosterModel.printAll();
 	}
 
 	@Override

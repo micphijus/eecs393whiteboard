@@ -19,7 +19,6 @@ public class RosterModel implements ListDataListener{
 	private Vector<ListDataListener>listeners;
 	private ChatboardRoster roster;
 	
-	//public HashMap<String, String> aliasMap;
 	public HashMap<String, Vector<Buddy>> onlineMap;
 	
 	
@@ -28,7 +27,6 @@ public class RosterModel implements ListDataListener{
 	{
 		groups = new Vector<RosterGroup>();
 		onlineMap = new HashMap<String, Vector<Buddy>>();
-		//aliasMap = new HashMap<String, String>();
 		listeners = new Vector<ListDataListener>();
 		roster = null;
 	}
@@ -37,7 +35,6 @@ public class RosterModel implements ListDataListener{
 	{
 		this();
 		roster = theRoster;
-		//setup();
 		roster.addListener(this);
 	}
 	
@@ -63,19 +60,14 @@ public class RosterModel implements ListDataListener{
 			for(int i = 0; i < localOnline.size(); i++)
 			{
 				Buddy b = localOnline.get(i);
-				//System.out.println(g.contains(b.userID));
 				if(g.contains(b.userID))
 				{
-					//System.out.println("In here");
 					b.groupName = g.getName();
 					groupBuddies.add(b);
 					localOnline.remove(i);
 					i--;
 					
 				}		
-			//	if(aliasMap.get(b.alias) == null)
-				//	aliasMap.put(b.alias, b.userID);
-				//System.out.println(aliasMap);
 			}
 			onlineMap.put(g.getName(), groupBuddies);
 		}

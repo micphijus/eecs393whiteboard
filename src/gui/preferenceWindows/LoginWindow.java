@@ -54,8 +54,6 @@ public class LoginWindow extends AbstractWindow {
 
 	@Override
 	protected void buildWindow() {
-		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
-		//TODO: also make the "Login" part of the enum?
 		JLabel title = new JLabel("Login");
 		
 		screenNameIn = new JTextField();
@@ -140,7 +138,6 @@ public class LoginWindow extends AbstractWindow {
 			String thePassword = "";
 			for(int i = 0; i < password.length; i++)
 				thePassword = thePassword + password[i];
-			//System.out.println(thePassword);
 			conn = new ChatboardConnection(userName, thePassword);
 			conn.createConnection("talk.google.com", 5222, "gmail.com");
 		}

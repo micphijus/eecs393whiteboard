@@ -18,11 +18,6 @@ import gui.MainWindow;
 import gui.WindowFactory.WindowType;
 
 public class AddAccount extends AbstractWindow {
-
-	//TODO: remove default constructor
-	public AddAccount(){
-		JOptionPane.showMessageDialog(MainWindow.getInstance(), "A test message!", "Add Account", JOptionPane.INFORMATION_MESSAGE);
-	}
 	
 	public AddAccount(String title, Window parent){
 		super();
@@ -44,12 +39,10 @@ public class AddAccount extends AbstractWindow {
 
 	@Override
 	protected void buildWindow() {
-		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddAccount.getPrintString());
 		
 		JTextField screenNameIn = new JTextField();
 
-		//TODO make this static strings or an enum or something 
 		JComboBox chooseAccount = new JComboBox(new String[] {"AIM", "MSN", "Yahoo","Gchat", "Jabber"});
 		
 		
@@ -77,10 +70,5 @@ public class AddAccount extends AbstractWindow {
 	public ActionListener okListener() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	//TODO: Remove
-	public static void main(String[] args){
-		AddAccount test = new AddAccount("Add Account", null);
-
 	}
 }

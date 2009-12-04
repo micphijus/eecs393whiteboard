@@ -59,7 +59,6 @@ public class ChatboardMessage implements MessageListener{
 			im.from = theUser;
 			im.message = message;
 			im.automatic = false;
-			//queue.add(im);
 		}
 		catch(XMPPException e)
 		{
@@ -80,8 +79,6 @@ public class ChatboardMessage implements MessageListener{
 			String theParticipant = chat.getParticipant();
 			if(theParticipant.indexOf("/") != -1)
 			{
-				//String client = theParticipant.substring(theParticipant.indexOf("/") + 1);
-				//if(client.contains("Chatboard"))
 				sendFlag = true;
 			}
 			if(sendFlag)
@@ -98,8 +95,6 @@ public class ChatboardMessage implements MessageListener{
 	}
 	@Override
 	public void processMessage(Chat arg0, Message arg1) {
-		//if (arg1.getBody().trim() == "" && arg1.getProperty("whiteboardqueue") == null)
-			//return;
 		
 		String participant = arg0.getParticipant(); //First message has a slight exception to handle
 		Object property = arg1.getProperty("whiteboardqueue");

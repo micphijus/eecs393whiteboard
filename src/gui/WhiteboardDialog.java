@@ -83,11 +83,8 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 		}
 
 		private void setupGUI(){
-			//BoxLayout bl = new BoxLayout(conversation.getContentPane(), BoxLayout.Y_AXIS);
-			BoxLayout bl2 = new BoxLayout(messagePanel, BoxLayout.Y_AXIS);
-		//	conversation.setLayout(bl); 
+			BoxLayout boxL = new BoxLayout(messagePanel, BoxLayout.Y_AXIS);
 			whiteboardPanel = new WhiteboardPanel();
-			//setpreferredsize?
 			
 			conversation.addWindowListener(new WindowListener() {
 				
@@ -137,12 +134,6 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 					
 				}
 			});
-			//TODO: for adding a menu later
-			JMenuBar menuBar = new JMenuBar();
-			menuBar.add(new JMenu("One"));
-			menuBar.add(new JMenu("Two"));
-			menuBar.add(new JMenu("Three"));
-			conversation.setJMenuBar(menuBar);
 			
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -152,7 +143,6 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 			
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					//fix this!
 					sendMessage(inputArea);				
 				}
 			});
@@ -164,7 +154,6 @@ public class WhiteboardDialog extends MessageDialog implements ListDataListener{
 				public void actionPerformed(ActionEvent e) {
 					//go back to message dialog only!
 					MessageDialog md = new MessageDialog(userName, convoWindow.getText(), listeners);
-					//MessageDialog md = new MessageDialog(previousConvoPanel, convoWindow.getText(), listeners);
 					//So for some reason dispose causes this to fail.
 					conversation.setVisible(false);
 				}

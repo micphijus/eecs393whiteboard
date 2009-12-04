@@ -33,12 +33,6 @@ public class AddGroup extends AbstractWindow {
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
-	//TODO: Remove the no-args constructor
-	public AddGroup(){
-		JOptionPane.showMessageDialog(MainWindow.getInstance(), "A second test message!", "Add Friend", JOptionPane.INFORMATION_MESSAGE);
-
-	}
-	
 	@Override
 	public ActionListener applyListener() {
 		// TODO Auto-generated method stub
@@ -58,15 +52,9 @@ public class AddGroup extends AbstractWindow {
 		};
 		return al;
 	}
-	//TODO: Remove
-	public static void main(String[] args){
-		AddGroup test = new AddGroup("Add Group", null);
-
-	}
 
 	@Override
 	protected void buildWindow() {
-		// TODO make better! Use gridbag layout or something ALSO don't let the text fields auto expand
 		JLabel title = new JLabel(WindowType.AddGroup.getPrintString());
 		
 		groupNameIn = new JTextField();

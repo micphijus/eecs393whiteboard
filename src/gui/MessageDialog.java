@@ -93,20 +93,7 @@ public class MessageDialog implements ListDataListener{
 			c.addDialog(this, userName);
 		}
 	}
-	/*public MessageDialog(JDialog dialog, String oldMessage, Vector<Controller> oldListeners)
-	{
-		userName = dialog.getName();
-		contConvo = oldMessage;
-		conversation = dialog;
-		conversation.setVisible(true);
-		listeners = oldListeners;
-		for(Controller c : oldListeners)
-		{
-			c.removeDialog(userName);
-			c.removeWhiteboard(userName);
-			c.addDialog(this, userName);
-		}
-	}*/
+	
 	public void addController(Controller controller)
 	{
 		listeners.add(controller);
@@ -118,10 +105,8 @@ public class MessageDialog implements ListDataListener{
 	}
 
 	private void setupGUI(){
-	//	BoxLayout bl = new BoxLayout(conversation.getContentPane(), BoxLayout.Y_AXIS);
-		BoxLayout bl2 = new BoxLayout(messagePanel, BoxLayout.Y_AXIS);
-	//	conversation.setLayout(bl); 
-		messagePanel.setLayout(bl2);
+		BoxLayout boxL = new BoxLayout(messagePanel, BoxLayout.Y_AXIS);
+		messagePanel.setLayout(boxL);
 		conversation.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -172,23 +157,14 @@ public class MessageDialog implements ListDataListener{
 				
 			}
 		});
-		//TODO: for adding a menu later
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(new JMenu("One"));
-		menuBar.add(new JMenu("Two"));
-		menuBar.add(new JMenu("Three"));
-		conversation.setJMenuBar(menuBar);
 		
 		JPanel topPanel = new JPanel();
 		JPanel separatorPanel = new JPanel();
 		JPanel bottomPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-	//	convoPanel.setPreferredSize(new Dimension(300, 200));
 		topPanel.setLayout(new BorderLayout(0,5));
 		bottomPanel.setLayout(new BorderLayout(0,5));
-//		scrollWindow.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-//		scrollWindow.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		convoWindow = new JTextPane();
 		convoWindow.setEditable(false);
 		convoWindow.setPreferredSize(new Dimension(300, 200));
@@ -197,11 +173,9 @@ public class MessageDialog implements ListDataListener{
 		}
 
 		scrollWindow = new JScrollPane(convoWindow);
-		//TODO: Will need a method that keeps a large string of the conversation and inserts usernames and shit
 		
 		scrollWindow.getViewport().add(convoWindow);
 		topPanel.add(scrollWindow);
-		//conversation.add(convoPanel);
 		inputArea = new JTextArea();
 		inputArea.setPreferredSize(new Dimension(300, 150));
 		inputArea.addKeyListener(new KeyListener(){
@@ -269,7 +243,6 @@ public class MessageDialog implements ListDataListener{
 		
 		buttonPanel.add(sendMsgButton);
 		buttonPanel.add(openWbButton);
-		//conversation.add(Box.createVerticalGlue());
 		
 		conversation.add(messagePanel, BorderLayout.EAST);
 		conversation.add(buttonPanel, BorderLayout.SOUTH);
@@ -292,7 +265,6 @@ public class MessageDialog implements ListDataListener{
 		
 	}
 	
-	//TODO: currently just clears the box... eventually make it do other stuff
 	protected void sendMessage(JTextArea inputField){
 		String message = inputField.getText();
 		for(int i = 0; i < listeners.size(); i++)

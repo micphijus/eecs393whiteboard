@@ -81,8 +81,6 @@ public class ChatboardRoster implements RosterListener{
 	{
 		roster = conn.getRoster();
 		groups = new Vector<RosterGroup>(roster.getGroups());
-		//roster.setSubscriptionMode(Roster.SubscriptionMode.accept_all);
-		//updateOnline();
 		roster.addRosterListener(this);	
 	}
 	
@@ -159,11 +157,9 @@ public class ChatboardRoster implements RosterListener{
 		while(iter.hasNext())
 		{
 			RosterEntry entry = iter.next();
-			//System.out.println(entry.getUser() + ": " + roster.getPresence(entry.getUser()).getType());
 			
 			Buddy b = new Buddy();
 			b.alias = entry.getName();
-			//b.groupName = entry.getGroups().iterator().next().getName(); //get first one
 			b.userID = entry.getUser();
 			b.setPresence(roster.getPresence(entry.getUser()));
 			

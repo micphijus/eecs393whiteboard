@@ -4,15 +4,7 @@ import core.whiteboard.WhiteboardPanelExecuter;
 import gui.preferenceWindows.*;
 
 public class WindowFactory {
-	/*
-	 * 	final static String[] fileMenu = {"New Instant Message", "Open Whiteboard", "Add Account", "Exit" };
-	final static String[] friendsMenu = {"Add Friend", "Add Group", "View Log" };
-	final static String[] prefsMenu = {"Edit Preferences" };
-	final static String[] helpMenu = {"Help", "About"};
-	 * 
-	 */
-	/*TODO: Possibly add another parameter specifying whether or not to call an action listener method? No.. not necessary
-	 		because can just have an empty method in each class, if it's empty then don't do it!*/
+
 	public enum WindowType {
 		//new instant message, filemenu
 		NewIM("New Instant Message", MainWindow.fileMenu),

@@ -54,8 +54,5 @@ public class AboutWindow extends AbstractWindow {
 		// TODO Auto-generated method stub
 		return null;
 	}
-//TODO: remove!!
-	public static void main(String args[]){
-		AboutWindow test = new AboutWindow("About", null);
-	}
+
 }
